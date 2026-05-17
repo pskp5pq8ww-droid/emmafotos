@@ -10,13 +10,15 @@ export const metadata = {
 export default function ContactPage() {
   return (
     <main>
-      <section className={styles.pageHero}>
-        <Reveal>
-          <p className={styles.sectionEyebrow}>Contact</p>
-          <h1 className={styles.pageTitle}>
-            Tell me the date, the place and what should be remembered.
-          </h1>
-        </Reveal>
+      <section className={`${styles.pageHeroWide} ${styles.pageHeroContact}`}>
+        <div style={{ maxWidth: "1340px", margin: "0 auto" }}>
+          <Reveal>
+            <p className={styles.sectionEyebrow}>Contact</p>
+            <h1 className={styles.pageTitle}>
+              Tell me the date, the place and what should be remembered.
+            </h1>
+          </Reveal>
+        </div>
       </section>
       <section className={`${styles.sectionTight} ${styles.contactGrid}`}>
         <Reveal>

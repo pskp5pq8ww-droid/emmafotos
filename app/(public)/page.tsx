@@ -41,24 +41,31 @@ export default async function HomePage() {
       <section className={styles.hero}>
         <div className={styles.heroMedia}>
           <Image
-            src="/assets/og-preview.png"
+            src="/assets/backgrounds/hero-bg.jpg"
             alt="Emmanuel Rojas — Wedding Photographer Brisbane"
             fill
             sizes="100vw"
             priority
+            quality={88}
           />
         </div>
         <div className={styles.heroInner}>
           <Reveal>
             <p className={styles.eyebrow}>
-              Brisbane, Australia · Weddings · Sessions · Events · Drone
+              Brisbane, Australia · Lifelong Memory Maker
             </p>
+          </Reveal>
+          <Reveal delay={0.08}>
             <h1 className={styles.heroTitle}>Emmanuel Rojas</h1>
+          </Reveal>
+          <Reveal delay={0.16}>
             <p className={styles.heroCopy}>
-              Wedding photography crafted with elegance, emotion, and timeless intention.
-              I capture honest moments, refined details, and lifelong memories
-              for couples who want their story told beautifully.
+              Wedding photography crafted with elegance, emotion and timeless intention.
+              Honest moments, refined details and lifelong memories for couples who want
+              their story told beautifully.
             </p>
+          </Reveal>
+          <Reveal delay={0.24}>
             <div className={styles.heroCtas}>
               <a
                 className={styles.buttonLight}
@@ -76,7 +83,7 @@ export default async function HomePage() {
               </Link>
             </div>
           </Reveal>
-          <Reveal delay={0.2}>
+          <Reveal delay={0.34}>
             <div className={styles.heroStats}>
               <div>
                 <AnimatedStat value={studio.stats.years} />
@@ -88,7 +95,7 @@ export default async function HomePage() {
               </div>
               <div>
                 <strong>Brisbane</strong>
-                <span>· Worldwide</span>
+                <span>Worldwide</span>
               </div>
             </div>
           </Reveal>

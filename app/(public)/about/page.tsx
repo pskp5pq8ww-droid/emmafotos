@@ -13,13 +13,15 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <main>
-      <section className={styles.pageHero}>
-        <Reveal>
-          <p className={styles.sectionEyebrow}>About</p>
-          <h1 className={styles.pageTitle}>
-            A calm eye for people, light and the moments in between.
-          </h1>
-        </Reveal>
+      <section className={`${styles.pageHeroWide} ${styles.pageHeroAbout}`}>
+        <div style={{ maxWidth: "1340px", margin: "0 auto" }}>
+          <Reveal>
+            <p className={styles.sectionEyebrow}>About</p>
+            <h1 className={styles.pageTitle}>
+              A calm eye for people, light and the moments in between.
+            </h1>
+          </Reveal>
+        </div>
       </section>
       <section className={`${styles.sectionTight} ${styles.split}`}>
         <Reveal>
@@ -58,9 +60,10 @@ export default function AboutPage() {
             <Image
               src="/assets/emmanuel-portrait.jpg"
               alt="Emmanuel Rojas, photographer"
-              width={791}
-              height={1024}
+              width={1200}
+              height={1600}
               priority
+              quality={88}
             />
           </div>
         </Reveal>

@@ -10,13 +10,15 @@ export const metadata = {
 export default function ServicesPage() {
   return (
     <main>
-      <section className={styles.pageHero}>
-        <Reveal>
-          <p className={styles.sectionEyebrow}>Services</p>
-          <h1 className={styles.pageTitle}>
-            Visual production shaped for the way each story should be kept.
-          </h1>
-        </Reveal>
+      <section className={`${styles.pageHeroWide} ${styles.pageHeroServices}`}>
+        <div style={{ maxWidth: "1340px", margin: "0 auto" }}>
+          <Reveal>
+            <p className={styles.sectionEyebrow}>Services</p>
+            <h1 className={styles.pageTitle}>
+              Visual production shaped for the way each story should be kept.
+            </h1>
+          </Reveal>
+        </div>
       </section>
       <section className={styles.sectionTight}>
         <div className={styles.servicesGrid}>
