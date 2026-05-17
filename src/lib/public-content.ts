@@ -66,7 +66,7 @@ export const projects: Project[] = [
   {
     slug: "natalia-renato",
     title: "Natalia & Renato",
-    category: "Wedding",
+    category: "Boda",
     location: "Colombia",
     year: "2025",
     summary:
@@ -75,17 +75,16 @@ export const projects: Project[] = [
     images: [
       "/assets/projects/boda-nr.jpg",
       "/assets/projects/boda-nr-2.jpg",
-      "/assets/projects/portrait-maeve.jpg",
     ],
   },
   {
     slug: "paw-and-co",
     title: "Paw & Co",
-    category: "Events",
-    location: "Miami",
+    category: "Eventos",
+    location: "Colombia",
     year: "2025",
     summary:
-      "Cobertura recurrente de una de las noches más concurridas de Miami. Energía, ambiente y retratos en movimiento.",
+      "Cobertura recurrente de una de las noches más animadas. Energía, ambiente oscuro y retratos en movimiento.",
     cover: "/assets/projects/pawco-event.jpg",
     images: [
       "/assets/projects/pawco-event.jpg",
@@ -96,7 +95,7 @@ export const projects: Project[] = [
   {
     slug: "cumbre-emprendedores",
     title: "Cumbre de Emprendedores",
-    category: "Corporate",
+    category: "Corporativo",
     location: "Colombia",
     year: "2024",
     summary:
@@ -104,7 +103,44 @@ export const projects: Project[] = [
     cover: "/assets/projects/cumbre.jpg",
     images: [
       "/assets/projects/cumbre.jpg",
+    ],
+  },
+  {
+    slug: "arteria",
+    title: "Arteria",
+    category: "Eventos",
+    location: "Colombia",
+    year: "2024",
+    summary:
+      "Noche de arte, música y cultura. Documentación de atmósferas únicas donde cada detalle cuenta una historia.",
+    cover: "/assets/projects/arteria.jpg",
+    images: [
       "/assets/projects/arteria.jpg",
+    ],
+  },
+  {
+    slug: "maeve",
+    title: "Maeve — 1 Año",
+    category: "Retratos",
+    location: "Colombia",
+    year: "2025",
+    summary:
+      "Sesión de retrato para celebrar el primer año. Luz suave, expresiones reales y un instante que se vuelve recuerdo.",
+    cover: "/assets/projects/portrait-maeve.jpg",
+    images: [
+      "/assets/projects/portrait-maeve.jpg",
+    ],
+  },
+  {
+    slug: "europe",
+    title: "Europe",
+    category: "Editorial",
+    location: "Europa",
+    year: "2024",
+    summary:
+      "Imágenes editoriales capturadas en Europa. Arquitectura, luz natural y el ritmo de las ciudades como telón de fondo.",
+    cover: "/assets/projects/europe.jpg",
+    images: [
       "/assets/projects/europe.jpg",
     ],
   },
