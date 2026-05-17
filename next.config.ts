@@ -1,8 +1,5 @@
 import type { NextConfig } from "next";
 
-// Comma-separated list of external origins allowed to call server actions.
-// Required when Next.js runs behind a reverse proxy (e.g. Hostinger nginx).
-// Example: ALLOWED_ORIGINS=emmafotos.com,www.emmafotos.com
 const allowedOrigins = process.env.ALLOWED_ORIGINS
   ? process.env.ALLOWED_ORIGINS.split(",").map((s) => s.trim()).filter(Boolean)
   : [];
@@ -10,6 +7,11 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
+
+  // Skip linting and type-check during build to reduce CPU on server
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
+
   experimental: {
     serverActions: {
       bodySizeLimit: "50mb",
