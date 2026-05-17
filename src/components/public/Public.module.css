@@ -655,6 +655,13 @@
   border-right: 1px solid var(--line);
 }
 
+.marqueeRating {
+  margin: 10px 0 0;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  font-size: 13px;
+}
+
 .marqueeCopy {
   margin-top: 10px;
   color: var(--muted);

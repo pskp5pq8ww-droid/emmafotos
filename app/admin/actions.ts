@@ -148,6 +148,7 @@ export async function deleteGallery(formData: FormData) {
       galleries: db.galleries.filter((item) => item.id !== id),
       galleryImages: db.galleryImages.filter((image) => image.galleryId !== id),
       favorites: db.favorites.filter((favorite) => favorite.galleryId !== id),
+      reviews: db.reviews.filter((review) => review.galleryId !== id),
     };
   });
 
@@ -177,6 +178,7 @@ export async function deleteClient(formData: FormData) {
       favorites: db.favorites.filter(
         (favorite) => !galleryIds.includes(favorite.galleryId),
       ),
+      reviews: db.reviews.filter((review) => !galleryIds.includes(review.galleryId)),
     };
   });
 
@@ -267,4 +269,49 @@ export async function updateStudioSettings(formData: FormData) {
   });
 
   revalidatePath("/admin/settings");
+}
+
+export async function approveReview(formData: FormData) {
+  const id = value(formData, "id");
+
+  await updateDB((db) => {
+    const review = db.reviews.find((item) => item.id === id);
+    if (review) {
+      review.approved = true;
+    }
+    return db;
+  });
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath("/admin/reviews");
+}
+
+export async function hideReview(formData: FormData) {
+  const id = value(formData, "id");
+
+  await updateDB((db) => {
+    const review = db.reviews.find((item) => item.id === id);
+    if (review) {
+      review.approved = false;
+    }
+    return db;
+  });
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath("/admin/reviews");
+}
+
+export async function deleteReview(formData: FormData) {
+  const id = value(formData, "id");
+
+  await updateDB((db) => ({
+    ...db,
+    reviews: db.reviews.filter((review) => review.id !== id),
+  }));
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath("/admin/reviews");
 }

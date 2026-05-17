@@ -36,6 +36,18 @@ export type Favorite = {
   createdAt: string;
 };
 
+export type Review = {
+  id: string;
+  galleryId: string;
+  clientName: string;
+  email?: string;
+  rating: 1 | 2 | 3 | 4 | 5;
+  message: string;
+  approved: boolean;
+  allowPublicDisplay: boolean;
+  createdAt: string;
+};
+
 export type StudioSettings = {
   studioName: string;
   contactEmail: string;
@@ -50,6 +62,7 @@ export type Database = {
   galleries: Gallery[];
   galleryImages: GalleryImage[];
   favorites: Favorite[];
+  reviews: Review[];
   settings?: StudioSettings;
 };
 
@@ -67,5 +80,6 @@ export const emptyDatabase: Database = {
   galleries: [],
   galleryImages: [],
   favorites: [],
+  reviews: [],
   settings: defaultSettings,
 };

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { PhotoGrid } from "@/components/gallery/PhotoGrid";
+import { ReviewForm } from "@/components/gallery/ReviewForm";
 import { readDB } from "@/lib/db";
 import { hasGallerySession } from "@/lib/gallery-auth/session";
 import styles from "@/components/gallery/Gallery.module.css";
@@ -47,19 +48,20 @@ export default async function GalleryViewPage({
         </Link>
         <div className={styles.toolbar}>
           <a className={styles.ghostButton} href={`/api/gallery/${slug}/download`}>
-            Descargar todo
+            Download all
           </a>
         </div>
       </header>
       <section className={styles.hero}>
-        <p className={styles.eyebrow}>Galería privada</p>
+        <p className={styles.eyebrow}>Private gallery</p>
         <h1 className={styles.title}>{gallery.title}</h1>
         <p className={styles.copy}>
           {client?.name ? `${client.name}, ` : ""}
-          tus imágenes están listas. Marca favoritas con la estrella, abre en pantalla completa o descarga los originales.
+          your images are ready. Mark favourites with the star, open images full screen, or download the originals.
         </p>
       </section>
       <PhotoGrid photos={photos} slug={slug} />
+      <ReviewForm defaultName={client?.name} slug={slug} />
     </main>
   );
 }

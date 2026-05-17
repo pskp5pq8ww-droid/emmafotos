@@ -11,12 +11,14 @@ export default async function AdminDashboardPage() {
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .slice(0, 30);
   const active = db.galleries.filter((gallery) => gallery.isActive).length;
+  const pendingReviews = db.reviews.filter((review) => !review.approved).length;
 
   const metrics = [
     { label: "Clients", value: db.clients.length, href: "/admin/clients" },
     { label: "Galleries", value: db.galleries.length, href: "/admin/galleries" },
     { label: "Active", value: active, href: "/admin/galleries?filter=active" },
     { label: "Photos", value: db.galleryImages.length },
+    { label: "Pending reviews", value: pendingReviews, href: "/admin/reviews" },
   ];
 
   return (

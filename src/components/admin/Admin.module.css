@@ -141,7 +141,7 @@
 
 .metrics {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px;
   margin-bottom: 28px;
 }
@@ -224,6 +224,20 @@
   letter-spacing: 0.12em;
   font-size: 10px;
   text-transform: uppercase;
+}
+
+.ratingStars {
+  display: inline-flex;
+  color: #ad9672;
+  letter-spacing: 0.08em;
+  font-size: 14px;
+}
+
+.reviewMessage {
+  max-width: 560px;
+  margin: 0;
+  color: #10100f;
+  line-height: 1.65;
 }
 
 .form {

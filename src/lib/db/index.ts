@@ -50,6 +50,7 @@ function normalizeDatabase(value: Partial<Database>): Database {
     galleries: Array.isArray(value.galleries) ? value.galleries : [],
     galleryImages: Array.isArray(value.galleryImages) ? value.galleryImages : [],
     favorites: Array.isArray(value.favorites) ? value.favorites : [],
+    reviews: Array.isArray(value.reviews) ? value.reviews : [],
     settings: value.settings ?? emptyDatabase.settings,
   };
 }

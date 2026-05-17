@@ -57,14 +57,14 @@ export function PhotoGrid({
                 className={styles.iconButton}
                 onClick={() => toggleFavorite(photo.id)}
                 type="button"
-                aria-label={photo.favorite ? "Quitar favorito" : "Marcar favorito"}
+                aria-label={photo.favorite ? "Remove favourite" : "Mark as favourite"}
               >
                 {photo.favorite ? "★" : "☆"}
               </button>
               <a
                 className={styles.iconButton}
                 href={`/api/files/${photo.path}?download=1`}
-                aria-label={`Descargar ${photo.filename}`}
+                aria-label={`Download ${photo.filename}`}
                 onClick={(e) => e.stopPropagation()}
               >
                 ↓
@@ -87,7 +87,7 @@ export function PhotoGrid({
             className={`${styles.iconButton} ${styles.close}`}
             onClick={closeLightbox}
             type="button"
-            aria-label="Cerrar"
+            aria-label="Close"
           >
             ×
           </button>

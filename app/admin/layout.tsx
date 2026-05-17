@@ -11,6 +11,7 @@ const nav = [
   { href: "/admin", label: "Dashboard", icon: "Home" },
   { href: "/admin/clients", label: "Clients", icon: "Users" },
   { href: "/admin/galleries", label: "Galleries", icon: "Image" },
+  { href: "/admin/reviews", label: "Reviews", icon: "Star" },
   { href: "/admin#new", label: "New gallery", icon: "Plus" },
   { href: "/admin/settings", label: "Settings", icon: "Settings" },
 ];

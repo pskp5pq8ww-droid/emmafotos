@@ -5,9 +5,22 @@ import { Reveal } from "@/components/public/Reveal";
 import { AnimatedStat } from "@/components/public/AnimatedStat";
 import { ReviewsMarquee } from "@/components/public/ReviewsMarquee";
 import styles from "@/components/public/Public.module.css";
-import { projects, reviews, services, studio } from "@/lib/public-content";
+import { readDB } from "@/lib/db";
+import { projects, services, studio } from "@/lib/public-content";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const db = await readDB();
+  const approvedReviews = db.reviews
+    .filter((review) => review.approved && review.allowPublicDisplay)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+    .map((review) => ({
+      name: review.clientName,
+      rating: review.rating,
+      text: review.message,
+    }));
+
   return (
     <main>
       <section className={styles.hero}>
@@ -118,7 +131,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <ReviewsMarquee reviews={reviews} />
+      <ReviewsMarquee reviews={approvedReviews} />
 
       <section className={`${styles.sectionTight} ${styles.cta}`}>
         <div>
