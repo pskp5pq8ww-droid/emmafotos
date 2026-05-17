@@ -695,6 +695,117 @@
   object-fit: cover;
 }
 
+/* ── Portfolio detail — editorial hero + full-width masonry ── */
+.portfolioHero {
+  width: 100%;
+  padding: clamp(96px, 12vw, 168px) clamp(20px, 6vw, 92px) clamp(40px, 6vw, 80px);
+  text-align: center;
+}
+
+.portfolioHero .sectionEyebrow {
+  margin-bottom: 20px;
+}
+
+.portfolioTitle {
+  margin: 0 auto;
+  max-width: 1160px;
+  font-family: var(--serif), Georgia, "Times New Roman", serif;
+  font-size: clamp(52px, 8vw, 128px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: -0.018em;
+  line-height: 0.94;
+  color: var(--ink);
+}
+
+.portfolioDate {
+  margin: clamp(20px, 3vw, 32px) 0 0;
+  color: var(--muted);
+  letter-spacing: 0.32em;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.portfolioSummary {
+  margin: clamp(28px, 4vw, 42px) auto 0;
+  max-width: 620px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.82;
+}
+
+@keyframes photoFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.portfolioMasonry {
+  width: 100%;
+  columns: 4 260px;
+  column-gap: 6px;
+  padding: 0 6px clamp(72px, 10vw, 120px);
+}
+
+.portfolioPhoto {
+  break-inside: avoid;
+  margin-bottom: 6px;
+  position: relative;
+  overflow: hidden;
+  background: var(--soft);
+  opacity: 0;
+  animation: photoFadeUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.portfolioPhoto img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: scale 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.portfolioPhoto:hover img {
+  scale: 1.035;
+}
+
+@media (min-width: 1600px) {
+  .portfolioMasonry { columns: 5 280px; }
+}
+
+@media (max-width: 1100px) {
+  .portfolioMasonry { columns: 3 220px; }
+}
+
+@media (max-width: 700px) {
+  .portfolioMasonry {
+    columns: 2 160px;
+    column-gap: 4px;
+    padding: 0 4px 64px;
+  }
+  .portfolioPhoto { margin-bottom: 4px; }
+}
+
+@media (max-width: 420px) {
+  .portfolioMasonry {
+    columns: 2 120px;
+    column-gap: 3px;
+    padding: 0 3px 48px;
+  }
+  .portfolioPhoto { margin-bottom: 3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolioPhoto {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 .contactGrid {
   display: grid;
   grid-template-columns: minmax(0, 0.85fr) minmax(320px, 0.55fr);

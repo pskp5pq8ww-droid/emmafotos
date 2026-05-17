@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/public/Reveal";
 import styles from "@/components/public/Public.module.css";
@@ -34,36 +33,41 @@ export default async function ProjectDetailPage({
 
   return (
     <main>
-      <section className={`${styles.pageHero} ${styles.detailHero}`}>
+      <section className={styles.portfolioHero}>
         <Reveal>
           <p className={styles.sectionEyebrow}>{project.category}</p>
-          <h1 className={styles.pageTitle}>{project.title}</h1>
-          <p className={styles.sectionCopy}>{project.summary}</p>
         </Reveal>
-        <Reveal delay={0.1}>
-          <div className={styles.detailImage}>
-            <Image
-              src={project.cover}
-              alt={project.title}
-              width={1200}
-              height={760}
-              priority
-            />
-          </div>
+        <Reveal delay={0.08}>
+          <h1 className={styles.portfolioTitle}>{project.title}</h1>
         </Reveal>
+        <Reveal delay={0.16}>
+          <p className={styles.portfolioDate}>
+            {project.location} · {project.year}
+          </p>
+        </Reveal>
+        {project.summary ? (
+          <Reveal delay={0.24}>
+            <p className={styles.portfolioSummary}>{project.summary}</p>
+          </Reveal>
+        ) : null}
       </section>
-      <section className={styles.sectionTight}>
-        <div className={styles.imageRail}>
-          {project.images.map((image) => (
-            <Image
+
+      <section className={styles.portfolioMasonry}>
+        {project.images.map((image, index) => (
+          <article
+            className={styles.portfolioPhoto}
+            key={image}
+            style={{ animationDelay: `${Math.min(index * 0.05, 0.4)}s` }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={image}
               alt={project.title}
-              width={760}
-              height={940}
-              key={image}
+              loading={index < 3 ? "eager" : "lazy"}
+              decoding="async"
             />
-          ))}
-        </div>
+          </article>
+        ))}
       </section>
     </main>
   );

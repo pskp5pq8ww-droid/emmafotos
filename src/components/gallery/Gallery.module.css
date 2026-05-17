@@ -146,16 +146,61 @@
   padding: clamp(48px, 7vw, 92px) clamp(20px, 5vw, 72px);
 }
 
-/* ── Masonry grid (CSS columns — preserves natural aspect ratios) ── */
+/* ── Editorial gallery hero — title + date as protagonists ── */
+.galleryHero {
+  width: 100%;
+  padding: clamp(64px, 10vw, 132px) clamp(20px, 5vw, 72px) clamp(40px, 6vw, 80px);
+  text-align: center;
+}
+
+.galleryEyebrow {
+  margin: 0 0 22px;
+  color: #ad9672;
+  letter-spacing: 0.36em;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.galleryTitle {
+  margin: 0;
+  max-width: 1180px;
+  margin-inline: auto;
+  font-family: var(--serif), Georgia, "Times New Roman", serif;
+  font-size: clamp(52px, 8vw, 124px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: -0.018em;
+  line-height: 0.94;
+  color: #0f0f0e;
+}
+
+.galleryDate {
+  margin: clamp(20px, 3vw, 32px) 0 0;
+  color: #776f63;
+  letter-spacing: 0.32em;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.galleryCopy {
+  margin: clamp(28px, 4vw, 42px) auto 0;
+  max-width: 520px;
+  color: #776f63;
+  font-size: 15px;
+  line-height: 1.78;
+}
+
+/* ── Masonry grid (CSS columns — preserves natural aspect ratios, full width) ── */
 .masonry {
-  columns: 4 240px;
-  column-gap: 10px;
-  padding: 0 clamp(20px, 5vw, 72px) 72px;
+  columns: 4 260px;
+  column-gap: 6px;
+  padding: 0 6px 96px;
+  width: 100%;
 }
 
 .photo {
   break-inside: avoid;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
   position: relative;
   overflow: hidden;
   background: #ebe7df;
@@ -167,17 +212,20 @@
   height: auto;
   display: block;
   opacity: 0;
+  transform: translateY(14px);
   transition:
-    opacity 0.5s ease,
-    scale 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    scale 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .photo img.loaded {
   opacity: 1;
+  transform: translateY(0);
 }
 
 .photo:hover img.loaded {
-  scale: 1.028;
+  scale: 1.025;
 }
 
 /* Actions overlay — visible on hover */
@@ -464,17 +512,30 @@
 }
 
 /* ── Responsive ── */
+@media (min-width: 1600px) {
+  .masonry { columns: 5 280px; }
+}
+
 @media (max-width: 1100px) {
-  .masonry { columns: 3 200px; }
+  .masonry { columns: 3 220px; }
 }
 
 @media (max-width: 700px) {
-  .masonry { columns: 2 160px; }
+  .masonry {
+    columns: 2 160px;
+    column-gap: 4px;
+    padding: 0 4px 64px;
+  }
+  .photo { margin-bottom: 4px; }
 }
 
 @media (max-width: 420px) {
-  .masonry { columns: 2 120px; column-gap: 6px; }
-  .photo { margin-bottom: 6px; }
+  .masonry {
+    columns: 2 120px;
+    column-gap: 3px;
+    padding: 0 3px 48px;
+  }
+  .photo { margin-bottom: 3px; }
 }
 
 @media (max-width: 860px) {
