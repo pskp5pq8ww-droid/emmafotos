@@ -13,8 +13,12 @@ function getStorageRoot() {
 }
 
 const storageRoot = getStorageRoot();
-const dataDir = path.join(storageRoot, "data");
-// UPLOAD_DIR lets you point to an out-of-tree directory (e.g. on Hostinger:
+// DATA_DIR lets you point db.json to a persistent out-of-tree directory that
+// survives redeploys (e.g. on Hostinger: DATA_DIR=/home/u613502604/data).
+const dataDir = process.env.DATA_DIR
+  ? path.resolve(process.env.DATA_DIR)
+  : path.join(storageRoot, "data");
+// UPLOAD_DIR lets you point uploads to an out-of-tree directory (e.g. on Hostinger:
 // UPLOAD_DIR=/home/u613502604/storage). Falls back to <project>/uploads.
 const uploadsDir = process.env.UPLOAD_DIR
   ? path.resolve(process.env.UPLOAD_DIR)
