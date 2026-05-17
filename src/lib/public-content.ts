@@ -16,33 +16,48 @@ export type Project = {
   images: string[];
 };
 
+export const studio = {
+  name: "Emmanuel Rojas",
+  tagline: "Lifelong Memory Maker",
+  location: "Brisbane, Australia · Worldwide",
+  phone: "+61 412 763 107",
+  whatsapp: "https://wa.me/61412763107",
+  instagram: "https://www.instagram.com/emmanuel_r0jas_/",
+  instagramHandle: "@emmanuel_r0jas_",
+  email: "emmanuelrojas-23@hotmail.com",
+  stats: {
+    years: "4+",
+    events: "200+",
+  },
+};
+
 export const services: Service[] = [
   {
-    title: "Weddings",
-    kicker: "Emotional narrative",
+    title: "Bodas",
+    kicker: "Emoción y elegancia",
     description:
-      "Cobertura elegante para ceremonias, celebraciones íntimas y fines de semana completos con dirección visual discreta.",
+      "Cobertura completa de tu boda con una mirada natural, discreta y emotiva. Desde la preparación hasta el último baile — cada momento, eternamente tuyo.",
     startingAt: "Consultar",
   },
   {
-    title: "Portraits",
-    kicker: "Presence and character",
+    title: "Sesiones",
+    kicker: "Presencia y carácter",
     description:
-      "Retratos editoriales, personales y profesionales con una dirección serena, precisa y favorecedora.",
-    startingAt: "Desde $450",
+      "Retratos editoriales, personales y profesionales con una dirección serena y favorecedora. Para individuos, parejas y equipos que quieren verse auténticos.",
+    startingAt: "Desde $350",
   },
   {
-    title: "Events",
-    kicker: "Atmosphere, people, rhythm",
+    title: "Eventos",
+    kicker: "Atmósfera y ritmo",
     description:
-      "Documentación visual de lanzamientos, cenas, conciertos, fiestas privadas y experiencias de marca.",
-    startingAt: "Desde $850",
+      "Documentación visual de lanzamientos, celebraciones, conferencias y fiestas privadas. Energía real, encuadres limpios, recuerdos que duran.",
+    startingAt: "Desde $750",
   },
   {
-    title: "Commercial",
-    kicker: "Digital identity",
+    title: "Video & Drone",
+    kicker: "Visión aérea y cinemática",
     description:
-      "Producción fotográfica para marcas, campañas, contenido social y piezas visuales de alto impacto.",
+      "Producción audiovisual para bodas, marcas y eventos. Tomas aéreas con dron y edición cinematográfica para piezas de alto impacto.",
     startingAt: "Consultar",
   },
 ];
@@ -97,16 +112,16 @@ export const projects: Project[] = [
 
 export const reviews = [
   {
-    name: "Maria G.",
-    text: "Incredible experience. The photos and videos exceeded all expectations.",
+    name: "Natalia V.",
+    text: "Emmanuel capturó exactamente lo que sentimos ese día. Las fotos nos hacen revivir cada momento.",
   },
   {
-    name: "Vertice Team",
-    text: "The creativity and attention to detail made all the difference.",
+    name: "Paw & Co",
+    text: "Trabajar con Emmanuel es fluido y profesional. Siempre entrega más de lo que esperas.",
   },
   {
     name: "James T.",
-    text: "Professional, fast and deeply talented. The results were perfect.",
+    text: "Professional, fast and deeply talented. The results were absolutely perfect.",
   },
 ];
 

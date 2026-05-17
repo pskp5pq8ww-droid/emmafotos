@@ -19,16 +19,16 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Emmanuel Rojas Studio",
-    template: "%s | Emmanuel Rojas Studio",
+    default: "Emmanuel Rojas · Fotógrafo en Brisbane",
+    template: "%s | Emmanuel Rojas",
   },
   description:
-    "Creative Direction, Visual Production and Digital Identity by Emmanuel Rojas.",
-  metadataBase: new URL("https://emmanuelrojas.studio"),
+    "Fotografía de bodas, sesiones y eventos en Brisbane, Australia y Colombia. Más de 4 años y 200+ eventos capturados con una mirada natural y emotiva.",
+  metadataBase: new URL("https://emmafotos.com"),
   openGraph: {
-    title: "Emmanuel Rojas Studio",
+    title: "Emmanuel Rojas · Fotógrafo en Brisbane",
     description:
-      "Premium photography, private galleries and visual production.",
+      "Bodas, sesiones y eventos con una mirada natural y emotiva. Brisbane, Australia · Worldwide.",
     images: ["/assets/og-preview.png"],
   },
   icons: {

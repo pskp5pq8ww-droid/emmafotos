@@ -11,9 +11,9 @@ export default function AboutPage() {
     <main>
       <section className={styles.pageHero}>
         <Reveal>
-          <p className={styles.sectionEyebrow}>About</p>
+          <p className={styles.sectionEyebrow}>Sobre mí</p>
           <h1 className={styles.pageTitle}>
-            A calm eye for people, spaces and meaningful movement.
+            Una mirada serena para personas, espacios y momentos que importan.
           </h1>
         </Reveal>
       </section>
@@ -21,16 +21,21 @@ export default function AboutPage() {
         <Reveal>
           <div>
             <p className={styles.sectionCopy}>
-              Emmanuel Rojas creates photography and visual production for
-              couples, artists, founders and teams that care about atmosphere.
-              His work is built on direction without force: clear composition,
-              natural presence and details that feel remembered rather than
-              staged.
+              Soy Emmanuel Rojas, fotógrafo radicado en Brisbane, Australia, con
+              más de 4 años de experiencia y más de 200 eventos capturados en
+              Colombia, Australia y el resto del mundo.
             </p>
             <p className={styles.sectionCopy}>
-              The studio blends creative direction, documentary timing and
-              digital delivery. From the first conversation to the private
-              gallery, every step is designed to feel polished and personal.
+              Me especializo en bodas, sesiones de retrato y eventos — siempre
+              con una dirección natural, sin forzar momentos. Mi filosofía es
+              simple: estar presente, anticipar el instante y contar la historia
+              como realmente fue.
+            </p>
+            <p className={styles.sectionCopy}>
+              Cada galería privada se entrega a través de un portal seguro donde
+              mis clientes pueden revisar, marcar favoritos y descargar sus
+              imágenes. Desde la primera consulta hasta la entrega final, cada
+              paso está diseñado para ser tan memorable como las fotos mismas.
             </p>
           </div>
         </Reveal>

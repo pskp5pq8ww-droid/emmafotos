@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { Reveal } from "@/components/public/Reveal";
 import styles from "@/components/public/Public.module.css";
-import { projects, reviews, services } from "@/lib/public-content";
+import { projects, reviews, services, studio } from "@/lib/public-content";
 
 export default function HomePage() {
   return (
@@ -21,16 +21,23 @@ export default function HomePage() {
         <div className={styles.heroInner}>
           <Reveal>
             <p className={styles.eyebrow}>
-              Creative Direction · Visual Production · Digital Identity
+              Brisbane, Australia · Bodas · Sesiones · Eventos · Video & Drone
             </p>
-            <h1 className={styles.heroTitle}>Emmanuel Rojas Studio</h1>
+            <h1 className={styles.heroTitle}>Emmanuel Rojas</h1>
             <p className={styles.heroCopy}>
-              Photography and visual production for weddings, brands, events and
-              private stories. Delivered through a secure client portal.
+              Fotografía de bodas elegante, natural y emocional en Brisbane.
+              Más de {studio.stats.events} eventos capturados con una mirada que convierte momentos en memorias para toda la vida.
             </p>
             <Link className={styles.buttonLight} href="/contact">
-              Book a Project
+              Reserva tu sesión
             </Link>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className={styles.heroStats}>
+              <div><strong>{studio.stats.years} años</strong><span>de experiencia</span></div>
+              <div><strong>{studio.stats.events} eventos</strong><span>capturados</span></div>
+              <div><strong>Brisbane</strong><span>· Worldwide</span></div>
+            </div>
           </Reveal>
         </div>
       </section>
@@ -101,13 +108,13 @@ export default function HomePage() {
 
       <section className={`${styles.sectionTight} ${styles.cta}`}>
         <div>
-          <p className={styles.sectionEyebrow}>Client Portal</p>
+          <p className={styles.sectionEyebrow}>¿Listo para empezar?</p>
           <h2 className={styles.sectionTitle}>
-            Private galleries, favorites and downloads in one secure place.
+            Cuéntame sobre tu día especial y lo haré eterno.
           </h2>
         </div>
-        <Link className={styles.buttonLight} href="/gallery/sample">
-          Access Gallery
+        <Link className={styles.buttonLight} href="/contact">
+          Hablemos
         </Link>
       </section>
     </main>

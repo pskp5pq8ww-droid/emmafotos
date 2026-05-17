@@ -30,8 +30,8 @@ export function PublicNav() {
         ))}
       </nav>
       <div className={styles.navActions}>
-        <Link className={styles.portalLink} href="/gallery/sample">
-          Client Portal
+        <Link className={styles.portalLink} href="/admin-login">
+          Acceso Admin
         </Link>
       </div>
     </header>
