@@ -187,13 +187,13 @@
 .heroTitle {
   max-width: 1080px;
   margin: 0;
-  font-family: var(--font-signature), "Great Vibes", cursive;
-  font-size: clamp(80px, 13vw, 200px);
-  font-weight: 400;
-  font-style: normal;
-  letter-spacing: 0.02em;
-  line-height: 0.9;
-  text-shadow: 0 2px 32px rgba(0, 0, 0, 0.35);
+  font-family: var(--serif), "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(52px, 7.5vw, 108px);
+  font-weight: 300;
+  font-style: italic;
+  letter-spacing: 0.04em;
+  line-height: 0.94;
+  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.32);
 }
 
 .heroCopy {
