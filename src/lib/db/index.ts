@@ -6,17 +6,19 @@ import { emptyDatabase, type Database } from "./types";
 function getStorageRoot() {
   const cwd = process.cwd();
   const standaloneSuffix = path.join(".next", "standalone");
-
   if (cwd.endsWith(standaloneSuffix)) {
     return path.resolve(cwd, "..", "..");
   }
-
   return cwd;
 }
 
 const storageRoot = getStorageRoot();
 const dataDir = path.join(storageRoot, "data");
-const uploadsDir = path.join(storageRoot, "uploads");
+// UPLOAD_DIR lets you point to an out-of-tree directory (e.g. on Hostinger:
+// UPLOAD_DIR=/home/u613502604/storage). Falls back to <project>/uploads.
+const uploadsDir = process.env.UPLOAD_DIR
+  ? path.resolve(process.env.UPLOAD_DIR)
+  : path.join(storageRoot, "uploads");
 const dbPath = path.join(dataDir, "db.json");
 
 let writeQueue = Promise.resolve();

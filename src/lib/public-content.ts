@@ -49,48 +49,48 @@ export const services: Service[] = [
 
 export const projects: Project[] = [
   {
-    slug: "noir-campaign",
-    title: "Noir Campaign",
-    category: "Fashion",
-    location: "Miami",
-    year: "2026",
-    summary:
-      "Una serie visual sobria con luz dura, composición minimalista y un lenguaje editorial para campaña digital.",
-    cover: "/assets/studio-hero.png",
-    images: [
-      "/assets/studio-hero.png",
-      "/assets/og-preview.png",
-      "/assets/emmanuel-portrait.jpg",
-    ],
-  },
-  {
-    slug: "maria-john",
-    title: "Maria & John",
+    slug: "natalia-renato",
+    title: "Natalia & Renato",
     category: "Wedding",
-    location: "Florida Keys",
-    year: "2026",
+    location: "Colombia",
+    year: "2025",
     summary:
-      "Una boda luminosa, íntima y cinematográfica, narrada con atención a gestos pequeños y arquitectura blanca.",
-    cover: "/assets/og-preview.png",
+      "Una boda íntima y luminosa narrada con atención a los gestos pequeños, la arquitectura y la emoción real del día.",
+    cover: "/assets/projects/boda-nr.jpg",
     images: [
-      "/assets/og-preview.png",
-      "/assets/studio-hero.png",
-      "/assets/emmanuel-portrait.jpg",
+      "/assets/projects/boda-nr.jpg",
+      "/assets/projects/boda-nr-2.jpg",
+      "/assets/projects/portrait-maeve.jpg",
     ],
   },
   {
-    slug: "lumo-studio",
-    title: "Lumo Studio",
-    category: "Branding",
-    location: "Worldwide",
-    year: "2026",
+    slug: "paw-and-co",
+    title: "Paw & Co",
+    category: "Events",
+    location: "Miami",
+    year: "2025",
     summary:
-      "Fotografía de marca para un estudio creativo: producto, ambiente y retratos en una misma identidad visual.",
-    cover: "/assets/emmanuel-portrait.jpg",
+      "Cobertura recurrente de una de las noches más concurridas de Miami. Energía, ambiente y retratos en movimiento.",
+    cover: "/assets/projects/pawco-event.jpg",
     images: [
-      "/assets/emmanuel-portrait.jpg",
-      "/assets/studio-hero.png",
-      "/assets/og-preview.png",
+      "/assets/projects/pawco-event.jpg",
+      "/assets/projects/clubbers.jpg",
+      "/assets/projects/miguel-dj.jpg",
+    ],
+  },
+  {
+    slug: "cumbre-emprendedores",
+    title: "Cumbre de Emprendedores",
+    category: "Corporate",
+    location: "Colombia",
+    year: "2024",
+    summary:
+      "Documentación visual de un evento de liderazgo empresarial: ponentes, networking y momentos de conexión real.",
+    cover: "/assets/projects/cumbre.jpg",
+    images: [
+      "/assets/projects/cumbre.jpg",
+      "/assets/projects/arteria.jpg",
+      "/assets/projects/europe.jpg",
     ],
   },
 ];
