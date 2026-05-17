@@ -19,7 +19,12 @@ export async function DELETE(
     const image = db.galleryImages.find(
       (item) => item.galleryId === id && item.id === imgId,
     );
-    imagePaths = [image?.path, image?.thumbPath].filter(Boolean) as string[];
+    imagePaths = [
+      image?.path,
+      image?.thumbPath,
+      image?.originalPath,
+      image?.previewPath,
+    ].filter(Boolean) as string[];
 
     return {
       ...db,
@@ -29,7 +34,7 @@ export async function DELETE(
   });
 
   await Promise.all(
-    imagePaths.map((relativePath) =>
+    [...new Set(imagePaths)].map((relativePath) =>
       rm(path.join(getUploadsDir(), relativePath), { force: true }),
     ),
   );

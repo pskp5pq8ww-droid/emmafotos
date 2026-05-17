@@ -80,11 +80,24 @@ export async function writeDB(database: Database): Promise<void> {
   return writeQueue;
 }
 
+// Serializes the entire read-modify-write cycle. Without this, parallel
+// callers (e.g. 3 concurrent uploads) each read the same stale snapshot and
+// the last writeDB wins — losing the other two updates. Chaining the whole
+// updater through `updateQueue` makes each call see the most recent state.
+let updateQueue: Promise<unknown> = Promise.resolve();
+
 export async function updateDB(
   updater: (database: Database) => Database | Promise<Database>,
 ): Promise<Database> {
-  const current = await readDB();
-  const next = normalizeDatabase(await updater(current));
-  await writeDB(next);
-  return next;
+  const run = async (): Promise<Database> => {
+    const current = await readDB();
+    const next = normalizeDatabase(await updater(current));
+    await writeDB(next);
+    return next;
+  };
+
+  const result = updateQueue.then(run, run) as Promise<Database>;
+  // Swallow errors on the queue handle so one failure doesn't poison the chain.
+  updateQueue = result.catch(() => undefined);
+  return result;
 }

@@ -14,6 +14,10 @@ import styles from "@/components/admin/Admin.module.css";
 
 export const dynamic = "force-dynamic";
 
+function fileUrl(filePath: string) {
+  return `/api/files/${filePath.split("/").map(encodeURIComponent).join("/")}`;
+}
+
 export default async function GalleryDetailPage({
   params,
 }: {
@@ -73,7 +77,7 @@ export default async function GalleryDetailPage({
               <article className={styles.imageCard} key={image.id}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`/api/files/${image.previewPath ?? image.thumbPath ?? image.path}`}
+                  src={fileUrl(image.previewPath ?? image.thumbPath ?? image.path)}
                   alt={image.filename}
                   loading="lazy"
                   decoding="async"
@@ -83,13 +87,13 @@ export default async function GalleryDetailPage({
                   <div className={styles.inlineActions}>
                     <Link
                       className={styles.ghostButton}
-                      href={`/api/files/${image.originalPath ?? image.path}`}
+                      href={fileUrl(image.originalPath ?? image.path)}
                     >
                       Open
                     </Link>
                     <Link
                       className={styles.ghostButton}
-                      href={`/api/files/${image.originalPath ?? image.path}?download=1`}
+                      href={`${fileUrl(image.originalPath ?? image.path)}?download=1`}
                     >
                       Download
                     </Link>

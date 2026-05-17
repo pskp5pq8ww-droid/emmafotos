@@ -16,11 +16,19 @@ function value(formData: FormData, key: string) {
   return typeof raw === "string" ? raw.trim() : "";
 }
 
-async function removeGalleryFolder(clientId: string, slug: string) {
-  await rm(path.join(getUploadsDir(), "clients", clientId, slug), {
-    recursive: true,
-    force: true,
-  });
+async function removeGalleryFolder(clientId: string, slug: string, galleryId?: string) {
+  await Promise.all([
+    rm(path.join(getUploadsDir(), "clients", clientId, slug), {
+      recursive: true,
+      force: true,
+    }),
+    galleryId
+      ? rm(path.join(getUploadsDir(), "galleries", galleryId), {
+          recursive: true,
+          force: true,
+        })
+      : Promise.resolve(),
+  ]);
 }
 
 async function removeClientFolder(clientId: string) {
@@ -143,9 +151,11 @@ export async function deleteGallery(formData: FormData) {
   const id = value(formData, "id");
   let clientId = "";
   let slug = "";
+  let galleryId = "";
 
   await updateDB((db) => {
     const gallery = db.galleries.find((item) => item.id === id);
+    galleryId = gallery?.id ?? "";
     clientId = gallery?.clientId ?? "";
     slug = gallery?.slug ?? "";
     return {
@@ -158,7 +168,7 @@ export async function deleteGallery(formData: FormData) {
   });
 
   if (clientId && slug) {
-    await removeGalleryFolder(clientId, slug);
+    await removeGalleryFolder(clientId, slug, galleryId);
   }
 
   revalidatePath("/admin");
@@ -168,8 +178,10 @@ export async function deleteGallery(formData: FormData) {
 
 export async function deleteClient(formData: FormData) {
   const id = value(formData, "id");
+  let galleryIds: string[] = [];
+
   await updateDB((db) => {
-    const galleryIds = db.galleries
+    galleryIds = db.galleries
       .filter((gallery) => gallery.clientId === id)
       .map((gallery) => gallery.id);
 
@@ -188,7 +200,15 @@ export async function deleteClient(formData: FormData) {
   });
 
   // Remove entire client folder (all their galleries at once)
-  await removeClientFolder(id);
+  await Promise.all([
+    removeClientFolder(id),
+    ...galleryIds.map((galleryId) =>
+      rm(path.join(getUploadsDir(), "galleries", galleryId), {
+        recursive: true,
+        force: true,
+      }),
+    ),
+  ]);
   revalidatePath("/admin");
   revalidatePath("/admin/clients");
   redirect("/admin/clients");
@@ -224,7 +244,12 @@ export async function deleteGalleryImage(formData: FormData) {
   await updateDB((db) => {
     const image = db.galleryImages.find((item) => item.id === imageId);
     if (image) {
-      imagePaths = [image.path, image.thumbPath].filter(Boolean) as string[];
+      imagePaths = [
+        image.path,
+        image.thumbPath,
+        image.originalPath,
+        image.previewPath,
+      ].filter(Boolean) as string[];
     }
 
     return {
@@ -235,7 +260,7 @@ export async function deleteGalleryImage(formData: FormData) {
   });
 
   await Promise.all(
-    imagePaths.map((relativePath) =>
+    [...new Set(imagePaths)].map((relativePath) =>
       rm(path.join(getUploadsDir(), relativePath), { force: true }),
     ),
   );

@@ -1,9 +1,11 @@
 import { revalidatePath } from "next/cache";
+import { rm } from "node:fs/promises";
+import path from "node:path";
 import { NextResponse } from "next/server";
-import { readDB, updateDB } from "@/lib/db";
+import { getUploadsDir, readDB, updateDB } from "@/lib/db";
 import type { GalleryImage } from "@/lib/db/types";
 import { hasAdminSession } from "@/lib/admin-auth/session";
-import { saveGalleryImage } from "@/lib/images/process";
+import { sanitizeImageFilename, saveGalleryImage } from "@/lib/images/process";
 
 const ALLOWED_MIME = new Set([
   "image/jpeg",
@@ -50,14 +52,16 @@ export async function POST(request: Request) {
   }
 
   // De-dup safeguard — same filename already in this gallery skips re-upload.
+  const filename = sanitizeImageFilename(fileEntry.name);
   const existing = db.galleryImages.find(
-    (img) => img.galleryId === galleryId && img.filename === fileEntry.name,
+    (img) => img.galleryId === galleryId && img.filename === filename,
   );
   if (existing) {
     return NextResponse.json({ ok: true, duplicate: true, image: existing });
   }
 
   const saved = await saveGalleryImage({ galleryId, file: fileEntry });
+  let duplicateAfterProcessing: GalleryImage | undefined;
 
   const record: GalleryImage = {
     id: saved.id,
@@ -73,10 +77,33 @@ export async function POST(request: Request) {
     createdAt: new Date().toISOString(),
   };
 
-  await updateDB((current) => ({
-    ...current,
-    galleryImages: [...current.galleryImages, record],
-  }));
+  await updateDB((current) => {
+    const duplicate = current.galleryImages.find(
+      (img) => img.galleryId === galleryId && img.filename === filename,
+    );
+    if (duplicate) {
+      duplicateAfterProcessing = duplicate;
+      return current;
+    }
+
+    return {
+      ...current,
+      galleryImages: [...current.galleryImages, record],
+    };
+  });
+
+  if (duplicateAfterProcessing) {
+    await Promise.all(
+      [saved.originalPath, saved.previewPath].map((relativePath) =>
+        rm(path.join(getUploadsDir(), relativePath), { force: true }),
+      ),
+    );
+    return NextResponse.json({
+      ok: true,
+      duplicate: true,
+      image: duplicateAfterProcessing,
+    });
+  }
 
   // Refresh cached pages — galleries grid + client view both depend on this.
   revalidatePath(`/admin/galleries/${galleryId}`);

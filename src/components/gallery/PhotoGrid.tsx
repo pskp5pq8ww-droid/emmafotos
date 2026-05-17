@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useDownloadQueue } from "./DownloadProvider";
 import styles from "./Gallery.module.css";
 
@@ -18,6 +18,10 @@ export type GalleryPhoto = {
   favorite: boolean;
 };
 
+function fileUrl(filePath: string) {
+  return `/api/files/${filePath.split("/").map(encodeURIComponent).join("/")}`;
+}
+
 export function PhotoGrid({
   slug,
   photos,
@@ -28,6 +32,10 @@ export function PhotoGrid({
   const [items, setItems] = useState(photos);
   const [active, setActive] = useState<GalleryPhoto | null>(null);
   const { enqueueFile } = useDownloadQueue();
+
+  useEffect(() => {
+    setItems(photos);
+  }, [photos]);
 
   const toggleFavorite = useCallback(
     async (imageId: string) => {
@@ -49,11 +57,11 @@ export function PhotoGrid({
   const closeLightbox = useCallback(() => setActive(null), []);
 
   function previewSrc(photo: GalleryPhoto) {
-    return `/api/files/${photo.previewPath ?? photo.thumbPath ?? photo.path}`;
+    return fileUrl(photo.previewPath ?? photo.thumbPath ?? photo.path);
   }
 
   function originalSrc(photo: GalleryPhoto) {
-    return `/api/files/${photo.originalPath ?? photo.path}`;
+    return fileUrl(photo.originalPath ?? photo.path);
   }
 
   return (

@@ -1,5 +1,7 @@
-import { readFile, stat } from "node:fs/promises";
+import { createReadStream } from "node:fs";
+import { stat } from "node:fs/promises";
 import path from "node:path";
+import { Readable } from "node:stream";
 import { NextResponse } from "next/server";
 import { getUploadsDir } from "@/lib/db";
 
@@ -34,11 +36,10 @@ export async function GET(
       return NextResponse.json({ error: "Not found" }, { status: 404 });
     }
 
-    const file = await readFile(filePath);
     const extension = path.extname(filePath).toLowerCase();
     const headers = new Headers({
       "Content-Type": contentTypes[extension] ?? "application/octet-stream",
-      "Content-Length": String(file.byteLength),
+      "Content-Length": String(fileStat.size),
       "Cache-Control": "private, max-age=31536000, immutable",
     });
 
@@ -49,7 +50,8 @@ export async function GET(
       );
     }
 
-    return new NextResponse(file, { headers });
+    const stream = Readable.toWeb(createReadStream(filePath));
+    return new NextResponse(stream as ReadableStream, { headers });
   } catch {
     return NextResponse.json({ error: "Not found" }, { status: 404 });
   }

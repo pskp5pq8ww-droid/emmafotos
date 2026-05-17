@@ -1,7 +1,8 @@
 import path from "node:path";
+import { Readable } from "node:stream";
 import { NextResponse } from "next/server";
 import { getUploadsDir, readDB } from "@/lib/db";
-import { createZip } from "@/lib/files/zip";
+import { prepareZip, streamZip } from "@/lib/files/zip";
 import { resolveGalleryAccess } from "@/lib/galleries/access";
 import { hasGallerySession } from "@/lib/gallery-auth/session";
 
@@ -27,18 +28,25 @@ export async function GET(
     return NextResponse.json({ error: "No images" }, { status: 404 });
   }
 
-  const zip = await createZip(
+  const zip = await prepareZip(
     images.map((image) => ({
-      absolutePath: path.join(getUploadsDir(), image.path),
+      absolutePath: path.join(getUploadsDir(), image.originalPath ?? image.path),
       filename: image.filename,
     })),
   );
 
-  return new NextResponse(zip, {
+  if (!zip.files.length) {
+    return NextResponse.json({ error: "No downloadable images" }, { status: 404 });
+  }
+
+  const stream = Readable.toWeb(Readable.from(streamZip(zip.files)));
+
+  return new NextResponse(stream as ReadableStream, {
     headers: {
       "Content-Type": "application/zip",
       "Content-Disposition": `attachment; filename="${gallery.slug}.zip"`,
       "Content-Length": String(zip.byteLength),
+      "Cache-Control": "private, no-store",
     },
   });
 }

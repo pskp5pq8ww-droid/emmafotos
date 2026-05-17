@@ -33,7 +33,9 @@ export default async function HomePage() {
         name: review.clientName,
         rating: review.rating,
         text: review.message,
-        imageUrl: fileUrl(galleryImage?.thumbPath ?? galleryImage?.path),
+        imageUrl: fileUrl(
+          galleryImage?.previewPath ?? galleryImage?.thumbPath ?? galleryImage?.path,
+        ),
       };
     });
 

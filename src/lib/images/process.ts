@@ -23,6 +23,10 @@ function sanitizeBaseName(filename: string) {
     .slice(0, 64) || "image";
 }
 
+export function sanitizeImageFilename(filename: string) {
+  return `${sanitizeBaseName(filename)}${sanitizeExt(filename)}`;
+}
+
 export type SavedImage = {
   /** UUID — caller stores this as GalleryImage.id */
   id: string;
@@ -54,9 +58,8 @@ export async function saveGalleryImage({
   file: File;
 }): Promise<SavedImage> {
   const ext = sanitizeExt(file.name);
-  const baseName = sanitizeBaseName(file.name);
   const id = randomUUID();
-  const displayFilename = `${baseName}${ext}`;
+  const displayFilename = sanitizeImageFilename(file.name);
 
   const uploadsRoot = getUploadsDir();
   const originalsDir = path.join(uploadsRoot, "galleries", galleryId, "originals");
@@ -73,17 +76,19 @@ export async function saveGalleryImage({
   // Write the lossless original exactly as uploaded.
   await writeFile(originalAbs, buffer);
 
-  // Generate the WebP preview: respects EXIF rotation, max 1800px on long edge,
-  // q82 — good balance of visual quality and file size for browser display.
+  // Generate the WebP preview: respects EXIF rotation, max 1400px on long
+  // edge, q80 — good balance of visual quality and file size for browser
+  // display. effort=2 trades a small file-size penalty for much faster encode
+  // (matters on shared Hostinger CPU when uploading dozens of photos).
   await sharp(buffer)
     .rotate()
     .resize({
-      width: 1800,
-      height: 1800,
+      width: 1400,
+      height: 1400,
       fit: "inside",
       withoutEnlargement: true,
     })
-    .webp({ quality: 82, effort: 4 })
+    .webp({ quality: 80, effort: 2 })
     .toFile(previewAbs);
 
   return {
