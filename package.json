@@ -1,0 +1,29 @@
+{
+  "name": "emmanuel-rojas-studio",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postbuild": "node scripts/postbuild.mjs"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "framer-motion": "^11.11.17",
+    "next": "^15.5.18",
+    "nodemailer": "^8.0.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.9.0",
+    "@types/nodemailer": "^6.4.16",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.6.3"
+  }
+}

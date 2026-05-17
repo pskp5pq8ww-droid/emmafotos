@@ -1,0 +1,17 @@
+.env
+.env.local
+.env.*.local
+node_modules/
+.next/
+out/
+dist/
+*.log
+.DS_Store
+.claude/worktrees/
+.claude/skills/
+docs/
+
+data/*
+!data/.gitkeep
+uploads/*
+!uploads/.gitkeep
