@@ -10,16 +10,31 @@ import { projects, services, studio } from "@/lib/public-content";
 
 export const dynamic = "force-dynamic";
 
+function fileUrl(filePath?: string) {
+  if (!filePath) {
+    return undefined;
+  }
+
+  return `/api/files/${filePath.split("/").map(encodeURIComponent).join("/")}`;
+}
+
 export default async function HomePage() {
   const db = await readDB();
   const approvedReviews = db.reviews
     .filter((review) => review.approved && review.allowPublicDisplay)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-    .map((review) => ({
-      name: review.clientName,
-      rating: review.rating,
-      text: review.message,
-    }));
+    .map((review) => {
+      const galleryImage = db.galleryImages.find(
+        (image) => image.galleryId === review.galleryId,
+      );
+
+      return {
+        name: review.clientName,
+        rating: review.rating,
+        text: review.message,
+        imageUrl: fileUrl(galleryImage?.thumbPath ?? galleryImage?.path),
+      };
+    });
 
   return (
     <main>

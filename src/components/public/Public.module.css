@@ -613,6 +613,31 @@
     width: 100%;
     max-width: 320px;
   }
+
+  .marqueeIntro {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .marqueeIntro p:last-child {
+    text-align: left;
+  }
+
+  .marqueeCard {
+    grid-template-columns: 68px minmax(0, 1fr);
+    width: min(86vw, 390px);
+    min-height: 0;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .marqueePortrait {
+    width: 68px;
+  }
+
+  .marqueeCopy {
+    font-size: 20px;
+  }
 }
 
 /* ─── Service card hover microinteraction ─── */
@@ -634,14 +659,36 @@
   overflow: hidden;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  background: var(--white);
+  background:
+    radial-gradient(circle at 18% 0%, rgba(173, 150, 114, 0.15), transparent 28rem),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(235, 231, 223, 0.72));
   cursor: default;
+}
+
+.marqueeIntro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  width: min(100%, 1340px);
+  margin: 0 auto;
+  padding: clamp(30px, 5vw, 58px) clamp(20px, 6vw, 92px) 18px;
+}
+
+.marqueeIntro p:last-child {
+  max-width: 290px;
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: clamp(24px, 3vw, 40px);
+  line-height: 0.98;
+  text-align: right;
 }
 
 .marqueeTrack {
   display: flex;
   width: max-content;
-  animation: marquee 52s linear infinite;
+  padding: 12px 0 clamp(34px, 5vw, 62px);
+  animation: marquee 58s linear infinite;
 }
 
 .marqueeOuter:hover .marqueeTrack {
@@ -649,24 +696,103 @@
 }
 
 .marqueeCard {
+  position: relative;
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 22px;
+  align-items: center;
   flex-shrink: 0;
-  width: clamp(300px, 28vw, 440px);
-  padding: 36px 32px;
-  border-right: 1px solid var(--line);
+  width: clamp(360px, 38vw, 580px);
+  min-height: 190px;
+  margin-right: 16px;
+  padding: 24px 28px;
+  border: 1px solid rgba(207, 201, 189, 0.8);
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 18px 55px rgba(15, 14, 12, 0.07);
+  overflow: hidden;
+  transition:
+    transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.marqueeCard::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(173, 150, 114, 0.16);
+  pointer-events: none;
+}
+
+.marqueeCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(173, 150, 114, 0.58);
+  background: rgba(255, 255, 255, 0.92);
+}
+
+.marqueePortrait {
+  position: relative;
+  width: 86px;
+  aspect-ratio: 1;
+  border: 1px solid rgba(173, 150, 114, 0.56);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(173, 150, 114, 0.2), rgba(247, 245, 241, 0.9)),
+    var(--soft);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 6px rgba(255, 255, 255, 0.64);
+}
+
+.marqueePortrait img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92) contrast(1.04);
+  transition: transform 0.72s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.marqueeCard:hover .marqueePortrait img {
+  transform: scale(1.08);
+}
+
+.marqueePortrait span {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.marqueeBody {
+  position: relative;
+  z-index: 1;
+}
+
+.marqueeMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 18px;
 }
 
 .marqueeRating {
-  margin: 10px 0 0;
+  margin: 0;
   color: var(--gold);
   letter-spacing: 0.08em;
   font-size: 13px;
+  white-space: nowrap;
 }
 
 .marqueeCopy {
-  margin-top: 10px;
-  color: var(--muted);
-  line-height: 1.72;
-  font-size: 15px;
+  margin-top: 18px;
+  color: var(--charcoal);
+  font-family: var(--serif);
+  font-size: clamp(20px, 1.7vw, 27px);
+  line-height: 1.18;
 }
 
 /* ─── Reduced motion overrides ─── */
@@ -680,6 +806,11 @@
   }
 
   .serviceCard {
+    transition: none;
+  }
+
+  .marqueeCard,
+  .marqueePortrait img {
     transition: none;
   }
 }
