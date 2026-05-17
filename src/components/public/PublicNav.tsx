@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import styles from "./Public.module.css";
 
 const links = [
@@ -10,8 +13,35 @@ const links = [
 ];
 
 export function PublicNav() {
+  const [hidden, setHidden] = useState(false);
+  const lastY = useRef(0);
+
+  useEffect(() => {
+    let ticking = false;
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        if (y < 80) {
+          setHidden(false);
+        } else if (y > lastY.current + 8) {
+          setHidden(true);
+        } else if (y < lastY.current - 8) {
+          setHidden(false);
+        }
+        lastY.current = y;
+        ticking = false;
+      });
+    }
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-    <header className={styles.nav}>
+    <header className={`${styles.nav} ${hidden ? styles.navHidden : ""}`}>
       <Link className={styles.brand} href="/" aria-label="Emmanuel Rojas Studio">
         <Image
           src="/assets/er-logo-black.png"
