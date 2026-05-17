@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { HeroSlideshow } from "@/components/public/HeroSlideshow";
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { Reveal } from "@/components/public/Reveal";
 import { AnimatedStat } from "@/components/public/AnimatedStat";
@@ -40,14 +40,7 @@ export default async function HomePage() {
     <main>
       <section className={styles.hero}>
         <div className={styles.heroMedia}>
-          <Image
-            src="/assets/backgrounds/hero-bg.jpg"
-            alt="Emmanuel Rojas — Wedding Photographer Brisbane"
-            fill
-            sizes="100vw"
-            priority
-            quality={88}
-          />
+          <HeroSlideshow />
         </div>
         <div className={styles.heroInner}>
           <Reveal>
