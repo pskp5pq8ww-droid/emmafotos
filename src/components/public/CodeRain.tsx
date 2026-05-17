@@ -69,8 +69,15 @@ export function CodeRain({ active = true }: { active?: boolean }) {
       };
     }
 
+    // Tune density to viewport: small screens get half as many fragments and
+    // a smaller cap so the logo stays the protagonist on phones.
+    const isMobile = window.innerWidth < 700;
+    const initialCount = isMobile ? 7 : 16;
+    const maxFragments = isMobile ? 10 : 20;
+    const spawnEvery = isMobile ? 140 : 90;
+
     // Stagger initial fragments so they don't all start at once
-    for (let i = 0; i < 16; i++) {
+    for (let i = 0; i < initialCount; i++) {
       const f = spawn();
       f.life = Math.random() * f.maxLife;
       fragments.push(f);
@@ -81,9 +88,11 @@ export function CodeRain({ active = true }: { active?: boolean }) {
       if (!canvas || !ctx) return;
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.font = "12px 'JetBrains Mono', 'Courier New', monospace";
+      ctx.font = isMobile
+        ? "11px 'JetBrains Mono', 'Courier New', monospace"
+        : "12px 'JetBrains Mono', 'Courier New', monospace";
 
-      if (frame % 90 === 0 && fragments.length < 20 && activeRef.current) {
+      if (frame % spawnEvery === 0 && fragments.length < maxFragments && activeRef.current) {
         fragments.push(spawn());
       }
       frame++;

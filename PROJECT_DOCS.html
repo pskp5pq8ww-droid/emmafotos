@@ -596,19 +596,26 @@
     If these values change, the app will create a new empty database and all client galleries will appear broken (photos not found). The old data is still on disk but the app won't know where to look.
   </div>
 
-  <h3>Upload directory structure</h3>
+  <h3>Upload directory structure (current — since background-upload refactor)</h3>
 <pre><code>/home/u613502604/storage/
-└── clients/
+├── galleries/                         ← NEW canonical structure
+│   └── {gallery-uuid}/
+│       ├── originals/
+│       │   └── {image-uuid}.jpg       ← lossless original (for downloads)
+│       └── previews/
+│           └── {image-uuid}.webp      ← 1400px WebP q80 (for browser display)
+│
+└── clients/                           ← LEGACY (old uploads still here, still served)
     └── {client-uuid}/
         └── {gallery-slug}/
-            ├── photo-1234567890.jpg        ← original full-res
-            ├── another-photo-...jpg
+            ├── photo-...jpg           ← legacy original
             └── thumbs/
-                ├── photo-1234567890.jpg    ← 900px JPEG thumbnail
-                └── another-photo-...jpg</code></pre>
+                └── photo-...jpg       ← legacy 900px JPEG thumbnail</code></pre>
+
+  <p><strong>Why both layouts coexist:</strong> the DB stores per-image paths. Old rows have <code>path</code> + <code>thumbPath</code> pointing into <code>clients/&hellip;</code>; new rows have <code>originalPath</code> + <code>previewPath</code> pointing into <code>galleries/&hellip;</code>. The frontend reads <code>previewPath ?? thumbPath ?? path</code> for display and <code>originalPath ?? path</code> for download, so both work transparently.</p>
 
   <h3>How photos are served</h3>
-  <p>The route <code>app/api/files/[...path]/route.ts</code> reads from <code>UPLOAD_DIR/{path}</code> and streams the file. The client gallery requests <code>/api/files/clients/{id}/{slug}/thumbs/photo.jpg</code>. This is why <code>UPLOAD_DIR</code> must be correct.</p>
+  <p>The route <code>app/api/files/[...path]/route.ts</code> reads from <code>UPLOAD_DIR/{path}</code> and streams the file. The client gallery requests <code>/api/files/galleries/{id}/previews/{imgId}.webp</code> (new) or <code>/api/files/clients/{id}/{slug}/thumbs/photo.jpg</code> (legacy). The path-traversal guard rejects anything escaping <code>UPLOAD_DIR</code>. <code>?download=1</code> adds <code>Content-Disposition: attachment</code>.</p>
 
   <h3>Bootstrap injection (postbuild)</h3>
   <p><code>scripts/postbuild.mjs</code> runs after every build and injects this code at the top of <code>.next/standalone/server.js</code>:</p>
@@ -837,14 +844,22 @@ ALLOWED_ORIGINS=http://localhost:3000</code></pre>
     </tbody>
   </table>
 
-  <h3>Upload flow</h3>
+  <h3>Upload flow — background queue (current)</h3>
   <ol>
-    <li>Admin drags photos to <code>UploadDropzone</code> (or clicks "Choose files")</li>
-    <li>Files sent as <code>multipart/form-data</code> to <code>POST /api/admin/upload</code></li>
-    <li>API validates admin session + galleryId</li>
-    <li><code>saveGalleryImage()</code> runs Sharp: saves original + 900px thumb to <code>UPLOAD_DIR/clients/{id}/{slug}/</code></li>
-    <li>GalleryImage record written to db.json</li>
-    <li>Page revalidated via <code>revalidatePath</code></li>
+    <li>Admin drops/picks files → <code>UploadDropzone.enqueue()</code> hands them to the global <code>UploadProvider</code> context (wraps the admin layout)</li>
+    <li>The provider runs up to <strong>3 uploads in parallel</strong>. Each file becomes one POST to <code>/api/admin/upload</code> (multipart with a single <code>file</code> field + <code>galleryId</code>)</li>
+    <li>Per-file progress comes from <code>XMLHttpRequest.upload.onprogress</code>; the floating <code>UploadPanel</code> at bottom-right renders live status</li>
+    <li>API validates admin session, MIME type (jpeg/png/webp), max 50 MB, de-dupes by filename within the gallery</li>
+    <li><code>saveGalleryImage()</code> writes:
+      <ul>
+        <li>Lossless original → <code>UPLOAD_DIR/galleries/{galleryId}/originals/{imageId}.{ext}</code></li>
+        <li>WebP preview (1400 px, q80, effort=2) → <code>UPLOAD_DIR/galleries/{galleryId}/previews/{imageId}.webp</code></li>
+      </ul>
+    </li>
+    <li>GalleryImage record (with both <code>originalPath</code> and <code>previewPath</code>) written via the serialized <code>updateDB</code> queue — no race condition with parallel uploads</li>
+    <li><code>revalidatePath</code> refreshes both the admin gallery and the client view. The provider also calls <code>router.refresh()</code> client-side so the admin grid updates without a reload</li>
+    <li>Failed files auto-retry up to 2 times (exponential backoff); after that they appear as "Failed" in the panel with a manual Retry button</li>
+    <li>The browser shows a <code>beforeunload</code> warning while uploads are pending — admin can navigate freely within the dashboard, but closing the tab confirms</li>
   </ol>
 </div>
 
@@ -870,14 +885,26 @@ ALLOWED_ORIGINS=http://localhost:3000</code></pre>
   <ul>
     <li>Uses CSS <code>columns</code> property — natural aspect ratios, no fixed heights</li>
     <li>Uses <code>&lt;img&gt;</code> tags (not <code>next/image</code>) to avoid intrinsic size constraints</li>
+    <li><strong>Display:</strong> reads <code>previewPath ?? thumbPath ?? path</code> — prefers the new WebP preview, falls back to the legacy JPEG thumb, then to the original</li>
+    <li><strong>Download / lightbox:</strong> reads <code>originalPath ?? path</code> — always serves the lossless original</li>
     <li>Images fade in on load with <code>onLoad</code> → adds <code>.loaded</code> class</li>
     <li>Lightbox with backdrop blur on click</li>
     <li>Favourite toggle: calls <code>/api/gallery/[slug]/favorite</code></li>
+    <li>Per-photo download button enqueues into the <code>DownloadProvider</code> instead of using a raw <code>&lt;a href&gt;</code> — progress is tracked in the floating <code>DownloadPanel</code></li>
     <li>Responsive: 4 cols → 3 cols (1100px) → 2 cols (700px) → 2 cols tight (420px)</li>
   </ul>
 
+  <h3>Download flow (client gallery)</h3>
+  <ul>
+    <li><code>DownloadProvider</code> wraps the gallery view page. Single-photo and ZIP downloads both go through its queue</li>
+    <li><strong>Single photo:</strong> <code>fetch(/api/files/&hellip;?download=1)</code>, reads <code>Response.body</code> as a stream, tracks bytes received vs <code>Content-Length</code>, builds a <code>Blob</code>, dispatches <code>&lt;a download&gt;</code></li>
+    <li><strong>Full gallery (ZIP):</strong> <code>fetch(/api/gallery/{slug}/download)</code> — protected route requiring an active gallery session. Server uses <code>createZip()</code> to bundle all <code>originalPath</code> files (falls back to <code>path</code> for legacy rows)</li>
+    <li>The floating <code>DownloadPanel</code> shows: Preparing… → progress % → ✓ Done. Retry button on failure. Minimize / Dismiss / Clear-completed actions</li>
+    <li>User can keep browsing the gallery while a ZIP is being prepared — the request is non-blocking</li>
+  </ul>
+
   <h3>Image serving</h3>
-  <p><code>/api/files/[...path]</code> reads from <code>UPLOAD_DIR/{path}</code> and streams the file. Thumbnails are served by default (900px JPEG). The original is also accessible via the full path without <code>thumbs/</code>.</p>
+  <p><code>/api/files/[...path]</code> resolves <code>UPLOAD_DIR/{path}</code> with a path-traversal guard (rejects <code>..</code>, null bytes, anything that escapes the uploads root), then streams the file with <code>Cache-Control: private, max-age=31536000, immutable</code>. <code>?download=1</code> adds <code>Content-Disposition: attachment</code> with the basename as filename.</p>
 </div>
 
 

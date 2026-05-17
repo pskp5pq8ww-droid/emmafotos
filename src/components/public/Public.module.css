@@ -1241,3 +1241,258 @@
     transition: none;
   }
 }
+
+/* ──────────────────────────────────────────────────────────────────────
+   MOBILE-ONLY OPTIMIZATIONS
+   Everything below targets ≤900px / ≤640px / ≤420px.
+   Desktop styles above remain untouched.
+   ────────────────────────────────────────────────────────────────────── */
+
+/* Hamburger button — hidden on desktop, visible on mobile */
+.navBurger {
+  display: none;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.navBurger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: currentColor;
+  transition:
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.2s ease;
+  transform-origin: center;
+}
+
+.navBurgerOpen span:nth-child(1) {
+  transform: translateY(6.5px) rotate(45deg);
+}
+.navBurgerOpen span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+.navBurgerOpen span:nth-child(3) {
+  transform: translateY(-6.5px) rotate(-45deg);
+}
+
+/* Slide-down mobile menu panel */
+.navMobilePanel {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 29;
+  padding: 96px 24px 32px;
+  background: rgba(247, 245, 241, 0.98);
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border-bottom: 1px solid rgba(8, 8, 8, 0.06);
+  transform: translateY(-100%);
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  visibility: hidden;
+}
+
+.navMobilePanelOpen {
+  transform: translateY(0);
+  visibility: visible;
+}
+
+.navMobilePanel nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.navMobileLink {
+  display: block;
+  padding: 18px 4px;
+  border-bottom: 1px solid rgba(8, 8, 8, 0.08);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  transition: color 0.2s ease, padding-left 0.2s ease;
+}
+
+.navMobileLink:hover,
+.navMobileLink:active {
+  color: var(--gold);
+  padding-left: 10px;
+}
+
+.navMobileAdmin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 22px;
+  min-height: 50px;
+  padding: 0 24px;
+  border: 1px solid var(--ink);
+  border-radius: 2px;
+  background: var(--ink);
+  color: var(--white);
+  letter-spacing: 0.28em;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+/* ─── ≤900px: swap desktop nav for mobile hamburger ─── */
+@media (max-width: 900px) {
+  /* Slimmer fixed nav (68px) → shell + hero offsets follow */
+  .shell {
+    padding-top: 68px;
+  }
+  .hero {
+    margin-top: -68px;
+  }
+
+  .nav {
+    /* Single-row mobile layout: logo left, hamburger right */
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding-block: 0;
+    min-height: 68px;
+  }
+
+  /* Hide the desktop nav links and the admin button — moved into the panel */
+  .navLinks,
+  .navActions {
+    display: none;
+  }
+
+  .navBurger {
+    display: inline-flex;
+  }
+
+  .navMobilePanel {
+    display: block;
+  }
+
+  /* Burger color follows the nav's transparent/solid state */
+  .navTransparent .navBurger {
+    color: rgba(255, 255, 255, 0.95);
+  }
+  .navSolid .navBurger {
+    color: var(--ink);
+  }
+
+  /* Brand image smaller on mobile */
+  .brand img {
+    width: 36px;
+    height: 36px;
+  }
+  .brand {
+    gap: 10px;
+    font-size: 10px;
+    letter-spacing: 0.32em;
+  }
+
+}
+
+/* ─── ≤640px: tighten hero, stats, buttons ─── */
+@media (max-width: 640px) {
+  .heroInner {
+    /* Pull text closer to bottom, reduce bottom padding */
+    padding: clamp(64px, 14vw, 88px) 18px clamp(32px, 7vw, 56px);
+    gap: 16px;
+  }
+
+  .heroTitle {
+    /* Cormorant italic — needs enough room for italic descenders */
+    font-size: clamp(44px, 12.5vw, 64px);
+    letter-spacing: 0.03em;
+    line-height: 0.96;
+  }
+
+  .heroCopy {
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+    max-width: 340px;
+  }
+
+  .heroCtas {
+    /* Stack the CTAs vertically and let them span the viewport width */
+    flex-direction: column;
+    width: 100%;
+    max-width: 320px;
+    margin-inline: auto;
+    gap: 10px;
+  }
+
+  .heroCtas a,
+  .heroCtas button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  /* Stats: 3 columns is too tight, switch to 2-row layout */
+  .heroStats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 28px;
+    max-width: 320px;
+    margin-inline: auto;
+    margin-top: 18px;
+    padding-top: 18px;
+  }
+
+  .heroStats > div:nth-child(3) {
+    /* Third stat spans both columns on the second row */
+    grid-column: 1 / -1;
+  }
+
+  .heroStats strong {
+    font-size: clamp(38px, 12vw, 52px);
+  }
+
+  .heroStats span {
+    font-size: 9px;
+    letter-spacing: 0.26em;
+  }
+}
+
+/* ─── ≤420px: very small phones ─── */
+@media (max-width: 420px) {
+  .heroTitle {
+    font-size: clamp(40px, 13vw, 56px);
+  }
+
+  .heroCopy {
+    font-size: 11px;
+  }
+
+  .heroStats {
+    gap: 14px 22px;
+  }
+
+  .heroStats strong {
+    font-size: 36px;
+  }
+}
+
+/* ─── Floating panels: full-width sheet at bottom on mobile ─── */
+@media (max-width: 600px) {
+  .cinemaOut {
+    /* unchanged — overlay covers viewport regardless */
+  }
+}

@@ -677,3 +677,85 @@
 .downloadPanelItem:last-child {
   border-bottom: none;
 }
+
+/* ──────────────────────────────────────────────────────────────────────
+   MOBILE-ONLY: floating panels become a bottom sheet
+   ────────────────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .uploadPanel,
+  .downloadPanel {
+    /* Anchor to the bottom of the viewport, full-width */
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    max-height: 75vh;
+    border-radius: 14px 14px 0 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    box-shadow: 0 -16px 48px rgba(8, 8, 8, 0.24);
+    /* Respect iOS safe-area inset at the bottom */
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .uploadPanelCollapsed,
+  .downloadPanelCollapsed {
+    max-height: 64px;
+  }
+
+  .uploadPanelHead,
+  .downloadPanelHead {
+    padding: 12px 14px;
+  }
+
+  .uploadPanelList,
+  .downloadPanelList {
+    max-height: 50vh;
+  }
+
+  .uploadPanelItem,
+  .downloadPanelItem {
+    padding: 10px 14px;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────────────
+   MOBILE-ONLY: admin layout polish (sidebar/topbar/cards/forms)
+   ────────────────────────────────────────────────────────────────────── */
+@media (max-width: 680px) {
+  .sidebar {
+    /* On the smallest screens, sidebar becomes a compact horizontal strip */
+    padding: 14px 16px;
+  }
+
+  .sidebarLogo img {
+    width: 64px;
+    height: 64px;
+  }
+
+  .navList {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .navItem {
+    padding: 8px 12px;
+    font-size: 11px;
+  }
+
+  .content {
+    padding: 16px;
+  }
+
+  .imageGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .form input,
+  .form textarea,
+  .form select {
+    font-size: 16px; /* prevents iOS Safari zoom-in on focus */
+  }
+}
