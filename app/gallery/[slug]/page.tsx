@@ -42,9 +42,11 @@ export default async function GalleryLoginPage({
   } as const;
 
   const pinError =
-    error === "1" || error === "invalid"
-      ? "Invalid access details. Please check your PIN and try again."
-      : undefined;
+    error === "locked"
+      ? "Too many failed attempts. Please wait 15 minutes and try again."
+      : error === "1" || error === "invalid"
+        ? "Invalid PIN. Please try again."
+        : undefined;
 
   return (
     <main className={styles.login}>
