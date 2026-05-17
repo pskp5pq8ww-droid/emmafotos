@@ -31,7 +31,7 @@ export function PublicNav() {
       </nav>
       <div className={styles.navActions}>
         <Link className={styles.portalLink} href="/admin-login">
-          Acceso Admin
+          Admin
         </Link>
       </div>
     </header>

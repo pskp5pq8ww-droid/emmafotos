@@ -287,6 +287,23 @@
   text-align: center;
 }
 
+.progressTrack {
+  width: 100%;
+  max-width: 320px;
+  height: 3px;
+  margin: 14px auto 0;
+  background: #e8e2d8;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  background: #0f0f0e;
+  border-radius: 2px;
+  transition: width 0.4s ease, background 0.3s ease;
+}
+
 .imageGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));

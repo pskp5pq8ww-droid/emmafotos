@@ -1,9 +1,13 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Reveal } from "@/components/public/Reveal";
 import styles from "@/components/public/Public.module.css";
+import { studio } from "@/lib/public-content";
 
 export const metadata = {
   title: "About",
+  description:
+    "Emmanuel Rojas is a wedding photographer based in Brisbane, Australia, creating natural, emotional and cinematic imagery for couples who value meaningful memories.",
 };
 
 export default function AboutPage() {
@@ -11,9 +15,9 @@ export default function AboutPage() {
     <main>
       <section className={styles.pageHero}>
         <Reveal>
-          <p className={styles.sectionEyebrow}>Sobre mí</p>
+          <p className={styles.sectionEyebrow}>About</p>
           <h1 className={styles.pageTitle}>
-            Una mirada serena para personas, espacios y momentos que importan.
+            A calm eye for people, light and the moments in between.
           </h1>
         </Reveal>
       </section>
@@ -21,29 +25,39 @@ export default function AboutPage() {
         <Reveal>
           <div>
             <p className={styles.sectionCopy}>
-              Soy Emmanuel Rojas, fotógrafo radicado en Brisbane, Australia, con
-              más de 4 años de experiencia y más de 200 eventos capturados en
-              Colombia, Australia y el resto del mundo.
+              I'm Emmanuel Rojas, a wedding photographer based in Brisbane,
+              Australia — with over {studio.stats.years} years of experience
+              and {studio.stats.events}+ events captured across Colombia,
+              Australia, and around the world.
             </p>
             <p className={styles.sectionCopy}>
-              Me especializo en bodas, sesiones de retrato y eventos — siempre
-              con una dirección natural, sin forzar momentos. Mi filosofía es
-              simple: estar presente, anticipar el instante y contar la historia
-              como realmente fue.
+              I specialise in weddings, couple sessions and events — always
+              with a natural, unhurried approach that lets real moments breathe.
+              My philosophy is simple: be present, anticipate the instant, and
+              tell the story as it truly happened.
             </p>
             <p className={styles.sectionCopy}>
-              Cada galería privada se entrega a través de un portal seguro donde
-              mis clientes pueden revisar, marcar favoritos y descargar sus
-              imágenes. Desde la primera consulta hasta la entrega final, cada
-              paso está diseñado para ser tan memorable como las fotos mismas.
+              Every private gallery is delivered through a secure client portal
+              where you can review, favourite and download your images at your
+              own pace. From the first conversation to final delivery, every
+              step is designed to feel as seamless as the memories themselves.
             </p>
+            <a
+              className={styles.button}
+              href={studio.whatsapp}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: "inline-flex", marginTop: "32px" }}
+            >
+              Book Your Session
+            </a>
           </div>
         </Reveal>
         <Reveal delay={0.1}>
           <div className={styles.portrait}>
             <Image
               src="/assets/emmanuel-portrait.jpg"
-              alt="Emmanuel Rojas"
+              alt="Emmanuel Rojas, photographer"
               width={791}
               height={1024}
               priority

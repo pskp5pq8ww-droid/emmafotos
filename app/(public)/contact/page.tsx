@@ -4,6 +4,7 @@ import { studio } from "@/lib/public-content";
 
 export const metadata = {
   title: "Contact",
+  description: "Get in touch with Emmanuel Rojas to book your wedding, couple session or event photography in Brisbane, Australia.",
 };
 
 export default function ContactPage() {
@@ -11,9 +12,9 @@ export default function ContactPage() {
     <main>
       <section className={styles.pageHero}>
         <Reveal>
-          <p className={styles.sectionEyebrow}>Contacto</p>
+          <p className={styles.sectionEyebrow}>Contact</p>
           <h1 className={styles.pageTitle}>
-            Cuéntame la fecha, el lugar y lo que debe recordarse.
+            Tell me the date, the place and what should be remembered.
           </h1>
         </Reveal>
       </section>
@@ -21,7 +22,7 @@ export default function ContactPage() {
         <Reveal>
           <form className={styles.form} action="/api/contact" method="post">
             <div className={styles.field}>
-              <label htmlFor="name">Nombre</label>
+              <label htmlFor="name">Name</label>
               <input id="name" name="name" autoComplete="name" required />
             </div>
             <div className={styles.field}>
@@ -35,21 +36,21 @@ export default function ContactPage() {
               />
             </div>
             <div className={styles.field}>
-              <label htmlFor="type">Tipo de proyecto</label>
-              <select id="type" name="type" defaultValue="Boda">
-                <option>Boda</option>
-                <option>Sesión de retratos</option>
-                <option>Evento</option>
-                <option>Video & Drone</option>
-                <option>Otro</option>
+              <label htmlFor="type">Project type</label>
+              <select id="type" name="type" defaultValue="Wedding">
+                <option>Wedding</option>
+                <option>Couple Session</option>
+                <option>Event</option>
+                <option>Drone Photography</option>
+                <option>Other</option>
               </select>
             </div>
             <div className={styles.field}>
-              <label htmlFor="message">Mensaje</label>
+              <label htmlFor="message">Message</label>
               <textarea id="message" name="message" required />
             </div>
             <button className={styles.button} type="submit">
-              Enviar consulta
+              Send Enquiry
             </button>
           </form>
         </Reveal>
@@ -79,7 +80,7 @@ export default function ContactPage() {
                 </dd>
               </div>
               <div>
-                <dt>Base</dt>
+                <dt>Based in</dt>
                 <dd>{studio.location}</dd>
               </div>
             </dl>

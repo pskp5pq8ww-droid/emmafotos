@@ -159,6 +159,37 @@
   line-height: 1.7;
 }
 
+.heroCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.buttonGhost {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.82);
+  letter-spacing: 0.28em;
+  font-size: 10px;
+  line-height: 1;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.buttonGhost:hover {
+  border-color: rgba(255, 255, 255, 0.72);
+  color: var(--white);
+}
+
 .heroStats {
   display: flex;
   gap: clamp(28px, 5vw, 72px);

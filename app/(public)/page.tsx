@@ -12,7 +12,7 @@ export default function HomePage() {
         <div className={styles.heroMedia}>
           <Image
             src="/assets/og-preview.png"
-            alt="Emmanuel Rojas Studio"
+            alt="Emmanuel Rojas — Wedding Photographer Brisbane"
             fill
             sizes="100vw"
             priority
@@ -21,21 +21,35 @@ export default function HomePage() {
         <div className={styles.heroInner}>
           <Reveal>
             <p className={styles.eyebrow}>
-              Brisbane, Australia · Bodas · Sesiones · Eventos · Video & Drone
+              Brisbane, Australia · Weddings · Sessions · Events · Drone
             </p>
             <h1 className={styles.heroTitle}>Emmanuel Rojas</h1>
             <p className={styles.heroCopy}>
-              Fotografía de bodas elegante, natural y emocional en Brisbane.
-              Más de {studio.stats.events} eventos capturados con una mirada que convierte momentos en memorias para toda la vida.
+              Wedding photography crafted with elegance, emotion, and timeless intention.
+              I capture honest moments, refined details, and lifelong memories
+              for couples who want their story told beautifully.
             </p>
-            <Link className={styles.buttonLight} href="/contact">
-              Reserva tu sesión
-            </Link>
+            <div className={styles.heroCtas}>
+              <a
+                className={styles.buttonLight}
+                href={studio.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Book Your Session
+              </a>
+              <Link className={styles.buttonGhost} href="/gallery">
+                View Your Gallery
+              </Link>
+              <Link className={styles.buttonGhost} href="/project">
+                View Project
+              </Link>
+            </div>
           </Reveal>
           <Reveal delay={0.2}>
             <div className={styles.heroStats}>
-              <div><strong>{studio.stats.years} años</strong><span>de experiencia</span></div>
-              <div><strong>{studio.stats.events} eventos</strong><span>capturados</span></div>
+              <div><strong>{studio.stats.years}</strong><span>years experience</span></div>
+              <div><strong>{studio.stats.events}</strong><span>events captured</span></div>
               <div><strong>Brisbane</strong><span>· Worldwide</span></div>
             </div>
           </Reveal>
@@ -52,9 +66,9 @@ export default function HomePage() {
           </Reveal>
           <Reveal delay={0.12}>
             <p className={styles.sectionCopy}>
-              Every production is designed around the final memory: what should
-              be felt, what should be preserved, and how the work will live
-              digitally after the day ends.
+              Every session is shaped around the story that needs to be kept —
+              what should be felt, what should endure, and how the work will
+              live long after the day is over.
             </p>
           </Reveal>
         </div>
@@ -108,14 +122,19 @@ export default function HomePage() {
 
       <section className={`${styles.sectionTight} ${styles.cta}`}>
         <div>
-          <p className={styles.sectionEyebrow}>¿Listo para empezar?</p>
+          <p className={styles.sectionEyebrow}>Ready to begin?</p>
           <h2 className={styles.sectionTitle}>
-            Cuéntame sobre tu día especial y lo haré eterno.
+            Ready to create your lifelong memories?
           </h2>
         </div>
-        <Link className={styles.buttonLight} href="/contact">
-          Hablemos
-        </Link>
+        <a
+          className={styles.buttonLight}
+          href={studio.whatsapp}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Book Your Session
+        </a>
       </section>
     </main>
   );

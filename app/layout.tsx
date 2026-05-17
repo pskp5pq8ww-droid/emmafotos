@@ -19,16 +19,16 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Emmanuel Rojas · Fotógrafo en Brisbane",
+    default: "Emmanuel Rojas · Wedding Photographer Brisbane",
     template: "%s | Emmanuel Rojas",
   },
   description:
-    "Fotografía de bodas, sesiones y eventos en Brisbane, Australia y Colombia. Más de 4 años y 200+ eventos capturados con una mirada natural y emotiva.",
-  metadataBase: new URL("https://emmafotos.com"),
+    "Wedding photographer based in Brisbane, Australia. Natural, emotional and cinematic imagery for couples who value meaningful memories. 4+ years, 200+ events worldwide.",
+  metadataBase: new URL("https://photographeraustralia.com"),
   openGraph: {
-    title: "Emmanuel Rojas · Fotógrafo en Brisbane",
+    title: "Emmanuel Rojas · Wedding Photographer Brisbane",
     description:
-      "Bodas, sesiones y eventos con una mirada natural y emotiva. Brisbane, Australia · Worldwide.",
+      "Wedding photography crafted with elegance, emotion and timeless intention. Brisbane, Australia · Worldwide.",
     images: ["/assets/og-preview.png"],
   },
   icons: {
@@ -42,7 +42,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={`${cormorant.variable} ${inter.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body>{children}</body>
     </html>
   );

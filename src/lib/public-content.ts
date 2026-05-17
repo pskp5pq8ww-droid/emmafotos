@@ -20,7 +20,7 @@ export const studio = {
   name: "Emmanuel Rojas",
   tagline: "Lifelong Memory Maker",
   location: "Brisbane, Australia · Worldwide",
-  phone: "+61 412 763 107",
+  phone: "0412 763 107",
   whatsapp: "https://wa.me/61412763107",
   instagram: "https://www.instagram.com/emmanuel_r0jas_/",
   instagramHandle: "@emmanuel_r0jas_",
@@ -33,32 +33,32 @@ export const studio = {
 
 export const services: Service[] = [
   {
-    title: "Bodas",
-    kicker: "Emoción y elegancia",
+    title: "Wedding Photography",
+    kicker: "Emotion & elegance",
     description:
-      "Cobertura completa de tu boda con una mirada natural, discreta y emotiva. Desde la preparación hasta el último baile — cada momento, eternamente tuyo.",
-    startingAt: "Consultar",
+      "Your wedding day told beautifully — from the first look to the last dance. Natural, cinematic and deeply personal coverage that honours every real moment.",
+    startingAt: "Enquire for pricing",
   },
   {
-    title: "Sesiones",
-    kicker: "Presencia y carácter",
+    title: "Couple Sessions",
+    kicker: "Presence & connection",
     description:
-      "Retratos editoriales, personales y profesionales con una dirección serena y favorecedora. Para individuos, parejas y equipos que quieren verse auténticos.",
-    startingAt: "Desde $350",
+      "Relaxed portrait sessions for couples who want honest, editorial imagery. Styled around you — your light, your story, your way.",
+    startingAt: "From $350",
   },
   {
-    title: "Eventos",
-    kicker: "Atmósfera y ritmo",
+    title: "Event Coverage",
+    kicker: "Atmosphere & rhythm",
     description:
-      "Documentación visual de lanzamientos, celebraciones, conferencias y fiestas privadas. Energía real, encuadres limpios, recuerdos que duran.",
-    startingAt: "Desde $750",
+      "Corporate launches, private parties and live events documented with energy and clarity. Every atmosphere captured with intention.",
+    startingAt: "From $750",
   },
   {
-    title: "Video & Drone",
-    kicker: "Visión aérea y cinemática",
+    title: "Drone Photography",
+    kicker: "Aerial perspective",
     description:
-      "Producción audiovisual para bodas, marcas y eventos. Tomas aéreas con dron y edición cinematográfica para piezas de alto impacto.",
-    startingAt: "Consultar",
+      "Cinematic aerial stills and footage for weddings, events and brand campaigns. A sweeping view that adds a new dimension to any story.",
+    startingAt: "Enquire for pricing",
   },
 ];
 
@@ -127,15 +127,15 @@ export const projects: Project[] = [
 export const reviews = [
   {
     name: "Natalia V.",
-    text: "Emmanuel capturó exactamente lo que sentimos ese día. Las fotos nos hacen revivir cada momento.",
+    text: "Emmanuel captured exactly what we felt that day. Every photo brings us straight back to that moment.",
   },
   {
     name: "Paw & Co",
-    text: "Trabajar con Emmanuel es fluido y profesional. Siempre entrega más de lo que esperas.",
+    text: "Working with Emmanuel is effortless and professional. He always delivers beyond what you expect.",
   },
   {
     name: "James T.",
-    text: "Professional, fast and deeply talented. The results were absolutely perfect.",
+    text: "Professional, present and deeply talented. The results were more than we could have imagined.",
   },
 ];
 
