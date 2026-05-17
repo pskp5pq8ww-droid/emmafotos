@@ -60,9 +60,7 @@ export default async function HomePage() {
           </Reveal>
           <Reveal delay={0.16}>
             <p className={styles.heroCopy}>
-              Wedding photography crafted with elegance, emotion and timeless intention.
-              Honest moments, refined details and lifelong memories for couples who want
-              their story told beautifully.
+              Elegant wedding photography for moments that last forever.
             </p>
           </Reveal>
           <Reveal delay={0.24}>

@@ -195,21 +195,21 @@
 }
 
 .heroCopy {
-  max-width: 580px;
+  max-width: 480px;
   margin: 0;
   color: rgba(255, 255, 255, 0.86);
-  font-size: clamp(15px, 1.3vw, 18px);
-  line-height: 1.78;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.6;
   letter-spacing: 0.005em;
 }
 
 .heroCtas {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 12px;
   align-items: center;
   justify-content: center;
-  margin-top: 6px;
+  margin-top: 2px;
 }
 
 .buttonGhost {
@@ -244,29 +244,29 @@
   display: flex;
   justify-content: center;
   gap: clamp(32px, 6vw, 96px);
-  margin-top: clamp(20px, 4vw, 40px);
-  padding-top: clamp(24px, 4vw, 38px);
+  margin-top: clamp(14px, 2.5vw, 26px);
+  padding-top: clamp(16px, 2.5vw, 26px);
   border-top: 1px solid rgba(255, 255, 255, 0.18);
   width: 100%;
-  max-width: 760px;
+  max-width: 860px;
 }
 
 .heroStats > div {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
   align-items: center;
   text-align: center;
 }
 
 .heroStats strong {
   font-family: var(--serif), Georgia, "Times New Roman", serif;
-  font-size: clamp(32px, 4.6vw, 56px);
+  font-size: clamp(48px, 7vw, 84px);
   font-weight: 300;
   font-style: italic;
   color: #fff;
   line-height: 1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 .heroStats span {
