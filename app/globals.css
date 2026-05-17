@@ -1,3 +1,36 @@
+/* ── Custom brand fonts ── */
+@font-face {
+  font-family: "JHCAudemars";
+  src: url("/fonts/JHCAudemars-Medium.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JHCAudemars";
+  src: url("/fonts/JHCAudemars-BoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Magazine";
+  src: url("/fonts/Magazine.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Magazine";
+  src: url("/fonts/Magazine-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Brand tokens */
   --ink: #080808;
@@ -27,6 +60,8 @@
   --serif: var(--font-cormorant), "Cormorant Garamond", "EB Garamond", "Times New Roman", serif;
   --sans: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
   --mono: "JetBrains Mono", "Menlo", "Courier New", monospace;
+  --brand: "JHCAudemars", var(--serif);
+  --gallery-title: "Magazine", var(--serif);
 
   --radius-sm: 4px;
   --radius-md: 8px;

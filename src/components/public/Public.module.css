@@ -187,11 +187,11 @@
 .heroTitle {
   max-width: 1080px;
   margin: 0;
-  font-family: var(--serif), "Cormorant Garamond", Georgia, serif;
+  font-family: var(--brand);
   font-size: clamp(52px, 7.5vw, 108px);
-  font-weight: 300;
-  font-style: italic;
-  letter-spacing: 0.04em;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.06em;
   line-height: 0.94;
   text-shadow: 0 2px 28px rgba(0, 0, 0, 0.32);
 }
@@ -279,7 +279,7 @@
 }
 
 .heroStats strong {
-  font-family: var(--serif), Georgia, "Times New Roman", serif;
+  font-family: var(--gallery-title);
   font-size: clamp(48px, 7vw, 84px);
   font-weight: 300;
   font-style: italic;
@@ -317,7 +317,7 @@
 
 .sectionTitle {
   margin: 14px 0 0;
-  font-family: var(--serif), Georgia, "Times New Roman", serif;
+  font-family: var(--gallery-title);
   font-size: clamp(40px, 5vw, 78px);
   font-weight: 300;
   font-style: italic;
@@ -371,7 +371,7 @@
 
 .serviceCard h3 {
   margin: 16px 0 18px;
-  font-family: var(--serif), Georgia, "Times New Roman", serif;
+  font-family: var(--gallery-title);
   font-size: clamp(28px, 2.4vw, 36px);
   font-weight: 400;
   font-style: italic;
@@ -448,7 +448,7 @@
 
 .projectCard h3 {
   margin: 0;
-  font-family: var(--serif), Georgia, "Times New Roman", serif;
+  font-family: var(--gallery-title);
   font-size: clamp(24px, 2vw, 32px);
   font-weight: 400;
   font-style: italic;
@@ -676,7 +676,7 @@
 .pageTitle {
   max-width: 1040px;
   margin: 22px 0 0;
-  font-family: var(--serif), Georgia, "Times New Roman", serif;
+  font-family: var(--gallery-title);
   font-size: clamp(58px, 8.4vw, 124px);
   font-weight: 300;
   font-style: italic;
@@ -728,7 +728,7 @@
 .portfolioTitle {
   margin: 0 auto;
   max-width: 1160px;
-  font-family: var(--serif), Georgia, "Times New Roman", serif;
+  font-family: var(--gallery-title);
   font-size: clamp(52px, 8vw, 128px);
   font-weight: 300;
   font-style: italic;
@@ -1043,7 +1043,7 @@
 .marqueeIntro p:last-child {
   max-width: 290px;
   color: var(--muted);
-  font-family: var(--serif);
+  font-family: var(--gallery-title);
   font-size: clamp(24px, 3vw, 40px);
   line-height: 0.98;
   text-align: right;
@@ -1126,7 +1126,7 @@
   height: 100%;
   place-items: center;
   color: var(--gold);
-  font-family: var(--serif);
+  font-family: var(--gallery-title);
   font-size: 30px;
   line-height: 1;
 }
@@ -1155,7 +1155,7 @@
 .marqueeCopy {
   margin-top: 18px;
   color: var(--charcoal);
-  font-family: var(--serif);
+  font-family: var(--gallery-title);
   font-size: clamp(20px, 1.7vw, 27px);
   line-height: 1.18;
 }
