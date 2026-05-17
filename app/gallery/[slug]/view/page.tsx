@@ -43,21 +43,20 @@ export default async function GalleryViewPage({
       <header className={styles.header}>
         <Link className={styles.brand} href="/">
           <Image src="/assets/er-logo-black.png" alt="" width={72} height={72} />
-          Emmanuel Rojas Studio
+          Emmanuel Rojas
         </Link>
         <div className={styles.toolbar}>
           <a className={styles.ghostButton} href={`/api/gallery/${slug}/download`}>
-            Download all
+            Descargar todo
           </a>
         </div>
       </header>
       <section className={styles.hero}>
-        <p className={styles.eyebrow}>Private Gallery</p>
+        <p className={styles.eyebrow}>Galería privada</p>
         <h1 className={styles.title}>{gallery.title}</h1>
         <p className={styles.copy}>
           {client?.name ? `${client.name}, ` : ""}
-          your images are ready. Mark favorites with the star, open images in the
-          lightbox, or download the originals.
+          tus imágenes están listas. Marca favoritas con la estrella, abre en pantalla completa o descarga los originales.
         </p>
       </section>
       <PhotoGrid photos={photos} slug={slug} />

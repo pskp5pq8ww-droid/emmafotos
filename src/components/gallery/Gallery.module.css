@@ -138,69 +138,137 @@
   padding: clamp(48px, 7vw, 92px) clamp(20px, 5vw, 72px);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 12px;
+/* ── Masonry grid (CSS columns — preserves natural aspect ratios) ── */
+.masonry {
+  columns: 4 240px;
+  column-gap: 10px;
   padding: 0 clamp(20px, 5vw, 72px) 72px;
 }
 
 .photo {
+  break-inside: avoid;
+  margin-bottom: 10px;
   position: relative;
   overflow: hidden;
-  border: 1px solid #dfd9ce;
-  background: #fff;
+  background: #ebe7df;
+  cursor: pointer;
 }
 
 .photo img {
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  height: auto;
+  display: block;
+  opacity: 0;
+  transition:
+    opacity 0.5s ease,
+    scale 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.photo:hover img {
-  scale: 1.035;
+.photo img.loaded {
+  opacity: 1;
 }
 
+.photo:hover img.loaded {
+  scale: 1.028;
+}
+
+/* Actions overlay — visible on hover */
 .photoActions {
   position: absolute;
-  left: 10px;
-  right: 10px;
-  bottom: 10px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 8px;
+  padding: 32px 10px 10px;
+  background: linear-gradient(to top, rgba(0,0,0,0.52) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.photo:hover .photoActions,
+.photo:focus-within .photoActions {
+  opacity: 1;
 }
 
 .iconButton {
-  min-width: 38px;
-  min-height: 38px;
-  border: 1px solid rgba(255, 255, 255, 0.72);
-  background: rgba(0, 0, 0, 0.64);
+  min-width: 36px;
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(0, 0, 0, 0.5);
   color: #fff;
+  font-size: 16px;
+  backdrop-filter: blur(4px);
+  transition: background 0.2s;
 }
 
+.iconButton:hover {
+  background: rgba(0, 0, 0, 0.76);
+}
+
+/* ── Lightbox ── */
 .lightbox {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: 90;
   display: grid;
   place-items: center;
-  padding: clamp(18px, 4vw, 56px);
-  background: rgba(0, 0, 0, 0.86);
+  padding: clamp(16px, 4vw, 56px);
+  background: rgba(8, 8, 8, 0.92);
+  backdrop-filter: blur(6px);
+  animation: fadeIn 0.22s ease;
+}
+
+.lightboxInner {
+  position: relative;
+  max-width: min(1400px, 92vw);
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .lightbox img {
   max-width: 100%;
-  max-height: 86vh;
+  max-height: 88vh;
+  width: auto;
+  height: auto;
   object-fit: contain;
+  display: block;
 }
 
 .close {
   position: fixed;
-  top: 24px;
-  right: 24px;
+  top: 20px;
+  right: 20px;
+  min-width: 42px;
+  min-height: 42px;
+  font-size: 22px;
+  z-index: 91;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 1100px) {
+  .masonry { columns: 3 200px; }
+}
+
+@media (max-width: 700px) {
+  .masonry { columns: 2 160px; }
+}
+
+@media (max-width: 420px) {
+  .masonry { columns: 2 120px; column-gap: 6px; }
+  .photo { margin-bottom: 6px; }
 }
 
 @media (max-width: 860px) {

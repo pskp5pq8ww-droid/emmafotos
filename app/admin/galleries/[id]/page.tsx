@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ConfirmSubmitButton } from "@/components/admin/ConfirmSubmitButton";
@@ -72,11 +71,12 @@ export default async function GalleryDetailPage({
           <div className={`${styles.panelPad} ${styles.imageGrid}`}>
             {images.map((image) => (
               <article className={styles.imageCard} key={image.id}>
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={`/api/files/${image.thumbPath ?? image.path}`}
                   alt={image.filename}
-                  width={320}
-                  height={320}
+                  loading="lazy"
+                  decoding="async"
                 />
                 <div className={styles.imageCardFooter}>
                   <span className={styles.muted}>{image.filename}</span>
