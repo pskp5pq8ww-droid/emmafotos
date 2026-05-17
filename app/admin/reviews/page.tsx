@@ -1,6 +1,12 @@
 import { ConfirmSubmitButton } from "@/components/admin/ConfirmSubmitButton";
 import { readDB } from "@/lib/db";
-import { approveReview, deleteReview, hideReview } from "../actions";
+import {
+  allowReviewDisplay,
+  approveReview,
+  deleteReview,
+  hideReview,
+  keepReviewPrivate,
+} from "../actions";
 import styles from "@/components/admin/Admin.module.css";
 
 export const dynamic = "force-dynamic";
@@ -85,7 +91,11 @@ export default async function AdminReviewsPage() {
                       {review.approved ? "Approved" : "Pending"}
                     </span>
                   </td>
-                  <td>{review.allowPublicDisplay ? "Allowed" : "Private"}</td>
+                  <td>
+                    <span className={styles.badge}>
+                      {review.allowPublicDisplay ? "Allowed" : "Private"}
+                    </span>
+                  </td>
                   <td>
                     <div className={styles.inlineActions}>
                       {review.approved ? (
@@ -100,6 +110,21 @@ export default async function AdminReviewsPage() {
                           <input name="id" type="hidden" value={review.id} />
                           <button className={styles.textButton} type="submit">
                             Approve
+                          </button>
+                        </form>
+                      )}
+                      {review.allowPublicDisplay ? (
+                        <form action={keepReviewPrivate}>
+                          <input name="id" type="hidden" value={review.id} />
+                          <button className={styles.ghostButton} type="submit">
+                            Keep private
+                          </button>
+                        </form>
+                      ) : (
+                        <form action={allowReviewDisplay}>
+                          <input name="id" type="hidden" value={review.id} />
+                          <button className={styles.ghostButton} type="submit">
+                            Allow display
                           </button>
                         </form>
                       )}

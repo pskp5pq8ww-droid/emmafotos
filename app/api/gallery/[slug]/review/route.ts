@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { readDB, updateDB } from "@/lib/db";
 import { resolveGalleryAccess } from "@/lib/galleries/access";
@@ -120,6 +121,9 @@ export async function POST(
       ...current,
       reviews: [...current.reviews, review],
     }));
+
+    revalidatePath("/admin");
+    revalidatePath("/admin/reviews");
   }
 
   return NextResponse.json({ ok: true });

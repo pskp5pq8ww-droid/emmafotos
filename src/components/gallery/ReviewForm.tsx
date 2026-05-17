@@ -19,7 +19,7 @@ export function ReviewForm({
   const [email, setEmail] = useState("");
   const [rating, setRating] = useState<number>(0);
   const [message, setMessage] = useState("");
-  const [allowPublicDisplay, setAllowPublicDisplay] = useState(false);
+  const [allowPublicDisplay, setAllowPublicDisplay] = useState(true);
   const [website, setWebsite] = useState("");
   const [state, setState] = useState<SubmitState>("idle");
   const [validationMessage, setValidationMessage] = useState("");
@@ -169,7 +169,9 @@ export function ReviewForm({
         </div>
 
         {state === "success" ? (
-          <p className={styles.successMessage}>Thank you for your review.</p>
+          <p className={styles.successMessage}>
+            Thank you for your review. Once approved, it can appear on the website.
+          </p>
         ) : null}
         {state === "error" ? (
           <p className={styles.errorMessage}>

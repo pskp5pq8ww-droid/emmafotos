@@ -308,6 +308,38 @@ export async function hideReview(formData: FormData) {
   revalidatePath("/admin/reviews");
 }
 
+export async function allowReviewDisplay(formData: FormData) {
+  const id = value(formData, "id");
+
+  await updateDB((db) => {
+    const review = db.reviews.find((item) => item.id === id);
+    if (review) {
+      review.allowPublicDisplay = true;
+    }
+    return db;
+  });
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath("/admin/reviews");
+}
+
+export async function keepReviewPrivate(formData: FormData) {
+  const id = value(formData, "id");
+
+  await updateDB((db) => {
+    const review = db.reviews.find((item) => item.id === id);
+    if (review) {
+      review.allowPublicDisplay = false;
+    }
+    return db;
+  });
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath("/admin/reviews");
+}
+
 export async function deleteReview(formData: FormData) {
   const id = value(formData, "id");
 
