@@ -16,8 +16,15 @@ function value(formData: FormData, key: string) {
   return typeof raw === "string" ? raw.trim() : "";
 }
 
-async function removeGalleryFolder(slug: string) {
-  await rm(path.join(getUploadsDir(), "galleries", slug), {
+async function removeGalleryFolder(clientId: string, slug: string) {
+  await rm(path.join(getUploadsDir(), "clients", clientId, slug), {
+    recursive: true,
+    force: true,
+  });
+}
+
+async function removeClientFolder(clientId: string) {
+  await rm(path.join(getUploadsDir(), "clients", clientId), {
     recursive: true,
     force: true,
   });
@@ -81,9 +88,10 @@ export async function createClientGallery(formData: FormData) {
   });
 
   if (createdGallery) {
-    await mkdir(path.join(getUploadsDir(), "galleries", createdGallery.slug, "thumbs"), {
-      recursive: true,
-    });
+    await mkdir(
+      path.join(getUploadsDir(), "clients", createdGallery.clientId, createdGallery.slug, "thumbs"),
+      { recursive: true },
+    );
   }
 
   revalidatePath("/admin");
@@ -128,10 +136,12 @@ export async function updateGallery(formData: FormData) {
 
 export async function deleteGallery(formData: FormData) {
   const id = value(formData, "id");
+  let clientId = "";
   let slug = "";
 
   await updateDB((db) => {
     const gallery = db.galleries.find((item) => item.id === id);
+    clientId = gallery?.clientId ?? "";
     slug = gallery?.slug ?? "";
     return {
       ...db,
@@ -141,8 +151,8 @@ export async function deleteGallery(formData: FormData) {
     };
   });
 
-  if (slug) {
-    await removeGalleryFolder(slug);
+  if (clientId && slug) {
+    await removeGalleryFolder(clientId, slug);
   }
 
   revalidatePath("/admin");
@@ -152,15 +162,10 @@ export async function deleteGallery(formData: FormData) {
 
 export async function deleteClient(formData: FormData) {
   const id = value(formData, "id");
-  let slugs: string[] = [];
-
   await updateDB((db) => {
     const galleryIds = db.galleries
       .filter((gallery) => gallery.clientId === id)
       .map((gallery) => gallery.id);
-    slugs = db.galleries
-      .filter((gallery) => gallery.clientId === id)
-      .map((gallery) => gallery.slug);
 
     return {
       ...db,
@@ -175,7 +180,8 @@ export async function deleteClient(formData: FormData) {
     };
   });
 
-  await Promise.all(slugs.map(removeGalleryFolder));
+  // Remove entire client folder (all their galleries at once)
+  await removeClientFolder(id);
   revalidatePath("/admin");
   revalidatePath("/admin/clients");
   redirect("/admin/clients");

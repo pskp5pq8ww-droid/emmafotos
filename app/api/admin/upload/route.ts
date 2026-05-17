@@ -24,7 +24,7 @@ export async function POST(request: Request) {
 
   const saved = await Promise.all(
     files.map(async (file) => {
-      const image = await saveGalleryImage({ slug: gallery.slug, file });
+      const image = await saveGalleryImage({ clientId: gallery.clientId, slug: gallery.slug, file });
       return {
         id: randomUUID(),
         galleryId: gallery.id,

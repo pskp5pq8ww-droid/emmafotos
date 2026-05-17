@@ -17,14 +17,17 @@ function safeFilename(filename: string) {
 }
 
 export async function saveGalleryImage({
+  clientId,
   slug,
   file,
 }: {
+  clientId: string;
   slug: string;
   file: File;
 }) {
   const uploadsRoot = getUploadsDir();
-  const galleryDir = path.join(uploadsRoot, "galleries", slug);
+  // Path: UPLOAD_DIR/clients/{clientId}/{slug}/
+  const galleryDir = path.join(uploadsRoot, "clients", clientId, slug);
   const thumbsDir = path.join(galleryDir, "thumbs");
   await mkdir(thumbsDir, { recursive: true });
 
@@ -43,8 +46,8 @@ export async function saveGalleryImage({
 
   return {
     filename,
-    relativePath: path.posix.join("galleries", slug, filename),
-    thumbPath: path.posix.join("galleries", slug, "thumbs", filename),
+    relativePath: path.posix.join("clients", clientId, slug, filename),
+    thumbPath: path.posix.join("clients", clientId, slug, "thumbs", filename),
     size: buffer.byteLength,
     width: metadata.width ?? 0,
     height: metadata.height ?? 0,
