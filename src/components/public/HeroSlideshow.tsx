@@ -3,10 +3,9 @@ import { useEffect, useState } from "react";
 import styles from "./Public.module.css";
 
 const SLIDES = [
-  "/assets/backgrounds/hero-bg.jpg",
-  "/assets/backgrounds/sydney-3.jpg",
-  "/assets/backgrounds/sydney-4.jpg",
-  "/assets/backgrounds/sydney-6.jpg",
+  "/assets/backgrounds/fondo-1.jpg",
+  "/assets/backgrounds/fondo-2.jpg",
+  "/assets/backgrounds/fondo-3.jpg",
 ];
 
 export function HeroSlideshow() {
