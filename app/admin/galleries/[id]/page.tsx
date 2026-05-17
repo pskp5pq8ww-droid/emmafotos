@@ -66,14 +66,14 @@ export default async function GalleryDetailPage({
         <div className={styles.panel}>
           <div className={styles.panelPad}>
             <h2 className={styles.panelTitle}>Photos</h2>
-            <UploadDropzone galleryId={gallery.id} />
+            <UploadDropzone galleryId={gallery.id} galleryTitle={gallery.title} />
           </div>
           <div className={`${styles.panelPad} ${styles.imageGrid}`}>
             {images.map((image) => (
               <article className={styles.imageCard} key={image.id}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={`/api/files/${image.thumbPath ?? image.path}`}
+                  src={`/api/files/${image.previewPath ?? image.thumbPath ?? image.path}`}
                   alt={image.filename}
                   loading="lazy"
                   decoding="async"
@@ -81,12 +81,15 @@ export default async function GalleryDetailPage({
                 <div className={styles.imageCardFooter}>
                   <span className={styles.muted}>{image.filename}</span>
                   <div className={styles.inlineActions}>
-                    <Link className={styles.ghostButton} href={`/api/files/${image.path}`}>
+                    <Link
+                      className={styles.ghostButton}
+                      href={`/api/files/${image.originalPath ?? image.path}`}
+                    >
                       Open
                     </Link>
                     <Link
                       className={styles.ghostButton}
-                      href={`/api/files/${image.path}?download=1`}
+                      href={`/api/files/${image.originalPath ?? image.path}?download=1`}
                     >
                       Download
                     </Link>

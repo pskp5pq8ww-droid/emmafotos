@@ -1,10 +1,26 @@
-import { randomUUID } from "node:crypto";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { readDB, updateDB } from "@/lib/db";
+import type { GalleryImage } from "@/lib/db/types";
 import { hasAdminSession } from "@/lib/admin-auth/session";
 import { saveGalleryImage } from "@/lib/images/process";
 
+const ALLOWED_MIME = new Set([
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+]);
+const MAX_FILE_BYTES = 50 * 1024 * 1024; // 50 MB per file
+
+/**
+ * One-file-per-request upload endpoint.
+ *
+ * The client is expected to POST a single file at a time so it can render
+ * per-file progress, retry on failure, and run multiple uploads in parallel
+ * with controlled concurrency. The legacy multi-file form is no longer used;
+ * the dropzone enqueues each file separately through the global upload queue.
+ */
 export async function POST(request: Request) {
   if (!(await hasAdminSession())) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -12,39 +28,59 @@ export async function POST(request: Request) {
 
   const formData = await request.formData();
   const galleryId = String(formData.get("galleryId") ?? "");
-  const files = formData
-    .getAll("files")
-    .filter((item): item is File => item instanceof File && item.size > 0);
+  const fileEntry = formData.get("file");
+
+  if (!galleryId || !(fileEntry instanceof File) || fileEntry.size === 0) {
+    return NextResponse.json({ error: "Missing file or galleryId" }, { status: 400 });
+  }
+
+  if (fileEntry.size > MAX_FILE_BYTES) {
+    return NextResponse.json({ error: "File too large" }, { status: 413 });
+  }
+
+  if (fileEntry.type && !ALLOWED_MIME.has(fileEntry.type.toLowerCase())) {
+    return NextResponse.json({ error: "Unsupported file type" }, { status: 415 });
+  }
+
   const db = await readDB();
   const gallery = db.galleries.find((item) => item.id === galleryId);
 
-  if (!gallery || !files.length) {
-    return NextResponse.json({ error: "Invalid upload" }, { status: 400 });
+  if (!gallery) {
+    return NextResponse.json({ error: "Gallery not found" }, { status: 404 });
   }
 
-  const saved = await Promise.all(
-    files.map(async (file) => {
-      const image = await saveGalleryImage({ clientId: gallery.clientId, slug: gallery.slug, file });
-      return {
-        id: randomUUID(),
-        galleryId: gallery.id,
-        filename: image.filename,
-        path: image.relativePath,
-        thumbPath: image.thumbPath,
-        size: image.size,
-        width: image.width,
-        height: image.height,
-        createdAt: new Date().toISOString(),
-      };
-    }),
+  // De-dup safeguard — same filename already in this gallery skips re-upload.
+  const existing = db.galleryImages.find(
+    (img) => img.galleryId === galleryId && img.filename === fileEntry.name,
   );
+  if (existing) {
+    return NextResponse.json({ ok: true, duplicate: true, image: existing });
+  }
+
+  const saved = await saveGalleryImage({ galleryId, file: fileEntry });
+
+  const record: GalleryImage = {
+    id: saved.id,
+    galleryId,
+    filename: saved.filename,
+    // `path` stays populated so legacy readers (/api/files/<path>) keep working.
+    path: saved.originalPath,
+    originalPath: saved.originalPath,
+    previewPath: saved.previewPath,
+    size: saved.size,
+    width: saved.width,
+    height: saved.height,
+    createdAt: new Date().toISOString(),
+  };
 
   await updateDB((current) => ({
     ...current,
-    galleryImages: [...current.galleryImages, ...saved],
+    galleryImages: [...current.galleryImages, record],
   }));
 
-  revalidatePath(`/admin/galleries/${gallery.id}`);
+  // Refresh cached pages — galleries grid + client view both depend on this.
+  revalidatePath(`/admin/galleries/${galleryId}`);
   revalidatePath(`/gallery/${gallery.slug}/view`);
-  return NextResponse.json({ ok: true, images: saved.length });
+
+  return NextResponse.json({ ok: true, image: record });
 }

@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { hasAdminSession } from "@/lib/admin-auth/session";
+import { UploadProvider } from "@/components/admin/UploadProvider";
+import { UploadPanel } from "@/components/admin/UploadPanel";
 import { logoutAdmin } from "./actions";
 import styles from "@/components/admin/Admin.module.css";
 
@@ -26,6 +28,7 @@ export default async function AdminLayout({
   }
 
   return (
+    <UploadProvider>
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
         <Link className={styles.sidebarLogo} href="/" aria-label="View public site">
@@ -58,6 +61,8 @@ export default async function AdminLayout({
         </header>
         <div className={styles.content}>{children}</div>
       </main>
+      <UploadPanel />
     </div>
+    </UploadProvider>
   );
 }

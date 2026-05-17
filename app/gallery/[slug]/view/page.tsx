@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { DownloadAllButton } from "@/components/gallery/DownloadAllButton";
+import { DownloadPanel } from "@/components/gallery/DownloadPanel";
+import { DownloadProvider } from "@/components/gallery/DownloadProvider";
 import { PhotoGrid } from "@/components/gallery/PhotoGrid";
 import { ReviewForm } from "@/components/gallery/ReviewForm";
 import { Reveal } from "@/components/public/Reveal";
@@ -53,61 +56,68 @@ export default async function GalleryViewPage({
       filename: image.filename,
       path: image.path,
       thumbPath: image.thumbPath,
+      previewPath: image.previewPath,
+      originalPath: image.originalPath,
       favorite: db.favorites.some(
         (favorite) => favorite.galleryId === gallery.id && favorite.imageId === image.id,
       ),
     }));
 
   return (
-    <main className={styles.shell}>
-      <header className={styles.header}>
-        <Link className={styles.brand} href="/">
-          <Image src="/assets/er-logo-black.png" alt="" width={72} height={72} />
-          Emmanuel Rojas
-        </Link>
-        <div className={styles.toolbar}>
-          {photos.length ? (
-            <a className={styles.ghostButton} href={`/api/gallery/${access.canonicalSlug}/download`}>
-              Download all
-            </a>
+    <DownloadProvider>
+      <main className={styles.shell}>
+        <header className={styles.header}>
+          <Link className={styles.brand} href="/">
+            <Image src="/assets/er-logo-black.png" alt="" width={72} height={72} />
+            Emmanuel Rojas
+          </Link>
+          <div className={styles.toolbar}>
+            {photos.length ? (
+              <DownloadAllButton
+                slug={access.canonicalSlug}
+                galleryTitle={gallery.title}
+                className={styles.ghostButton}
+              />
+            ) : null}
+          </div>
+        </header>
+
+        <section className={styles.galleryHero}>
+          <Reveal>
+            <p className={styles.galleryEyebrow}>Private Gallery</p>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h1 className={styles.galleryTitle}>{gallery.title}</h1>
+          </Reveal>
+          {formattedDate ? (
+            <Reveal delay={0.16}>
+              <p className={styles.galleryDate}>{formattedDate}</p>
+            </Reveal>
           ) : null}
-        </div>
-      </header>
-
-      <section className={styles.galleryHero}>
-        <Reveal>
-          <p className={styles.galleryEyebrow}>Private Gallery</p>
-        </Reveal>
-        <Reveal delay={0.08}>
-          <h1 className={styles.galleryTitle}>{gallery.title}</h1>
-        </Reveal>
-        {formattedDate ? (
-          <Reveal delay={0.16}>
-            <p className={styles.galleryDate}>{formattedDate}</p>
-          </Reveal>
-        ) : null}
-        {client?.name ? (
-          <Reveal delay={0.24}>
-            <p className={styles.galleryCopy}>
-              {client.name}, your images are ready. Mark favourites with the star,
-              open photos full screen, or download the originals.
-            </p>
-          </Reveal>
-        ) : null}
-      </section>
-
-      {photos.length ? (
-        <PhotoGrid photos={photos} slug={access.canonicalSlug} />
-      ) : (
-        <section className={styles.emptyState}>
-          <p className={styles.eyebrow}>Gallery is being prepared</p>
-          <h2>This gallery has no images yet.</h2>
-          <p>
-            Please contact Emmanuel Rojas if you believe this is a mistake.
-          </p>
+          {client?.name ? (
+            <Reveal delay={0.24}>
+              <p className={styles.galleryCopy}>
+                {client.name}, your images are ready. Mark favourites with the star,
+                open photos full screen, or download the originals.
+              </p>
+            </Reveal>
+          ) : null}
         </section>
-      )}
-      <ReviewForm defaultName={client.name} slug={access.canonicalSlug} />
-    </main>
+
+        {photos.length ? (
+          <PhotoGrid photos={photos} slug={access.canonicalSlug} />
+        ) : (
+          <section className={styles.emptyState}>
+            <p className={styles.eyebrow}>Gallery is being prepared</p>
+            <h2>This gallery has no images yet.</h2>
+            <p>
+              Please contact Emmanuel Rojas if you believe this is a mistake.
+            </p>
+          </section>
+        )}
+        <ReviewForm defaultName={client.name} slug={access.canonicalSlug} />
+        <DownloadPanel />
+      </main>
+    </DownloadProvider>
   );
 }

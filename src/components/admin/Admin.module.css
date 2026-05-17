@@ -416,3 +416,264 @@
     overflow-x: auto;
   }
 }
+
+/* ── Floating Upload Panel ── */
+.uploadPanel {
+  position: fixed;
+  right: clamp(16px, 2.5vw, 28px);
+  bottom: clamp(16px, 2.5vw, 28px);
+  width: min(380px, calc(100vw - 32px));
+  max-height: min(70vh, 640px);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line, #dedad3);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 24px 64px rgba(8, 8, 8, 0.18), 0 2px 8px rgba(8, 8, 8, 0.08);
+  z-index: 80;
+  overflow: hidden;
+  animation: uploadPanelIn 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes uploadPanelIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.uploadPanelCollapsed {
+  max-height: 72px;
+}
+
+.uploadPanelHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line, #dedad3);
+  background: #fafaf7;
+}
+
+.uploadPanelTitle {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink, #080808);
+}
+
+.uploadPanelSubtitle {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: var(--muted, #6f6a62);
+}
+
+.uploadPanelToggle {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--line, #dedad3);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--ink, #080808);
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.uploadPanelToggle:hover {
+  background: #f4f1eb;
+}
+
+.uploadPanelOverall {
+  height: 3px;
+  background: #ece8e0;
+  position: relative;
+}
+
+.uploadPanelOverallBar {
+  height: 100%;
+  background: linear-gradient(90deg, #ad9672, #c8b389);
+  transition: width 0.3s ease;
+}
+
+.uploadPanelList {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.uploadPanelItem {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(222, 218, 211, 0.5);
+}
+
+.uploadPanelItem:last-child {
+  border-bottom: none;
+}
+
+.uploadPanelItemHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.uploadPanelItemName {
+  font-size: 12px;
+  color: var(--ink, #080808);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 70%;
+}
+
+.uploadPanelItemMeta {
+  font-size: 11px;
+  color: var(--muted, #6f6a62);
+  font-variant-numeric: tabular-nums;
+}
+
+.uploadPanelItemBarTrack {
+  height: 2px;
+  background: #ece8e0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.uploadPanelItemBar {
+  height: 100%;
+  background: #ad9672;
+  transition: width 0.2s ease;
+}
+
+.uploadPanelItemBarDone {
+  background: #4caf7d;
+}
+
+.uploadPanelItemBarError {
+  background: #c7a194;
+}
+
+.uploadPanelItemFoot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--muted, #6f6a62);
+}
+
+.uploadPanelItemSize {
+  margin-right: auto;
+}
+
+.uploadPanelItemError {
+  color: #b53f30;
+}
+
+.uploadPanelItemAction {
+  border: 1px solid var(--line, #dedad3);
+  border-radius: 3px;
+  background: transparent;
+  padding: 2px 8px;
+  font-size: 10px;
+  color: var(--ink, #080808);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.uploadPanelItemAction:hover {
+  background: #f4f1eb;
+  border-color: #c5bfb0;
+}
+
+.uploadPanelFoot {
+  padding: 10px 16px;
+  border-top: 1px solid var(--line, #dedad3);
+  background: #fafaf7;
+  text-align: right;
+}
+
+.uploadPanelClear {
+  border: 1px solid var(--line, #dedad3);
+  border-radius: 3px;
+  background: transparent;
+  padding: 4px 12px;
+  font-size: 10px;
+  color: var(--ink, #080808);
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.uploadPanelClear:hover {
+  background: #f4f1eb;
+}
+
+/* ── Floating Download Panel (gallery view) ── */
+.downloadPanel {
+  position: fixed;
+  right: clamp(16px, 2.5vw, 28px);
+  bottom: clamp(16px, 2.5vw, 28px);
+  width: min(360px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #dfd9ce;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 24px 64px rgba(8, 8, 8, 0.22);
+  z-index: 80;
+  overflow: hidden;
+  animation: uploadPanelIn 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.downloadPanelCollapsed {
+  max-height: 72px;
+}
+
+.downloadPanelHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid #dfd9ce;
+  background: #fafaf7;
+}
+
+.downloadPanelTitle {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f0f0e;
+}
+
+.downloadPanelSubtitle {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: #776f63;
+}
+
+.downloadPanelList {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0;
+  overflow-y: auto;
+  max-height: 320px;
+}
+
+.downloadPanelItem {
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(223, 217, 206, 0.5);
+}
+
+.downloadPanelItem:last-child {
+  border-bottom: none;
+}

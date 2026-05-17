@@ -22,8 +22,14 @@ export type GalleryImage = {
   id: string;
   galleryId: string;
   filename: string;
+  /** Legacy original path (clients/{clientId}/{slug}/<file>). New uploads use originalPath. */
   path: string;
+  /** Legacy JPEG thumbnail path. New uploads use previewPath (.webp) instead. */
   thumbPath?: string;
+  /** New optimized WebP preview for in-browser display. */
+  previewPath?: string;
+  /** Canonical original-file path. Mirrors `path` for new uploads; absent on legacy rows. */
+  originalPath?: string;
   size: number;
   width: number;
   height: number;

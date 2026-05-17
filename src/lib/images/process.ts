@@ -1,53 +1,96 @@
+import { randomUUID } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 import { getUploadsDir } from "@/lib/db";
 
-function safeFilename(filename: string) {
-  const extension = path.extname(filename).toLowerCase() || ".jpg";
-  const base = path
-    .basename(filename, extension)
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9_-]+/gi, "-")
-    .replace(/(^-|-$)/g, "")
-    .slice(0, 48);
+const ALLOWED_EXTS = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 
-  return `${base || "image"}-${Date.now()}${extension}`;
+function sanitizeExt(filename: string) {
+  const ext = path.extname(filename).toLowerCase();
+  if (ALLOWED_EXTS.has(ext)) return ext;
+  return ".jpg";
 }
 
+function sanitizeBaseName(filename: string) {
+  const ext = path.extname(filename);
+  return path
+    .basename(filename, ext)
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9_-]+/gi, "-")
+    .replace(/(^-|-$)/g, "")
+    .slice(0, 64) || "image";
+}
+
+export type SavedImage = {
+  /** UUID — caller stores this as GalleryImage.id */
+  id: string;
+  /** Cleaned-up original filename (for display + ZIP entry name) */
+  filename: string;
+  /** Relative path to the high-quality original on disk (under UPLOAD_DIR) */
+  originalPath: string;
+  /** Relative path to the optimized WebP preview on disk (under UPLOAD_DIR) */
+  previewPath: string;
+  size: number;
+  width: number;
+  height: number;
+};
+
+/**
+ * Persists a gallery image using the canonical structure:
+ *   UPLOAD_DIR/galleries/{galleryId}/originals/{imageId}{ext}
+ *   UPLOAD_DIR/galleries/{galleryId}/previews/{imageId}.webp
+ *
+ * Returns BOTH original and preview paths so callers can store them in the DB.
+ * Old `path` / `thumbPath` fields remain for back-compat with already-uploaded
+ * photos; new uploads should use `originalPath` / `previewPath`.
+ */
 export async function saveGalleryImage({
-  clientId,
-  slug,
+  galleryId,
   file,
 }: {
-  clientId: string;
-  slug: string;
+  galleryId: string;
   file: File;
-}) {
-  const uploadsRoot = getUploadsDir();
-  // Path: UPLOAD_DIR/clients/{clientId}/{slug}/
-  const galleryDir = path.join(uploadsRoot, "clients", clientId, slug);
-  const thumbsDir = path.join(galleryDir, "thumbs");
-  await mkdir(thumbsDir, { recursive: true });
+}): Promise<SavedImage> {
+  const ext = sanitizeExt(file.name);
+  const baseName = sanitizeBaseName(file.name);
+  const id = randomUUID();
+  const displayFilename = `${baseName}${ext}`;
 
-  const filename = safeFilename(file.name);
-  const originalPath = path.join(galleryDir, filename);
-  const thumbPath = path.join(thumbsDir, filename);
+  const uploadsRoot = getUploadsDir();
+  const originalsDir = path.join(uploadsRoot, "galleries", galleryId, "originals");
+  const previewsDir = path.join(uploadsRoot, "galleries", galleryId, "previews");
+  await mkdir(originalsDir, { recursive: true });
+  await mkdir(previewsDir, { recursive: true });
+
+  const originalAbs = path.join(originalsDir, `${id}${ext}`);
+  const previewAbs = path.join(previewsDir, `${id}.webp`);
+
   const buffer = Buffer.from(await file.arrayBuffer());
   const metadata = await sharp(buffer).metadata();
 
-  await writeFile(originalPath, buffer);
+  // Write the lossless original exactly as uploaded.
+  await writeFile(originalAbs, buffer);
+
+  // Generate the WebP preview: respects EXIF rotation, max 1800px on long edge,
+  // q82 — good balance of visual quality and file size for browser display.
   await sharp(buffer)
     .rotate()
-    .resize({ width: 900, withoutEnlargement: true })
-    .jpeg({ quality: 82, mozjpeg: true })
-    .toFile(thumbPath);
+    .resize({
+      width: 1800,
+      height: 1800,
+      fit: "inside",
+      withoutEnlargement: true,
+    })
+    .webp({ quality: 82, effort: 4 })
+    .toFile(previewAbs);
 
   return {
-    filename,
-    relativePath: path.posix.join("clients", clientId, slug, filename),
-    thumbPath: path.posix.join("clients", clientId, slug, "thumbs", filename),
+    id,
+    filename: displayFilename,
+    originalPath: path.posix.join("galleries", galleryId, "originals", `${id}${ext}`),
+    previewPath: path.posix.join("galleries", galleryId, "previews", `${id}.webp`),
     size: buffer.byteLength,
     width: metadata.width ?? 0,
     height: metadata.height ?? 0,
