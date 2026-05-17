@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Emmanuel Rojas Studio — Project Documentation</title>
+<style>
+  /* ─── Base ─── */
+  *, *::before, *::after { box-sizing: border-box; }
+  :root {
+    --ink: #0f0f0e;
+    --muted: #6f6a62;
+    --gold: #ad9672;
+    --paper: #f7f5f1;
+    --white: #fff;
+    --line: #dedad3;
+    --red: #b53f30;
+    --green: #2f7a4a;
+    --blue: #2563eb;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    --mono: "JetBrains Mono", "Menlo", "Courier New", monospace;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Page Layout ─── */
+  .page-wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 48px 40px 80px;
+  }
+
+  /* ─── Cover ─── */
+  .cover {
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 48px 0 40px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 56px;
+  }
+  .cover-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0 0 14px;
+  }
+  .cover-title {
+    font-family: var(--serif);
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 0.96;
+    margin: 0 0 16px;
+  }
+  .cover-sub {
+    font-size: 16px;
+    color: var(--muted);
+    margin: 0;
+  }
+  .cover-meta {
+    margin-top: 28px;
+    display: flex;
+    gap: 32px;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ─── TOC ─── */
+  .toc {
+    padding: 28px 32px;
+    border: 1px solid var(--line);
+    background: var(--white);
+    margin-bottom: 56px;
+  }
+  .toc h2 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    margin: 0 0 18px;
+  }
+  .toc ol {
+    margin: 0;
+    padding-left: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 24px;
+  }
+  .toc li { font-size: 13px; }
+  .toc a { color: var(--blue); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  /* ─── Sections ─── */
+  .section {
+    margin-bottom: 56px;
+    padding-bottom: 56px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section:last-child { border-bottom: none; }
+  .section-num {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  h2.section-title {
+    font-family: var(--serif);
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.0;
+    margin: 0 0 28px;
+  }
+  h3 {
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 400;
+    margin: 32px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+  h4 {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 20px 0 8px;
+  }
+  p { margin: 0 0 12px; }
+
+  /* ─── Callouts ─── */
+  .callout {
+    padding: 16px 20px;
+    margin: 18px 0;
+    border-left: 3px solid var(--gold);
+    background: var(--white);
+    font-size: 13px;
+  }
+  .callout.danger {
+    border-color: var(--red);
+    background: #fff4f1;
+  }
+  .callout.ok {
+    border-color: var(--green);
+    background: #f0faf4;
+  }
+  .callout.info {
+    border-color: var(--blue);
+    background: #eff6ff;
+  }
+  .callout strong { display: block; margin-bottom: 4px; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; }
+
+  /* ─── Code ─── */
+  pre, code {
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  code {
+    background: #f0ede7;
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #2d2a26;
+  }
+  pre {
+    background: #1a1917;
+    color: #e8e4dc;
+    padding: 18px 22px;
+    overflow-x: auto;
+    margin: 14px 0;
+    line-height: 1.6;
+  }
+  pre code { background: none; padding: 0; color: inherit; }
+
+  /* ─── Tables ─── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 14px 0;
+  }
+  th {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--line);
+    text-align: left;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  tr:hover td { background: var(--white); }
+
+  /* ─── File tree ─── */
+  .filetree {
+    background: #1a1917;
+    color: #e8e4dc;
+    padding: 20px 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.9;
+    margin: 14px 0;
+  }
+  .filetree .dir { color: #ad9672; font-weight: 600; }
+  .filetree .file { color: #c8c2b8; }
+  .filetree .comment { color: #665f56; }
+  .filetree .critical { color: #e07070; font-weight: 600; }
+  .filetree .safe { color: #7fb88a; }
+
+  /* ─── Badges ─── */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .badge-red { background: #fce8e5; color: #7d2c20; }
+  .badge-green { background: #e5f4ec; color: #1e5c35; }
+  .badge-gold { background: #f7ede0; color: #7a5c32; }
+  .badge-blue { background: #dbeafe; color: #1d4ed8; }
+
+  /* ─── Print ─── */
+  @media print {
+    body { background: #fff; font-size: 12px; }
+    .page-wrap { max-width: 100%; padding: 0 20mm; }
+    .cover { min-height: auto; padding: 20mm 0 14mm; }
+    .cover-title { font-size: 40px; }
+    pre { background: #f0ede7 !important; color: #1a1917 !important; }
+    .filetree { background: #f0ede7 !important; color: #1a1917 !important; }
+    .filetree .dir { color: #7a5c32 !important; }
+    .filetree .critical { color: #7d2c20 !important; }
+    .filetree .safe { color: #1e5c35 !important; }
+    .filetree .comment { color: #776f63 !important; }
+    .toc { break-after: page; }
+    h2.section-title { break-before: page; }
+    .section { border-bottom: 1px solid #ccc; }
+    a { color: inherit !important; text-decoration: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+<!-- ─── COVER ─── -->
+<div class="cover">
+  <p class="cover-eyebrow">Technical Documentation · v1.0</p>
+  <h1 class="cover-title">Emmanuel Rojas<br>Studio Portal</h1>
+  <p class="cover-sub">Full project reference — architecture, storage, env vars,<br>visual system and everything that must not be changed.</p>
+  <div class="cover-meta">
+    <span>Next.js 15 · App Router · Standalone</span>
+    <span>Hostinger Node.js · photographeraustralia.com</span>
+    <span>Last updated: May 2026</span>
+  </div>
+</div>
+
+<!-- ─── TOC ─── -->
+<div class="toc">
+  <h2>Contents</h2>
+  <ol>
+    <li><a href="#s1">Project Overview</a></li>
+    <li><a href="#s2">Technology Stack</a></li>
+    <li><a href="#s3">File Structure</a></li>
+    <li><a href="#s4">Database — db.json</a></li>
+    <li><a href="#s5">Storage on Hostinger ⚠ CRITICAL</a></li>
+    <li><a href="#s6">Environment Variables</a></li>
+    <li><a href="#s7">Authentication System</a></li>
+    <li><a href="#s8">API Routes</a></li>
+    <li><a href="#s9">Public Site — Pages &amp; Components</a></li>
+    <li><a href="#s10">Admin Dashboard</a></li>
+    <li><a href="#s11">Gallery System</a></li>
+    <li><a href="#s12">Animation System</a></li>
+    <li><a href="#s13">CSS Architecture &amp; Design Tokens</a></li>
+    <li><a href="#s14">Deployment — Hostinger Workflow</a></li>
+    <li><a href="#s15">What Must Never Be Changed</a></li>
+    <li><a href="#s16">Pending Features</a></li>
+  </ol>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 1 — PROJECT OVERVIEW
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s1">
+  <span class="section-num">01</span>
+  <h2 class="section-title">Project Overview</h2>
+
+  <p>This is the complete web portal for <strong>Emmanuel Rojas</strong>, a wedding photographer based in Brisbane, Australia. It serves two distinct audiences from the same Next.js application:</p>
+
+  <table>
+    <thead><tr><th>Audience</th><th>URL</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Public visitors</strong></td><td><code>photographeraustralia.com/</code></td><td>Marketing site — about, portfolio, services, contact</td></tr>
+      <tr><td><strong>Clients</strong></td><td><code>/gallery/[slug]</code></td><td>Private photo gallery access with PIN login</td></tr>
+      <tr><td><strong>Admin (Emmanuel)</strong></td><td><code>/admin</code></td><td>Manage clients, galleries, upload photos, settings</td></tr>
+    </tbody>
+  </table>
+
+  <h3>What the app does</h3>
+  <ul>
+    <li>Serves a premium public photography website (English, Australian market)</li>
+    <li>Allows Emmanuel to create private client galleries from the admin dashboard</li>
+    <li>Clients receive a unique URL + PIN to access their private photo gallery</li>
+    <li>Clients can mark favourites, open a full-screen lightbox, and download all originals as a ZIP</li>
+    <li>Photos are processed with Sharp (auto-rotate, 900 px thumbnail generation)</li>
+    <li>All data is stored in a single <code>db.json</code> file + filesystem uploads (no external DB)</li>
+    <li>Deployed on Hostinger as a Node.js standalone app behind Phusion Passenger</li>
+  </ul>
+
+  <div class="callout ok">
+    <strong>Live domain</strong>
+    The site is live at <code>photographeraustralia.com</code>. The GitHub remote is <code>pskp5pq8ww-droid/emmafotos</code>.
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 2 — TECH STACK
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s2">
+  <span class="section-num">02</span>
+  <h2 class="section-title">Technology Stack</h2>
+
+  <table>
+    <thead><tr><th>Layer</th><th>Technology</th><th>Version</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>Framework</td><td>Next.js</td><td>15.5.18</td><td>App Router, standalone output</td></tr>
+      <tr><td>Runtime</td><td>Node.js</td><td>18+</td><td>Managed by Phusion Passenger on Hostinger</td></tr>
+      <tr><td>UI</td><td>React</td><td>19.0</td><td></td></tr>
+      <tr><td>Language</td><td>TypeScript</td><td>5.6</td><td>Type-check skipped on build to save CPU</td></tr>
+      <tr><td>Animations</td><td>Framer Motion</td><td>11.11.17</td><td>Used only in Reveal / Stagger / StaggerItem</td></tr>
+      <tr><td>Image processing</td><td>Sharp</td><td>0.33.5</td><td>Thumbnail generation at upload time</td></tr>
+      <tr><td>Password hashing</td><td>bcryptjs</td><td>2.4.3</td><td>Cost factor 12 for PIN hashing</td></tr>
+      <tr><td>Email</td><td>Nodemailer</td><td>8.0.7</td><td>Installed, not yet wired to contact form</td></tr>
+      <tr><td>Styling</td><td>CSS Modules</td><td>—</td><td>No Tailwind, no CSS-in-JS</td></tr>
+      <tr><td>Database</td><td>JSON file</td><td>—</td><td><code>data/db.json</code> — flat file, no SQL</td></tr>
+      <tr><td>Deploy</td><td>Hostinger Business</td><td>—</td><td>Node.js app behind nginx + Phusion Passenger</td></tr>
+    </tbody>
+  </table>
+
+  <h3>No external services</h3>
+  <p>There is intentionally <strong>no database server, no Redis, no S3, no Vercel, no cloud provider</strong>. Everything runs locally on the Hostinger VM. This is a deliberate architecture decision for simplicity and cost.</p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 3 — FILE STRUCTURE
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s3">
+  <span class="section-num">03</span>
+  <h2 class="section-title">File Structure</h2>
+
+  <div class="filetree">
+<span class="dir">emmanuel-rojas-studio/</span>
+├── <span class="dir">app/</span>                             <span class="comment"># Next.js App Router root</span>
+│   ├── <span class="dir">(public)/</span>                    <span class="comment"># Route group — public marketing site</span>
+│   │   ├── layout.tsx                  <span class="comment"># Wraps PublicNav + PublicFooter</span>
+│   │   ├── page.tsx                    <span class="comment"># Home page (hero, services, portfolio, reviews)</span>
+│   │   ├── <span class="dir">about/</span>page.tsx
+│   │   ├── <span class="dir">contact/</span>page.tsx
+│   │   ├── <span class="dir">portfolio/</span>
+│   │   │   ├── page.tsx                <span class="comment"># Portfolio listing</span>
+│   │   │   └── <span class="dir">[slug]/</span>page.tsx         <span class="comment"># Individual project detail</span>
+│   │   ├── <span class="dir">project/</span>page.tsx            <span class="comment"># Coming soon placeholder</span>
+│   │   └── <span class="dir">services/</span>page.tsx
+│   ├── <span class="dir">admin/</span>                          <span class="comment"># Admin dashboard (PIN protected)</span>
+│   │   ├── layout.tsx                  <span class="comment"># Sidebar nav + auth guard</span>
+│   │   ├── page.tsx                    <span class="comment"># Dashboard + new gallery form</span>
+│   │   ├── actions.ts                  <span class="comment"># ALL server actions (create/delete/update)</span>
+│   │   ├── <span class="dir">clients/</span>
+│   │   │   ├── page.tsx                <span class="comment"># Client list</span>
+│   │   │   └── <span class="dir">[id]/</span>page.tsx
+│   │   ├── <span class="dir">galleries/</span>
+│   │   │   ├── page.tsx
+│   │   │   └── <span class="dir">[id]/</span>page.tsx           <span class="comment"># Gallery detail + upload dropzone</span>
+│   │   └── <span class="dir">settings/</span>page.tsx
+│   ├── <span class="dir">gallery/</span>                        <span class="comment"># Client gallery (PIN protected)</span>
+│   │   ├── page.tsx                    <span class="comment"># Gallery landing — code input form</span>
+│   │   └── <span class="dir">[slug]/</span>
+│   │       ├── page.tsx                <span class="comment"># PIN login page</span>
+│   │       └── <span class="dir">view/</span>page.tsx           <span class="comment"># Photo grid (session protected)</span>
+│   ├── <span class="dir">api/</span>
+│   │   ├── <span class="dir">admin/</span>
+│   │   │   ├── <span class="dir">clients/</span>route.ts
+│   │   │   ├── <span class="dir">galleries/</span>route.ts
+│   │   │   ├── <span class="dir">galleries/[id]/images/[imgId]/</span>route.ts
+│   │   │   └── <span class="dir">upload/</span>route.ts          <span class="comment"># Image upload handler (Sharp processing)</span>
+│   │   ├── <span class="dir">contact/</span>route.ts            <span class="comment"># Contact form handler</span>
+│   │   ├── <span class="dir">files/[...path]/</span>route.ts    <span class="comment"># Serves uploaded images from UPLOAD_DIR</span>
+│   │   └── <span class="dir">gallery/[slug]/</span>
+│   │       ├── <span class="dir">auth/</span>route.ts            <span class="comment"># PIN login POST → creates session cookie</span>
+│   │       ├── <span class="dir">download/</span>route.ts        <span class="comment"># ZIP download of all originals</span>
+│   │       └── <span class="dir">favorite/</span>route.ts        <span class="comment"># Toggle favourite (stored in db.json)</span>
+│   ├── admin-login/                    <span class="comment"># Admin login page</span>
+│   ├── globals.css                     <span class="comment"># Design tokens, base styles, typography</span>
+│   └── layout.tsx                      <span class="comment"># Root layout — fonts, metadata, lang="en"</span>
+│
+├── <span class="dir">src/</span>
+│   ├── <span class="dir">components/</span>
+│   │   ├── <span class="dir">public/</span>
+│   │   │   ├── AnimatedStat.tsx        <span class="comment"># Counter animation (IntersectionObserver)</span>
+│   │   │   ├── ProjectCard.tsx
+│   │   │   ├── Public.module.css       <span class="comment"># All public site styles</span>
+│   │   │   ├── PublicFooter.tsx
+│   │   │   ├── PublicNav.tsx           <span class="comment"># Scroll-hide nav (client component)</span>
+│   │   │   ├── Reveal.tsx              <span class="comment"># Framer Motion fade-up wrapper</span>
+│   │   │   └── ReviewsMarquee.tsx      <span class="comment"># Infinite horizontal reviews marquee</span>
+│   │   ├── <span class="dir">gallery/</span>
+│   │   │   ├── Gallery.module.css      <span class="comment"># Gallery + login + lightbox styles</span>
+│   │   │   └── PhotoGrid.tsx           <span class="comment"># Masonry photo grid (client component)</span>
+│   │   └── <span class="dir">admin/</span>
+│   │       ├── Admin.module.css        <span class="comment"># Admin dashboard styles</span>
+│   │       ├── ConfirmSubmitButton.tsx
+│   │       ├── CopyLinkButton.tsx
+│   │       └── UploadDropzone.tsx      <span class="comment"># Drag-and-drop uploader with progress bar</span>
+│   └── <span class="dir">lib/</span>
+│       ├── <span class="dir">admin-auth/</span>
+│       │   ├── config.ts               <span class="comment"># ADMIN_USERNAME, default PIN hash</span>
+│       │   └── session.ts              <span class="comment"># createAdminSession / hasAdminSession</span>
+│       ├── <span class="dir">db/</span>
+│       │   ├── <span class="critical">index.ts</span>               <span class="comment"># ⚠ DB read/write + path resolution</span>
+│       │   └── <span class="critical">types.ts</span>               <span class="comment"># ⚠ TypeScript types for all DB entities</span>
+│       ├── <span class="dir">files/</span>zip.ts
+│       ├── <span class="dir">galleries/</span>slug.ts
+│       ├── <span class="dir">gallery-auth/</span>session.ts   <span class="comment"># Gallery cookie session (30 days)</span>
+│       ├── <span class="dir">images/</span>process.ts          <span class="comment"># Sharp: save original + generate thumbnail</span>
+│       ├── public-content.ts           <span class="comment"># Static content: studio info, services, projects, reviews</span>
+│       └── <span class="dir">security/</span>
+│           ├── pin.ts                  <span class="comment"># hashPin / verifyPin (bcryptjs)</span>
+│           └── request-origin.ts       <span class="comment"># Origin detection for CSRF</span>
+│
+├── <span class="dir">public/</span>
+│   └── <span class="dir">assets/</span>
+│       ├── er-logo-black.png
+│       ├── emmanuel-portrait.jpg
+│       ├── og-preview.png
+│       └── <span class="dir">projects/</span>               <span class="comment"># Portfolio cover images (boda-nr, mafe, tatudor)</span>
+│
+├── <span class="dir">scripts/</span>
+│   └── postbuild.mjs                   <span class="comment"># Copies static + public into standalone, injects bootstrap</span>
+│
+├── next.config.ts                      <span class="comment"># output:"standalone", ALLOWED_ORIGINS, no lint/TS on build</span>
+├── package.json
+└── tsconfig.json
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 4 — DATABASE
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s4">
+  <span class="section-num">04</span>
+  <h2 class="section-title">Database — db.json</h2>
+
+  <p>The entire application database is a single JSON file. There is no SQL, no MySQL, no PostgreSQL. All reads and writes go through <code>src/lib/db/index.ts</code>.</p>
+
+  <h3>File location</h3>
+  <table>
+    <thead><tr><th>Environment</th><th>Path</th></tr></thead>
+    <tbody>
+      <tr><td>Local dev</td><td><code>&lt;project&gt;/data/db.json</code></td></tr>
+      <tr><td>Hostinger production</td><td><code>/home/u613502604/data/db.json</code> (via <code>DATA_DIR</code> env var)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout danger">
+    <strong>⚠ Never delete or overwrite db.json directly</strong>
+    All writes go through <code>writeDB()</code> which uses atomic rename from a temp file. Writing directly can corrupt the database.
+  </div>
+
+  <h3>Schema</h3>
+<pre><code>{
+  "clients": [
+    {
+      "id": "uuid",
+      "name": "Natalia V.",
+      "email": "client@email.com",
+      "username": "natalia",       // optional, for login URL
+      "pinHash": "$2a$12$...",     // bcrypt hash, cost=12
+      "createdAt": "ISO8601"
+    }
+  ],
+  "galleries": [
+    {
+      "id": "uuid",
+      "clientId": "uuid → clients.id",
+      "title": "Natalia & Renato",
+      "slug": "natalia-renato",    // URL segment: /gallery/natalia-renato
+      "eventDate": "2025-03-15",   // optional
+      "description": "...",        // optional
+      "isActive": true,
+      "createdAt": "ISO8601"
+    }
+  ],
+  "galleryImages": [
+    {
+      "id": "uuid",
+      "galleryId": "uuid → galleries.id",
+      "filename": "photo-1234567890.jpg",
+      "path": "clients/{clientId}/{slug}/photo.jpg",     // relative to UPLOAD_DIR
+      "thumbPath": "clients/{clientId}/{slug}/thumbs/photo.jpg",
+      "size": 3456789,
+      "width": 4000,
+      "height": 2667,
+      "createdAt": "ISO8601"
+    }
+  ],
+  "favorites": [
+    {
+      "galleryId": "uuid",
+      "imageId": "uuid",
+      "createdAt": "ISO8601"
+    }
+  ],
+  "settings": {
+    "studioName": "Emmanuel Rojas Studio",
+    "contactEmail": "emmanuelrojas-23@hotmail.com",
+    "instagram": "@emmanuel_r0jas_",
+    "phone": "0412 763 107",
+    "emailTemplate": "...",
+    "adminPinHash": "$2a$12$..."   // overrides default PIN in config.ts
+  }
+}</code></pre>
+
+  <h3>DB helper functions</h3>
+  <table>
+    <thead><tr><th>Function</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td><code>readDB()</code></td><td>Returns full Database object. Ensures <code>data/</code> dir exists. Creates empty db.json if missing.</td></tr>
+      <tr><td><code>writeDB(db)</code></td><td>Atomically writes via temp file + rename. Uses a write queue to prevent race conditions.</td></tr>
+      <tr><td><code>updateDB(fn)</code></td><td>Read → apply fn → write. The standard way to mutate data.</td></tr>
+      <tr><td><code>getDataDir()</code></td><td>Returns resolved <code>DATA_DIR</code> path.</td></tr>
+      <tr><td><code>getUploadsDir()</code></td><td>Returns resolved <code>UPLOAD_DIR</code> path.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>Adding new entities to the DB</strong>
+    To add a new entity (e.g., reviews): (1) Add the TypeScript type in <code>types.ts</code>, (2) add it to the <code>Database</code> type, (3) add it to <code>emptyDatabase</code> with an empty array, (4) add normalization in <code>normalizeDatabase()</code>. Never skip the normalization step or old db.json files without the new field will crash.
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 5 — STORAGE ON HOSTINGER (CRITICAL)
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s5">
+  <span class="section-num">05</span>
+  <h2 class="section-title">Storage on Hostinger <span class="badge badge-red">CRITICAL</span></h2>
+
+  <div class="callout danger">
+    <strong>⚠ This section is the most important in the document</strong>
+    Getting the storage paths wrong will break all client galleries and lose uploaded photos.
+  </div>
+
+  <h3>The problem Hostinger creates</h3>
+  <p>Hostinger's Node.js deployment works like this: every time you deploy (push to GitHub + trigger redeploy), Hostinger <strong>wipes and replaces the entire <code>nodejs/</code> folder</strong>. This means any files written inside <code>nodejs/</code> at runtime (db.json, uploaded photos) are deleted on every deploy.</p>
+
+  <h3>The solution — persistent directories outside nodejs/</h3>
+  <p>All persistent data lives <strong>outside</strong> the <code>nodejs/</code> folder, in the home directory which persists across deploys:</p>
+
+  <table>
+    <thead><tr><th>Data type</th><th>Hostinger path</th><th>Env var</th></tr></thead>
+    <tbody>
+      <tr><td>Database (db.json)</td><td><code>/home/u613502604/data/</code></td><td><code>DATA_DIR=/home/u613502604/data</code></td></tr>
+      <tr><td>Uploaded photos</td><td><code>/home/u613502604/storage/</code></td><td><code>UPLOAD_DIR=/home/u613502604/storage</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Where these env vars are set</h3>
+  <p>They are set in <strong>Hostinger hPanel → Node.js → Environment Variables</strong>. They persist across redeploys. They must NOT be changed.</p>
+
+  <div class="callout danger">
+    <strong>⚠ Never change DATA_DIR or UPLOAD_DIR</strong>
+    If these values change, the app will create a new empty database and all client galleries will appear broken (photos not found). The old data is still on disk but the app won't know where to look.
+  </div>
+
+  <h3>Upload directory structure</h3>
+<pre><code>/home/u613502604/storage/
+└── clients/
+    └── {client-uuid}/
+        └── {gallery-slug}/
+            ├── photo-1234567890.jpg        ← original full-res
+            ├── another-photo-...jpg
+            └── thumbs/
+                ├── photo-1234567890.jpg    ← 900px JPEG thumbnail
+                └── another-photo-...jpg</code></pre>
+
+  <h3>How photos are served</h3>
+  <p>The route <code>app/api/files/[...path]/route.ts</code> reads from <code>UPLOAD_DIR/{path}</code> and streams the file. The client gallery requests <code>/api/files/clients/{id}/{slug}/thumbs/photo.jpg</code>. This is why <code>UPLOAD_DIR</code> must be correct.</p>
+
+  <h3>Bootstrap injection (postbuild)</h3>
+  <p><code>scripts/postbuild.mjs</code> runs after every build and injects this code at the top of <code>.next/standalone/server.js</code>:</p>
+<pre><code>const { mkdirSync } = require("fs");
+const _path = require("path");
+const _dataDir = process.env.DATA_DIR
+  ? _path.resolve(process.env.DATA_DIR)
+  : _path.join(__dirname, "data");
+const _uploadsDir = process.env.UPLOAD_DIR
+  ? _path.resolve(process.env.UPLOAD_DIR)
+  : _path.join(__dirname, "uploads");
+try { mkdirSync(_dataDir,    { recursive: true }); } catch(_){}
+try { mkdirSync(_uploadsDir, { recursive: true }); } catch(_){}</code></pre>
+  <p>This ensures the directories are created on cold start, even if they don't exist yet.</p>
+
+  <h3>Deployment flow (full)</h3>
+  <ol>
+    <li>Developer runs <code>npm run build</code> locally → <code>.next/standalone/</code> is created</li>
+    <li><code>postbuild.mjs</code> runs: copies <code>.next/static</code> + <code>public/</code> into standalone, injects bootstrap</li>
+    <li>Developer pushes to GitHub: <code>git push origin main</code></li>
+    <li>In Hostinger hPanel → Node.js → Redeploy (or auto-deploy if configured)</li>
+    <li>Hostinger pulls from GitHub, replaces <code>nodejs/</code>, starts Passenger</li>
+    <li>On first request, <code>server.js</code> bootstrap ensures <code>/home/u613502604/data/</code> and <code>/home/u613502604/storage/</code> exist</li>
+    <li>App reads <code>db.json</code> from <code>DATA_DIR</code> — data survives</li>
+  </ol>
+
+  <h3>Hostinger SSH credentials</h3>
+  <table>
+    <thead><tr><th>Field</th><th>Value</th></tr></thead>
+    <tbody>
+      <tr><td>IP</td><td><code>145.79.14.36</code></td></tr>
+      <tr><td>Port</td><td><code>65002</code></td></tr>
+      <tr><td>Username</td><td><code>u613502604</code></td></tr>
+      <tr><td>App folder</td><td><code>~/domains/photographeraustralia.com/nodejs/</code></td></tr>
+      <tr><td>Data (persistent)</td><td><code>~/data/db.json</code></td></tr>
+      <tr><td>Storage (persistent)</td><td><code>~/storage/clients/...</code></td></tr>
+      <tr><td>Restart trigger</td><td><code>touch ~/domains/photographeraustralia.com/nodejs/tmp/restart.txt</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 6 — ENVIRONMENT VARIABLES
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s6">
+  <span class="section-num">06</span>
+  <h2 class="section-title">Environment Variables</h2>
+
+  <p>All env vars are set in <strong>Hostinger hPanel → Node.js → Environment Variables</strong>. They are NOT stored in any <code>.env</code> file in the repo.</p>
+
+  <table>
+    <thead><tr><th>Variable</th><th>Value on Hostinger</th><th>Purpose</th><th>Required</th></tr></thead>
+    <tbody>
+      <tr><td><code>DATA_DIR</code></td><td><code>/home/u613502604/data</code></td><td>Path to db.json directory</td><td><span class="badge badge-red">Yes</span></td></tr>
+      <tr><td><code>UPLOAD_DIR</code></td><td><code>/home/u613502604/storage</code></td><td>Path to uploaded photos</td><td><span class="badge badge-red">Yes</span></td></tr>
+      <tr><td><code>ALLOWED_ORIGINS</code></td><td><code>https://photographeraustralia.com</code></td><td>CSRF allowed origins for server actions</td><td><span class="badge badge-red">Yes</span></td></tr>
+      <tr><td><code>NODE_ENV</code></td><td><code>production</code></td><td>Enables secure cookies</td><td><span class="badge badge-red">Yes</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <strong>ALLOWED_ORIGINS is baked at build time</strong>
+    <code>next.config.ts</code> reads <code>ALLOWED_ORIGINS</code> at build time for the <code>serverActions.allowedOrigins</code> config. If the var isn't set when building locally, the value is <code>[]</code> (empty array). On Hostinger, Passenger reads it from hPanel and it's available at runtime. Both build-time and runtime values work together.
+  </div>
+
+  <h3>Local development</h3>
+  <p>Create <code>.env.local</code> (gitignored) with:</p>
+<pre><code>DATA_DIR=./data
+UPLOAD_DIR=./uploads
+ALLOWED_ORIGINS=http://localhost:3000</code></pre>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 7 — AUTHENTICATION
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s7">
+  <span class="section-num">07</span>
+  <h2 class="section-title">Authentication System</h2>
+
+  <h3>Admin authentication</h3>
+  <p>File: <code>src/lib/admin-auth/</code></p>
+  <ul>
+    <li>Username: <code>emma</code> (hardcoded in <code>config.ts</code>)</li>
+    <li>Default PIN hash is in <code>config.ts</code> (bcrypt, cost 12)</li>
+    <li>Custom PIN can be set from Settings page → stored in <code>db.settings.adminPinHash</code></li>
+    <li>Session: HMAC-signed cookie (<code>ers_admin_session</code>), 7-day TTL, <code>httpOnly</code>, <code>sameSite: lax</code></li>
+    <li>Guard: <code>hasAdminSession()</code> — called at top of <code>AdminLayout</code></li>
+  </ul>
+
+  <h3>Gallery (client) authentication</h3>
+  <p>File: <code>src/lib/gallery-auth/session.ts</code></p>
+  <ul>
+    <li>Client enters PIN at <code>/gallery/[slug]</code></li>
+    <li>POST to <code>/api/gallery/[slug]/auth</code> → verifies PIN against bcrypt hash in db.json</li>
+    <li>On success: creates signed cookie <code>ers_gallery_{slug}</code>, 30-day TTL, path scoped to <code>/gallery/{slug}</code></li>
+    <li>Guard: <code>hasGallerySession(slug, clientId)</code> — called in gallery view page</li>
+    <li>Token format: <code>{clientId}.{expires}.{sha256_signature}</code></li>
+  </ul>
+
+  <div class="callout">
+    <strong>Security note</strong>
+    Gallery sessions are scoped by cookie path to <code>/gallery/{slug}</code>, so a session for one gallery cannot access another. Admin sessions are scoped to <code>/</code> (whole site) but the guard is only called in admin routes.
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 8 — API ROUTES
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s8">
+  <span class="section-num">08</span>
+  <h2 class="section-title">API Routes</h2>
+
+  <table>
+    <thead><tr><th>Route</th><th>Method</th><th>Auth</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><code>/api/gallery/[slug]/auth</code></td><td>POST</td><td>None</td><td>Verify client PIN → create session cookie → redirect to /view</td></tr>
+      <tr><td><code>/api/gallery/[slug]/favorite</code></td><td>POST</td><td>Gallery session</td><td>Toggle favourite on a photo (stored in db.json)</td></tr>
+      <tr><td><code>/api/gallery/[slug]/download</code></td><td>GET</td><td>Gallery session</td><td>Stream ZIP of all original photos in gallery</td></tr>
+      <tr><td><code>/api/files/[...path]</code></td><td>GET</td><td>None*</td><td>Serve files from UPLOAD_DIR. Path is relative to UPLOAD_DIR.</td></tr>
+      <tr><td><code>/api/admin/upload</code></td><td>POST</td><td>Admin session</td><td>Accept multipart upload → Sharp process → save to UPLOAD_DIR → write to db.json</td></tr>
+      <tr><td><code>/api/admin/galleries</code></td><td>GET/POST</td><td>Admin session</td><td>Gallery CRUD helpers</td></tr>
+      <tr><td><code>/api/admin/galleries/[id]/images/[imgId]</code></td><td>DELETE</td><td>Admin session</td><td>Delete single image from gallery</td></tr>
+      <tr><td><code>/api/admin/clients</code></td><td>GET</td><td>Admin session</td><td>Client list</td></tr>
+      <tr><td><code>/api/contact</code></td><td>POST</td><td>None</td><td>Contact form handler (currently logs / can send email via Nodemailer)</td></tr>
+    </tbody>
+  </table>
+
+  <p>* <code>/api/files/</code> is technically public but clients only know the URL if they have the gallery link. Security through obscurity — UUIDs in paths make them unguessable.</p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 9 — PUBLIC SITE
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s9">
+  <span class="section-num">09</span>
+  <h2 class="section-title">Public Site — Pages &amp; Components</h2>
+
+  <h3>Pages</h3>
+  <table>
+    <thead><tr><th>Route</th><th>Component</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><code>/</code></td><td>Home</td><td>Hero, services grid, portfolio preview, reviews marquee, CTA</td></tr>
+      <tr><td><code>/about</code></td><td>About</td><td>Bio, portrait, WhatsApp CTA</td></tr>
+      <tr><td><code>/services</code></td><td>Services</td><td>Detailed service cards</td></tr>
+      <tr><td><code>/portfolio</code></td><td>Portfolio</td><td>All project cards</td></tr>
+      <tr><td><code>/portfolio/[slug]</code></td><td>Project detail</td><td>Static pages from <code>public-content.ts</code> projects array</td></tr>
+      <tr><td><code>/contact</code></td><td>Contact</td><td>Form → <code>/api/contact</code></td></tr>
+      <tr><td><code>/project</code></td><td>Project placeholder</td><td>"Coming soon" page</td></tr>
+      <tr><td><code>/gallery</code></td><td>Gallery landing</td><td>Input form for gallery code → redirects to /gallery/[slug]</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Public content data</h3>
+  <p>File: <code>src/lib/public-content.ts</code> — All static marketing content lives here:</p>
+  <ul>
+    <li><code>studio</code> — name, phone, WhatsApp URL, Instagram, email, stats</li>
+    <li><code>services[]</code> — 4 services (Wedding, Couple Sessions, Events, Drone)</li>
+    <li><code>projects[]</code> — 3 portfolio projects with image arrays</li>
+    <li><code>reviews[]</code> — 3 real client reviews (displayed in marquee)</li>
+  </ul>
+
+  <h3>Hero CTA buttons (DO NOT RENAME)</h3>
+  <table>
+    <thead><tr><th>Button text</th><th>Target</th><th>CSS class</th></tr></thead>
+    <tbody>
+      <tr><td>Book Your Session</td><td>WhatsApp (<code>studio.whatsapp</code>)</td><td><code>styles.buttonLight</code></td></tr>
+      <tr><td>View Your Gallery</td><td><code>/gallery</code></td><td><code>styles.buttonGhost</code></td></tr>
+      <tr><td>View Project</td><td><code>/project</code></td><td><code>styles.buttonGhost</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Key components</h3>
+  <table>
+    <thead><tr><th>Component</th><th>Type</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><code>PublicNav</code></td><td>Client</td><td>Sticky nav with scroll-hide on scroll down. Reappears on scroll up or at top.</td></tr>
+      <tr><td><code>PublicFooter</code></td><td>Server</td><td>3-column footer with studio info, logo, social links</td></tr>
+      <tr><td><code>Reveal</code></td><td>Client (Framer)</td><td>Fade-up + blur animation on scroll into view. <code>delay</code> prop for stagger.</td></tr>
+      <tr><td><code>AnimatedStat</code></td><td>Client</td><td>Counts from 0 → target using rAF + IntersectionObserver. Runs once. Respects <code>prefers-reduced-motion</code>.</td></tr>
+      <tr><td><code>ReviewsMarquee</code></td><td>Client</td><td>Infinite CSS marquee. Triplicates review array. Pauses on hover. <code>aria-hidden</code> on duplicates.</td></tr>
+      <tr><td><code>ProjectCard</code></td><td>Server</td><td>Portfolio card with image hover scale effect</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 10 — ADMIN DASHBOARD
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s10">
+  <span class="section-num">10</span>
+  <h2 class="section-title">Admin Dashboard</h2>
+
+  <p>URL: <code>/admin</code> (login at <code>/admin-login</code>). Credentials: username <code>emma</code> + PIN.</p>
+
+  <h3>Navigation</h3>
+  <table>
+    <thead><tr><th>Page</th><th>Route</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>Dashboard</td><td><code>/admin</code></td><td>Metrics, recent galleries, new gallery creation form</td></tr>
+      <tr><td>Clients</td><td><code>/admin/clients</code></td><td>All clients list</td></tr>
+      <tr><td>Client detail</td><td><code>/admin/clients/[id]</code></td><td>Edit client, regenerate PIN, delete</td></tr>
+      <tr><td>Galleries</td><td><code>/admin/galleries</code></td><td>All galleries with status badges</td></tr>
+      <tr><td>Gallery detail</td><td><code>/admin/galleries/[id]</code></td><td>Upload photos, edit, delete, view photos, copy gallery link</td></tr>
+      <tr><td>Settings</td><td><code>/admin/settings</code></td><td>Studio info, email template, change admin PIN</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Server actions (app/admin/actions.ts)</h3>
+  <table>
+    <thead><tr><th>Action</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><code>createClientGallery</code></td><td>Creates client + gallery + folder structure in UPLOAD_DIR</td></tr>
+      <tr><td><code>updateGallery</code></td><td>Edits title / date / description</td></tr>
+      <tr><td><code>toggleGalleryActive</code></td><td>Activates/deactivates gallery (hides from client)</td></tr>
+      <tr><td><code>deleteGallery</code></td><td>Removes from db.json + deletes files from UPLOAD_DIR</td></tr>
+      <tr><td><code>deleteClient</code></td><td>Removes client + all their galleries + files</td></tr>
+      <tr><td><code>regenerateClientPin</code></td><td>Hashes new PIN and updates client record</td></tr>
+      <tr><td><code>deleteGalleryImage</code></td><td>Removes from db.json + deletes original + thumb from UPLOAD_DIR</td></tr>
+      <tr><td><code>updateStudioSettings</code></td><td>Updates settings including admin PIN hash</td></tr>
+      <tr><td><code>logoutAdmin</code></td><td>Clears session cookie + redirects to login</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Upload flow</h3>
+  <ol>
+    <li>Admin drags photos to <code>UploadDropzone</code> (or clicks "Choose files")</li>
+    <li>Files sent as <code>multipart/form-data</code> to <code>POST /api/admin/upload</code></li>
+    <li>API validates admin session + galleryId</li>
+    <li><code>saveGalleryImage()</code> runs Sharp: saves original + 900px thumb to <code>UPLOAD_DIR/clients/{id}/{slug}/</code></li>
+    <li>GalleryImage record written to db.json</li>
+    <li>Page revalidated via <code>revalidatePath</code></li>
+  </ol>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 11 — GALLERY SYSTEM
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s11">
+  <span class="section-num">11</span>
+  <h2 class="section-title">Gallery System</h2>
+
+  <h3>Client flow</h3>
+  <ol>
+    <li>Client receives URL: <code>photographeraustralia.com/gallery/natalia-renato</code></li>
+    <li>Arrives at PIN login page (<code>app/gallery/[slug]/page.tsx</code>)</li>
+    <li>Enters 4–6 digit PIN → POSTs to <code>/api/gallery/[slug]/auth</code></li>
+    <li>Session cookie created → redirected to <code>/gallery/[slug]/view</code></li>
+    <li>View page renders <code>PhotoGrid</code> with masonry layout</li>
+  </ol>
+
+  <h3>PhotoGrid (masonry)</h3>
+  <p>File: <code>src/components/gallery/PhotoGrid.tsx</code> (client component)</p>
+  <ul>
+    <li>Uses CSS <code>columns</code> property — natural aspect ratios, no fixed heights</li>
+    <li>Uses <code>&lt;img&gt;</code> tags (not <code>next/image</code>) to avoid intrinsic size constraints</li>
+    <li>Images fade in on load with <code>onLoad</code> → adds <code>.loaded</code> class</li>
+    <li>Lightbox with backdrop blur on click</li>
+    <li>Favourite toggle: calls <code>/api/gallery/[slug]/favorite</code></li>
+    <li>Responsive: 4 cols → 3 cols (1100px) → 2 cols (700px) → 2 cols tight (420px)</li>
+  </ul>
+
+  <h3>Image serving</h3>
+  <p><code>/api/files/[...path]</code> reads from <code>UPLOAD_DIR/{path}</code> and streams the file. Thumbnails are served by default (900px JPEG). The original is also accessible via the full path without <code>thumbs/</code>.</p>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 12 — ANIMATION SYSTEM
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s12">
+  <span class="section-num">12</span>
+  <h2 class="section-title">Animation System</h2>
+
+  <table>
+    <thead><tr><th>Animation</th><th>Component/CSS</th><th>Mechanism</th><th>Reduced-motion</th></tr></thead>
+    <tbody>
+      <tr><td>Fade-up on scroll</td><td><code>Reveal</code> (Framer Motion)</td><td><code>whileInView</code>, opacity+y+blur, fires once</td><td>Framer respects it automatically</td></tr>
+      <tr><td>Staggered children</td><td><code>Stagger</code> + <code>StaggerItem</code></td><td>Framer Motion variants with staggerChildren</td><td>Same as above</td></tr>
+      <tr><td>Nav scroll-hide</td><td><code>PublicNav</code> CSS</td><td><code>translateY(-105%)</code> via <code>navHidden</code> class</td><td><code>transition: none</code></td></tr>
+      <tr><td>Stat counters</td><td><code>AnimatedStat</code></td><td>IntersectionObserver + rAF + ease-out-cubic</td><td>Shows final value immediately</td></tr>
+      <tr><td>Reviews marquee</td><td><code>ReviewsMarquee</code> CSS</td><td><code>@keyframes marquee</code>, <code>translateX(-33.3%)</code></td><td><code>animation: none</code></td></tr>
+      <tr><td>Button shimmer</td><td><code>Public.module.css</code></td><td><code>::after</code> pseudo with <code>translate</code> on hover</td><td>No override needed (hover-only)</td></tr>
+      <tr><td>Photo hover scale</td><td><code>Gallery.module.css</code></td><td><code>scale: 1.028</code> CSS transition</td><td>No override (subtle, hover-only)</td></tr>
+      <tr><td>Service card hover</td><td><code>Public.module.css</code></td><td>Background + box-shadow transition</td><td>Override: <code>transition: none</code></td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 13 — CSS ARCHITECTURE
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s13">
+  <span class="section-num">13</span>
+  <h2 class="section-title">CSS Architecture &amp; Design Tokens</h2>
+
+  <h3>Files</h3>
+  <table>
+    <thead><tr><th>File</th><th>Scope</th></tr></thead>
+    <tbody>
+      <tr><td><code>app/globals.css</code></td><td>Design tokens (CSS custom properties), base reset, typography, global utility classes</td></tr>
+      <tr><td><code>src/components/public/Public.module.css</code></td><td>Everything on the public marketing site (nav, hero, sections, footer, forms, cards, marquee, animations)</td></tr>
+      <tr><td><code>src/components/gallery/Gallery.module.css</code></td><td>Gallery login, photo masonry grid, lightbox, header</td></tr>
+      <tr><td><code>src/components/admin/Admin.module.css</code></td><td>Admin dashboard: sidebar, tables, forms, upload dropzone, progress bar</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Design tokens (globals.css :root)</h3>
+  <table>
+    <thead><tr><th>Token</th><th>Value</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td><code>--ink</code></td><td><code>#080808</code></td><td>Primary text, buttons</td></tr>
+      <tr><td><code>--charcoal</code></td><td><code>#161514</code></td><td>Secondary dark</td></tr>
+      <tr><td><code>--muted</code></td><td><code>#6f6a62</code></td><td>Secondary text, labels</td></tr>
+      <tr><td><code>--line</code></td><td><code>#dedad3</code></td><td>Borders, dividers</td></tr>
+      <tr><td><code>--paper</code></td><td><code>#f7f5f1</code></td><td>Page background</td></tr>
+      <tr><td><code>--white</code></td><td><code>#ffffff</code></td><td>Cards, panels</td></tr>
+      <tr><td><code>--gold</code></td><td><code>#ad9672</code></td><td>Eyebrows, accents</td></tr>
+      <tr><td><code>--soft</code></td><td><code>#ebe7df</code></td><td>Image placeholders</td></tr>
+      <tr><td><code>--shadow</code></td><td><code>0 24px 70px rgba(15,14,12,0.08)</code></td><td>Card shadows</td></tr>
+      <tr><td><code>--serif</code></td><td>Cormorant Garamond → Georgia fallback</td><td>Headings, prices, display text</td></tr>
+      <tr><td><code>--sans</code></td><td>Inter → system-ui fallback</td><td>Body, labels, buttons</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Typography scale</h3>
+  <ul>
+    <li>Eyebrows: 10px, letter-spacing 0.28–0.34em, uppercase, <code>--gold</code></li>
+    <li>Hero title: <code>clamp(56px, 8vw, 126px)</code>, serif, weight 400, line-height 0.86</li>
+    <li>Section title: <code>clamp(42px, 5.4vw, 86px)</code>, serif, weight 400</li>
+    <li>Body copy: 16px, line-height 1.8, <code>--muted</code></li>
+    <li>Buttons: 10px, letter-spacing 0.28em, uppercase</li>
+  </ul>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 14 — DEPLOYMENT
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s14">
+  <span class="section-num">14</span>
+  <h2 class="section-title">Deployment — Hostinger Workflow</h2>
+
+  <h3>Standard deploy (every code change)</h3>
+<pre><code># 1. Make changes locally
+# 2. Build and verify
+npm run build
+
+# 3. Commit
+git add &lt;files&gt;
+git commit -m "Description"
+
+# 4. Push to GitHub
+git push origin main
+
+# 5. In Hostinger hPanel:
+#    Node.js → Your app → Restart / Redeploy
+#    (or SSH: touch ~/domains/photographeraustralia.com/nodejs/tmp/restart.txt)</code></pre>
+
+  <h3>If the server stops responding (503)</h3>
+<pre><code># SSH in
+ssh -p 65002 u613502604@145.79.14.36
+
+# Kill stuck node processes
+pkill -u u613502604 -f 'node server'
+
+# Check dirs exist
+ls ~/data/          # should show db.json
+ls ~/storage/       # should show clients/
+
+# If dirs missing, create them
+mkdir -p ~/data ~/storage
+
+# Touch restart
+touch ~/domains/photographeraustralia.com/nodejs/tmp/restart.txt</code></pre>
+
+  <h3>next.config.ts key settings</h3>
+  <ul>
+    <li><code>output: "standalone"</code> — creates self-contained server bundle</li>
+    <li><code>eslint: { ignoreDuringBuilds: true }</code> — saves ~40% CPU on Hostinger</li>
+    <li><code>typescript: { ignoreBuildErrors: true }</code> — same reason</li>
+    <li><code>images: { unoptimized: true }</code> — no Next.js image optimization (we use Sharp manually)</li>
+    <li><code>serverActions.bodySizeLimit: "50mb"</code> — allows large photo uploads</li>
+  </ul>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 15 — WHAT MUST NEVER BE CHANGED
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s15">
+  <span class="section-num">15</span>
+  <h2 class="section-title">What Must Never Be Changed</h2>
+
+  <div class="callout danger">
+    <strong>⚠ Read this section before every coding session</strong>
+    These are the constraints that keep the live site, client data, and Hostinger storage connection intact.
+  </div>
+
+  <h3>Storage &amp; data paths</h3>
+  <table>
+    <thead><tr><th>Item</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><code>DATA_DIR</code> env var value</td><td>Change this → app creates a new empty db.json, all galleries appear broken</td></tr>
+      <tr><td><code>UPLOAD_DIR</code> env var value</td><td>Change this → <code>/api/files/</code> can't find any photos, all gallery images return 404</td></tr>
+      <tr><td>Path structure inside UPLOAD_DIR: <code>clients/{uuid}/{slug}/</code></td><td>All existing image paths in db.json use this format. Changing breaks every gallery.</td></tr>
+      <tr><td><code>src/lib/db/index.ts</code> — <code>normalizeDatabase()</code></td><td>Removing a field from normalization → next write to db.json will delete that field for all records</td></tr>
+      <tr><td><code>src/lib/images/process.ts</code> — path format</td><td>Changing the relative path format invalidates all existing <code>path</code> / <code>thumbPath</code> values in db.json</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Authentication</h3>
+  <table>
+    <thead><tr><th>Item</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><code>src/lib/admin-auth/config.ts</code> — <code>ADMIN_PIN_HASH</code></td><td>This is the fallback PIN. Remove it → no way to log in if db.settings.adminPinHash is missing</td></tr>
+      <tr><td>Cookie names (<code>ers_admin_session</code>, <code>ers_gallery_{slug}</code>)</td><td>Changing cookie names logs out every current user immediately</td></tr>
+      <tr><td>Cookie <code>path</code> scoping on gallery sessions</td><td>Required for per-gallery session isolation</td></tr>
+    </tbody>
+  </table>
+
+  <h3>API contracts</h3>
+  <table>
+    <thead><tr><th>Route</th><th>Must not change</th></tr></thead>
+    <tbody>
+      <tr><td><code>/api/files/[...path]</code></td><td>Serving logic — reads from <code>UPLOAD_DIR/{path}</code>. All img src in galleries depend on this.</td></tr>
+      <tr><td><code>/api/gallery/[slug]/auth</code></td><td>Form action in gallery login page. Must stay POST + redirect 303.</td></tr>
+      <tr><td><code>/api/admin/upload</code></td><td>Upload handler. Must stay multipart POST. <code>galleryId</code> field name must not change.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Public buttons (DO NOT rename)</h3>
+  <table>
+    <thead><tr><th>Button</th><th>Target</th></tr></thead>
+    <tbody>
+      <tr><td>Book Your Session</td><td><code>studio.whatsapp</code> (WhatsApp link)</td></tr>
+      <tr><td>View Your Gallery</td><td><code>/gallery</code></td></tr>
+      <tr><td>View Project</td><td><code>/project</code></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Files to never edit directly</h3>
+  <ul>
+    <li><code>/home/u613502604/data/db.json</code> — use the admin dashboard or the DB helper functions</li>
+    <li><code>/home/u613502604/storage/</code> — managed entirely by the upload API</li>
+    <li><code>.env</code> / <code>.env.local</code> — env vars are set in hPanel, not in files</li>
+    <li><code>scripts/postbuild.mjs</code> — the bootstrap injection is fragile; only change if you understand the standalone output format</li>
+  </ul>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SECTION 16 — PENDING FEATURES
+═══════════════════════════════════════════════════ -->
+<div class="section" id="s16">
+  <span class="section-num">16</span>
+  <h2 class="section-title">Pending Features</h2>
+
+  <h3>Client Reviews System (next priority)</h3>
+  <p>Full spec: clients leave a review from inside their private gallery. Admin approves. Approved reviews appear in the homepage marquee.</p>
+
+  <h4>What needs to be built:</h4>
+  <table>
+    <thead><tr><th>#</th><th>File</th><th>Change</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><code>src/lib/db/types.ts</code></td><td>Add <code>Review</code> type + add <code>reviews: Review[]</code> to <code>Database</code> + add to <code>emptyDatabase</code> + <code>normalizeDatabase()</code></td></tr>
+      <tr><td>2</td><td><code>app/api/gallery/[slug]/review/route.ts</code></td><td>New POST endpoint — validates input, sanitizes, saves with <code>approved: false</code></td></tr>
+      <tr><td>3</td><td><code>src/components/gallery/ReviewForm.tsx</code></td><td>New client component — 5-star rating, name, message, checkbox, submit states</td></tr>
+      <tr><td>4</td><td><code>app/gallery/[slug]/view/page.tsx</code></td><td>Import and render <code>&lt;ReviewForm slug={slug} /&gt;</code> below <code>PhotoGrid</code></td></tr>
+      <tr><td>5</td><td><code>app/admin/reviews/page.tsx</code></td><td>New admin page — list pending + approved reviews, approve/hide/delete actions</td></tr>
+      <tr><td>6</td><td><code>app/admin/actions.ts</code></td><td>Add <code>approveReview</code>, <code>hideReview</code>, <code>deleteReview</code> server actions</td></tr>
+      <tr><td>7</td><td><code>app/admin/layout.tsx</code></td><td>Add "Reviews" link to nav array</td></tr>
+      <tr><td>8</td><td><code>src/components/public/ReviewsMarquee.tsx</code></td><td>Accept <code>reviews</code> prop from server (approved DB reviews) instead of only static ones</td></tr>
+      <tr><td>9</td><td><code>app/(public)/page.tsx</code></td><td>Read approved reviews from DB, pass to <code>ReviewsMarquee</code></td></tr>
+    </tbody>
+  </table>
+
+  <h4>Review DB schema to add:</h4>
+<pre><code>// In src/lib/db/types.ts — add:
+export type Review = {
+  id: string;
+  galleryId: string;
+  galleryTitle: string;    // denormalized for display
+  clientName: string;
+  email?: string;          // never exposed publicly
+  rating: 1 | 2 | 3 | 4 | 5;
+  message: string;
+  approved: boolean;
+  allowPublicDisplay: boolean;
+  createdAt: string;
+};
+
+// Update Database type:
+export type Database = {
+  clients: Client[];
+  galleries: Gallery[];
+  galleryImages: GalleryImage[];
+  favorites: Favorite[];
+  reviews: Review[];       // ← add this
+  settings?: StudioSettings;
+};
+
+// Update emptyDatabase:
+export const emptyDatabase: Database = {
+  ...,
+  reviews: [],             // ← add this
+};</code></pre>
+
+  <div class="callout info">
+    <strong>Important when adding reviews</strong>
+    Remember to add <code>reviews: Array.isArray(value.reviews) ? value.reviews : []</code> to the <code>normalizeDatabase()</code> function in <code>src/lib/db/index.ts</code>. Without this, old db.json files (without the reviews field) will crash on read.
+  </div>
+
+  <h3>Contact form email sending</h3>
+  <p>Nodemailer is installed but not yet wired. <code>app/api/contact/route.ts</code> currently receives the form but doesn't send email. Add SMTP credentials to env vars and implement sending.</p>
+
+  <h3>Gallery — English translation</h3>
+  <p>The gallery view page still has Spanish text ("Galería privada", "tus imágenes están listas…", "Descargar todo"). These should be translated to English for the Australian market.</p>
+  <p>File: <code>app/gallery/[slug]/view/page.tsx</code>, lines 55–60.</p>
+</div>
+
+
+<!-- ─── Footer ─── -->
+<div style="margin-top: 72px; padding-top: 28px; border-top: 2px solid var(--ink); display: flex; justify-content: space-between; align-items: center; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);">
+  <span>Emmanuel Rojas Studio — Internal Documentation</span>
+  <span>Generated May 2026</span>
+</div>
+
+</div><!-- /page-wrap -->
+</body>
+</html>

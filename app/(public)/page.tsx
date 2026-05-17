@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HeroSlideshow } from "@/components/public/HeroSlideshow";
+import { ViewProjectButton } from "@/components/public/ViewProjectButton";
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { Reveal } from "@/components/public/Reveal";
 import { AnimatedStat } from "@/components/public/AnimatedStat";
@@ -69,9 +70,7 @@ export default async function HomePage() {
               <Link className={styles.buttonGhost} href="/gallery">
                 View Your Gallery
               </Link>
-              <Link className={styles.buttonGhost} href="/project">
-                View Project
-              </Link>
+              <ViewProjectButton className={styles.buttonGhost} />
             </div>
           </Reveal>
           <Reveal delay={0.34}>

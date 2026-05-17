@@ -187,22 +187,39 @@
 .heroTitle {
   max-width: 1080px;
   margin: 0;
-  font-family: var(--serif), Georgia, "Times New Roman", serif;
-  font-size: clamp(64px, 10vw, 152px);
-  font-weight: 300;
-  font-style: italic;
-  letter-spacing: -0.018em;
-  line-height: 0.92;
-  text-shadow: 0 2px 28px rgba(0, 0, 0, 0.32);
+  font-family: var(--font-signature), "Great Vibes", cursive;
+  font-size: clamp(80px, 13vw, 200px);
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.02em;
+  line-height: 0.9;
+  text-shadow: 0 2px 32px rgba(0, 0, 0, 0.35);
 }
 
 .heroCopy {
   max-width: 480px;
   margin: 0;
-  color: rgba(255, 255, 255, 0.86);
-  font-size: clamp(14px, 1.1vw, 16px);
-  line-height: 1.6;
-  letter-spacing: 0.005em;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--sans);
+  font-size: clamp(13px, 1vw, 15px);
+  line-height: 1.65;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ── Cinematic page-out overlay ── */
+.cinemaOut {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #080808;
+  opacity: 0;
+  animation: cinemaFadeIn 0.95s cubic-bezier(0.4, 0, 1, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes cinemaFadeIn {
+  to { opacity: 1; }
 }
 
 .heroCtas {

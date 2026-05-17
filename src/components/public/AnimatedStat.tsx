@@ -32,12 +32,13 @@ export function AnimatedStat({ value }: { value: string }) {
         observer.disconnect();
 
         const target = parsed.n;
-        const duration = 1600;
+        const duration = 3800;
         const start = performance.now();
 
         function tick(now: number) {
           const t = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - t, 3);
+          // Quintic ease-out: decelerates sharply at the end for a premium feel
+          const eased = 1 - Math.pow(1 - t, 5);
           setDisplay(`${Math.round(eased * target)}${parsed!.suffix}`);
           if (t < 1) requestAnimationFrame(tick);
         }

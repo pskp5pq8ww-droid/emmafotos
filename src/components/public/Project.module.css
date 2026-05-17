@@ -1,0 +1,90 @@
+/* ── Cinematic Project Scene ── */
+
+.scene {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: #080808;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+/* Entry: start fully black, then reveal */
+.sceneEntering {
+  opacity: 0;
+}
+
+.logoWrap {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: clamp(140px, 24vw, 300px);
+  height: auto;
+  object-fit: contain;
+  display: block;
+  will-change: filter;
+  transition: filter 1.6s ease-in-out;
+}
+
+.logoGlow {
+  filter:
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.55))
+    drop-shadow(0 0 28px rgba(255, 255, 255, 0.28))
+    drop-shadow(0 0 72px rgba(255, 255, 255, 0.12));
+  animation: glowPulse 5s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 10px rgba(255, 255, 255, 0.55))
+      drop-shadow(0 0 28px rgba(255, 255, 255, 0.28))
+      drop-shadow(0 0 72px rgba(255, 255, 255, 0.12));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 16px rgba(255, 255, 255, 0.72))
+      drop-shadow(0 0 44px rgba(255, 255, 255, 0.38))
+      drop-shadow(0 0 96px rgba(255, 255, 255, 0.18));
+  }
+}
+
+.backWrap {
+  position: absolute;
+  top: clamp(20px, 4vw, 40px);
+  left: clamp(20px, 4vw, 48px);
+  z-index: 3;
+}
+
+.backLink {
+  color: rgba(255, 255, 255, 0.42);
+  letter-spacing: 0.28em;
+  font-size: 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.35s ease;
+  font-family: var(--sans);
+}
+
+.backLink:hover {
+  color: rgba(255, 255, 255, 0.88);
+}
+
+/* ── Mobile ── */
+@media (max-width: 600px) {
+  .logo {
+    width: clamp(110px, 52vw, 180px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logoGlow {
+    animation: none;
+  }
+}
