@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { readDB, updateDB } from "@/lib/db";
+import { resolveGalleryAccess } from "@/lib/galleries/access";
 import { hasGallerySession } from "@/lib/gallery-auth/session";
 import type { Review } from "@/lib/db/types";
 
@@ -65,11 +66,16 @@ export async function POST(
   }
 
   const db = await readDB();
-  const gallery = db.galleries.find((item) => item.slug === slug && item.isActive);
+  const access = resolveGalleryAccess(db, slug);
 
-  if (!gallery || !(await hasGallerySession(slug, gallery.clientId))) {
+  if (
+    access.state !== "ready" ||
+    !(await hasGallerySession(access.canonicalSlug, access.gallery.clientId))
+  ) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
+  const gallery = access.gallery;
 
   const rawMessage = typeof body.message === "string" ? body.message : "";
   if (rawMessage.length > MAX_MESSAGE_LENGTH) {

@@ -2,6 +2,7 @@ import path from "node:path";
 import { NextResponse } from "next/server";
 import { getUploadsDir, readDB } from "@/lib/db";
 import { createZip } from "@/lib/files/zip";
+import { resolveGalleryAccess } from "@/lib/galleries/access";
 import { hasGallerySession } from "@/lib/gallery-auth/session";
 
 export async function GET(
@@ -10,12 +11,16 @@ export async function GET(
 ) {
   const { slug } = await params;
   const db = await readDB();
-  const gallery = db.galleries.find((item) => item.slug === slug && item.isActive);
+  const access = resolveGalleryAccess(db, slug);
 
-  if (!gallery || !(await hasGallerySession(slug, gallery.clientId))) {
+  if (
+    access.state !== "ready" ||
+    !(await hasGallerySession(access.canonicalSlug, access.gallery.clientId))
+  ) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
+  const gallery = access.gallery;
   const images = db.galleryImages.filter((image) => image.galleryId === gallery.id);
 
   if (!images.length) {

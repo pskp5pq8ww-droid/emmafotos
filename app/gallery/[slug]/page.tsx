@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { readDB } from "@/lib/db";
+import { resolveGalleryAccess } from "@/lib/galleries/access";
 import { hasGallerySession } from "@/lib/gallery-auth/session";
 import styles from "@/components/gallery/Gallery.module.css";
 
@@ -16,14 +17,34 @@ export default async function GalleryLoginPage({
   const { slug } = await params;
   const { error } = await searchParams;
   const db = await readDB();
-  const gallery = db.galleries.find((item) => item.slug === slug && item.isActive);
-  const client = gallery
-    ? db.clients.find((item) => item.id === gallery.clientId)
-    : undefined;
+  const access = resolveGalleryAccess(db, slug);
+  const gallery = access.gallery;
+  const client = access.client;
 
-  if (gallery && client && (await hasGallerySession(slug, client.id))) {
-    redirect(`/gallery/${slug}/view`);
+  if (access.state === "ready" && slug !== access.canonicalSlug) {
+    redirect(`/gallery/${access.canonicalSlug}`);
   }
+
+  if (
+    access.state === "ready" &&
+    (await hasGallerySession(access.canonicalSlug, access.client.id))
+  ) {
+    redirect(`/gallery/${access.canonicalSlug}/view`);
+  }
+
+  const unavailableCopy = {
+    not_found:
+      "Gallery not found. Please check the link or gallery code and try again.",
+    not_published:
+      "This gallery is not published yet. Please contact Emmanuel Rojas if you believe this is a mistake.",
+    client_missing:
+      "This gallery is missing client access details. Please contact Emmanuel Rojas if you believe this is a mistake.",
+  } as const;
+
+  const pinError =
+    error === "1" || error === "invalid"
+      ? "Invalid access details. Please check your PIN and try again."
+      : undefined;
 
   return (
     <main className={styles.login}>
@@ -31,20 +52,20 @@ export default async function GalleryLoginPage({
         <Image src="/assets/er-logo-black.png" alt="ER" width={86} height={86} priority />
         <p className={styles.eyebrow}>Client Portal</p>
         <h1 className={styles.title}>
-          {gallery ? "Access your private gallery." : "Gallery unavailable."}
+          {access.state === "ready" ? "Access your private gallery." : "Gallery not available."}
         </h1>
-        {gallery ? (
+        {access.state === "ready" ? (
           <>
             <p className={styles.copy}>
-              {gallery.title} {client?.name ? `for ${client.name}` : ""}. Enter your
-              personal PIN to continue.
+              {access.gallery.title} {access.client.name ? `for ${access.client.name}` : ""}.
+              Enter your personal PIN to continue.
             </p>
             <form
-              action={`/api/gallery/${gallery.slug}/auth`}
+              action={`/api/gallery/${access.gallery.slug}/auth`}
               className={styles.form}
               method="post"
             >
-              {error ? <p className={styles.error}>The PIN was not accepted.</p> : null}
+              {pinError ? <p className={styles.error}>{pinError}</p> : null}
               <div className={styles.field}>
                 <label htmlFor="pin">PIN</label>
                 <input id="pin" name="pin" inputMode="numeric" type="password" required />
@@ -56,7 +77,7 @@ export default async function GalleryLoginPage({
           </>
         ) : (
           <p className={styles.copy}>
-            This gallery is inactive or the link is no longer available.
+            {unavailableCopy[access.state]}
           </p>
         )}
       </section>

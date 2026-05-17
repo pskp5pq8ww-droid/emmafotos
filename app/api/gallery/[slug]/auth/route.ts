@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { readDB } from "@/lib/db";
+import { resolveGalleryAccess } from "@/lib/galleries/access";
 import { createGallerySession } from "@/lib/gallery-auth/session";
 import { getRequestOrigin } from "@/lib/security/request-origin";
 import { verifyPin } from "@/lib/security/pin";
@@ -12,16 +13,20 @@ export async function POST(
   const formData = await request.formData();
   const pin = String(formData.get("pin") ?? "");
   const db = await readDB();
-  const gallery = db.galleries.find((item) => item.slug === slug && item.isActive);
-  const client = gallery
-    ? db.clients.find((item) => item.id === gallery.clientId)
-    : undefined;
+  const access = resolveGalleryAccess(db, slug);
   const origin = getRequestOrigin(request);
 
-  if (!gallery || !client || !(await verifyPin(pin, client.pinHash))) {
-    return NextResponse.redirect(new URL(`/gallery/${slug}?error=1`, origin), 303);
+  if (access.state !== "ready") {
+    return NextResponse.redirect(new URL(`/gallery/${slug}`, origin), 303);
   }
 
-  await createGallerySession(slug, client.id);
-  return NextResponse.redirect(new URL(`/gallery/${slug}/view`, origin), 303);
+  if (!(await verifyPin(pin, access.client.pinHash))) {
+    return NextResponse.redirect(
+      new URL(`/gallery/${access.canonicalSlug}?error=invalid`, origin),
+      303,
+    );
+  }
+
+  await createGallerySession(access.canonicalSlug, access.client.id);
+  return NextResponse.redirect(new URL(`/gallery/${access.canonicalSlug}/view`, origin), 303);
 }

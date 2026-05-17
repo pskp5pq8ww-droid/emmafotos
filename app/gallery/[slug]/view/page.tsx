@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { PhotoGrid } from "@/components/gallery/PhotoGrid";
 import { ReviewForm } from "@/components/gallery/ReviewForm";
 import { readDB } from "@/lib/db";
+import { resolveGalleryAccess } from "@/lib/galleries/access";
 import { hasGallerySession } from "@/lib/gallery-auth/session";
 import styles from "@/components/gallery/Gallery.module.css";
 
@@ -16,17 +17,22 @@ export default async function GalleryViewPage({
 }) {
   const { slug } = await params;
   const db = await readDB();
-  const gallery = db.galleries.find((item) => item.slug === slug && item.isActive);
+  const access = resolveGalleryAccess(db, slug);
 
-  if (!gallery) {
+  if (access.state !== "ready") {
     redirect(`/gallery/${slug}`);
   }
 
-  if (!(await hasGallerySession(slug, gallery.clientId))) {
-    redirect(`/gallery/${slug}`);
+  if (slug !== access.canonicalSlug) {
+    redirect(`/gallery/${access.canonicalSlug}/view`);
   }
 
-  const client = db.clients.find((item) => item.id === gallery.clientId);
+  if (!(await hasGallerySession(access.canonicalSlug, access.gallery.clientId))) {
+    redirect(`/gallery/${access.canonicalSlug}`);
+  }
+
+  const gallery = access.gallery;
+  const client = access.client;
   const photos = db.galleryImages
     .filter((image) => image.galleryId === gallery.id)
     .map((image) => ({
@@ -47,9 +53,11 @@ export default async function GalleryViewPage({
           Emmanuel Rojas
         </Link>
         <div className={styles.toolbar}>
-          <a className={styles.ghostButton} href={`/api/gallery/${slug}/download`}>
-            Download all
-          </a>
+          {photos.length ? (
+            <a className={styles.ghostButton} href={`/api/gallery/${access.canonicalSlug}/download`}>
+              Download all
+            </a>
+          ) : null}
         </div>
       </header>
       <section className={styles.hero}>
@@ -60,8 +68,18 @@ export default async function GalleryViewPage({
           your images are ready. Mark favourites with the star, open images full screen, or download the originals.
         </p>
       </section>
-      <PhotoGrid photos={photos} slug={slug} />
-      <ReviewForm defaultName={client?.name} slug={slug} />
+      {photos.length ? (
+        <PhotoGrid photos={photos} slug={access.canonicalSlug} />
+      ) : (
+        <section className={styles.emptyState}>
+          <p className={styles.eyebrow}>Gallery is being prepared</p>
+          <h2>This gallery has no images yet.</h2>
+          <p>
+            Please contact Emmanuel Rojas if you believe this is a mistake.
+          </p>
+        </section>
+      )}
+      <ReviewForm defaultName={client.name} slug={access.canonicalSlug} />
     </main>
   );
 }

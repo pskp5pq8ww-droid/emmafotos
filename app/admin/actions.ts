@@ -70,6 +70,11 @@ export async function createClientGallery(formData: FormData) {
         createdAt: now,
       };
       db.clients.push(client);
+    } else {
+      client.name = name || client.name;
+      client.email = email || client.email;
+      client.username = username || client.username;
+      client.pinHash = pinHash;
     }
 
     const slug = createGallerySlug(title);

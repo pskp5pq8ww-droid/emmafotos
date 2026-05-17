@@ -28,7 +28,7 @@ export async function POST(request: Request) {
     slug: createGallerySlug(body.title),
     eventDate: body.eventDate,
     description: body.description,
-    isActive: Boolean(body.isActive),
+    isActive: body.isActive !== false,
     createdAt: new Date().toISOString(),
   };
 
@@ -76,6 +76,7 @@ export async function DELETE(request: Request) {
     galleries: db.galleries.filter((gallery) => gallery.id !== body.id),
     galleryImages: db.galleryImages.filter((image) => image.galleryId !== body.id),
     favorites: db.favorites.filter((favorite) => favorite.galleryId !== body.id),
+    reviews: db.reviews.filter((review) => review.galleryId !== body.id),
   }));
 
   return NextResponse.json({ ok: true });

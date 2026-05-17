@@ -11,7 +11,7 @@ export default function GalleryLandingPage() {
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const clean = slug.trim().toLowerCase();
-    if (clean) router.push(`/gallery/${clean}`);
+    if (clean) router.push(`/gallery/${encodeURIComponent(clean)}`);
   }
 
   return (

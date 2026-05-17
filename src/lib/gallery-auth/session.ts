@@ -23,7 +23,10 @@ export async function createGallerySession(slug: string, clientId: string) {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
-    path: `/gallery/${slug}`,
+    // API routes live under /api/gallery/{slug}, so the cookie must be
+    // available site-wide. The cookie name and signature still bind it to
+    // exactly one gallery slug and client id.
+    path: "/",
     expires: new Date(expires),
   });
 }
