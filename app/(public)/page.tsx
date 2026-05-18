@@ -4,6 +4,7 @@ import { ViewProjectButton } from "@/components/public/ViewProjectButton";
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { Reveal } from "@/components/public/Reveal";
 import { AnimatedStat } from "@/components/public/AnimatedStat";
+import { HeroParallax } from "@/components/public/HeroParallax";
 import { ReviewsMarquee } from "@/components/public/ReviewsMarquee";
 import styles from "@/components/public/Public.module.css";
 import { readDB } from "@/lib/db";
@@ -46,6 +47,7 @@ export default async function HomePage() {
           <HeroSlideshow />
         </div>
         <div className={styles.heroInner}>
+          <HeroParallax>
           <Reveal>
             <p className={styles.eyebrow}>
               Brisbane, Australia · Lifelong Memory Maker
@@ -91,6 +93,7 @@ export default async function HomePage() {
               </div>
             </div>
           </Reveal>
+          </HeroParallax>
         </div>
       </section>
 

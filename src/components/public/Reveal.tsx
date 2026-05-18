@@ -1,67 +1,83 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "framer-motion";
-import type { PropsWithChildren } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { useRef, type PropsWithChildren, type CSSProperties } from "react";
 
-type RevealProps = PropsWithChildren<
-  HTMLMotionProps<"div"> & {
-    delay?: number;
-  }
->;
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-export function Reveal({ children, delay = 0, ...props }: RevealProps) {
+type RevealProps = PropsWithChildren<{
+  delay?: number;
+  style?: CSSProperties;
+  className?: string;
+}>;
+
+/**
+ * Drop-in Reveal — fades + lifts children into view on scroll.
+ * Uses GSAP ScrollTrigger (once) + gsap.matchMedia for reduced-motion.
+ * Replaces the previous Framer Motion implementation.
+ */
+export function Reveal({ children, delay = 0, style, className }: RevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.from(ref.current!, {
+          opacity: 0,
+          y: 28,
+          filter: "blur(8px)",
+          duration: 0.9,
+          delay,
+          ease: "expo.out",
+          clearProps: "filter",
+          scrollTrigger: {
+            trigger: ref.current,
+            start: "top 88%",
+            once: true,
+          },
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: ref },
+  );
+
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 26, filter: "blur(8px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay }}
-      {...props}
-    >
+    <div ref={ref} style={style} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
+/**
+ * Stagger / StaggerItem — kept for API compatibility.
+ * With GSAP each child is its own Reveal; these are plain wrappers.
+ */
 export function Stagger({
   children,
-  ...props
-}: PropsWithChildren<HTMLMotionProps<"div">>) {
+  className,
+  style,
+}: PropsWithChildren<{ className?: string; style?: CSSProperties }>) {
   return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: {
-            staggerChildren: 0.08,
-            delayChildren: 0.05,
-          },
-        },
-      }}
-      {...props}
-    >
+    <div className={className} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }
 
 export function StaggerItem({
   children,
-  ...props
-}: PropsWithChildren<HTMLMotionProps<"div">>) {
+  className,
+  style,
+}: PropsWithChildren<{ className?: string; style?: CSSProperties }>) {
   return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 22, filter: "blur(8px)" },
-        visible: { opacity: 1, y: 0, filter: "blur(0px)" },
-      }}
-      transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}
-      {...props}
-    >
+    <div className={className} style={style}>
       {children}
-    </motion.div>
+    </div>
   );
 }

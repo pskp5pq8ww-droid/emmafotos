@@ -1,6 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 function parse(value: string): { n: number; suffix: string } | null {
   const m = value.match(/^(\d+)(\+?)$/);
@@ -8,49 +13,51 @@ function parse(value: string): { n: number; suffix: string } | null {
   return { n: parseInt(m[1], 10), suffix: m[2] };
 }
 
+/**
+ * Animated counter that counts up to `value` when scrolled into view.
+ * Powered by GSAP — no rAF/IntersectionObserver boilerplate.
+ * Respects prefers-reduced-motion via gsap.matchMedia().
+ */
 export function AnimatedStat({ value }: { value: string }) {
   const parsed = parse(value);
-  const [display, setDisplay] = useState(parsed ? `0${parsed.suffix}` : value);
   const ref = useRef<HTMLElement>(null);
-  const ran = useRef(false);
 
-  useEffect(() => {
-    if (!parsed || ran.current) return;
-    const el = ref.current;
-    if (!el) return;
+  useGSAP(
+    () => {
+      if (!parsed || !ref.current) return;
+      const el = ref.current;
+      const counter = { val: 0 };
 
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduced) {
-      setDisplay(value);
-      return;
-    }
+      const mm = gsap.matchMedia();
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting || ran.current) return;
-        ran.current = true;
-        observer.disconnect();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        gsap.to(counter, {
+          val: parsed.n,
+          duration: 3.2,
+          ease: "power4.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            once: true,
+          },
+          onUpdate() {
+            el.textContent = `${Math.round(counter.val)}${parsed!.suffix}`;
+          },
+          onComplete() {
+            // Set the exact string (e.g. "4+") so it matches the source data
+            el.textContent = value;
+          },
+        });
+      });
 
-        const target = parsed.n;
-        const duration = 3800;
-        const start = performance.now();
+      mm.add("(prefers-reduced-motion: reduce)", () => {
+        el.textContent = value;
+      });
 
-        function tick(now: number) {
-          const t = Math.min((now - start) / duration, 1);
-          // Quintic ease-out: decelerates sharply at the end for a premium feel
-          const eased = 1 - Math.pow(1 - t, 5);
-          setDisplay(`${Math.round(eased * target)}${parsed!.suffix}`);
-          if (t < 1) requestAnimationFrame(tick);
-        }
+      return () => mm.revert();
+    },
+    { scope: ref },
+  );
 
-        requestAnimationFrame(tick);
-      },
-      { threshold: 0.6 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return <strong ref={ref}>{display}</strong>;
+  return <strong ref={ref}>{parsed ? `0${parsed.suffix}` : value}</strong>;
 }
