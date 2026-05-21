@@ -122,6 +122,53 @@ export const projects: Project[] = [
       "/assets/projects/tatudor-09.jpg",
     ],
   },
+  {
+    slug: "paw-co-brisbane",
+    title: "Paw & Co — Brisbane",
+    category: "Eventos",
+    location: "Brisbane, Australia",
+    year: "2025",
+    summary:
+      "Cobertura de atmósfera y energía en uno de los eventos más vibrantes de Brisbane. Luz, movimiento y presencia en cada frame.",
+    cover: "/assets/projects/pawco-01.jpg",
+    images: [
+      "/assets/projects/pawco-01.jpg",
+      "/assets/projects/pawco-02.jpg",
+      "/assets/projects/pawco-03.jpg",
+      "/assets/projects/pawco-04.jpg",
+      "/assets/projects/pawco-05.jpg",
+      "/assets/projects/pawco-06.jpg",
+      "/assets/projects/pawco-07.jpg",
+      "/assets/projects/pawco-08.jpg",
+      "/assets/projects/pawco-09.jpg",
+      "/assets/projects/pawco-10.jpg",
+      "/assets/projects/pawco-11.jpg",
+      "/assets/projects/pawco-12.jpg",
+      "/assets/projects/pawco-13.jpg",
+      "/assets/projects/pawco-14.jpg",
+      "/assets/projects/pawco-15.jpg",
+      "/assets/projects/pawco-16.jpg",
+    ],
+  },
+  {
+    slug: "rikarena-concert",
+    title: "Rikarena — En Vivo",
+    category: "Conciertos",
+    location: "Brisbane, Australia",
+    year: "2025",
+    summary:
+      "La energía de un escenario en vivo capturada con precisión. Documentación de la noche, el artista y la multitud.",
+    cover: "/assets/projects/rikarena-01.jpg",
+    images: [
+      "/assets/projects/rikarena-01.jpg",
+      "/assets/projects/rikarena-02.jpg",
+      "/assets/projects/rikarena-03.jpg",
+      "/assets/projects/rikarena-04.jpg",
+      "/assets/projects/rikarena-05.jpg",
+      "/assets/projects/rikarena-06.jpg",
+      "/assets/projects/rikarena-07.jpg",
+    ],
+  },
 ];
 
 export const reviews = [

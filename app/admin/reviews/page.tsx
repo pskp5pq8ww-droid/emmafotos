@@ -37,9 +37,9 @@ export default async function AdminReviewsPage() {
 
   const baseUrl =
     process.env.NEXT_PUBLIC_BASE_URL ??
-    process.env.VERCEL_URL
+    (process.env.VERCEL_URL
       ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000";
+      : "http://localhost:3000");
 
   return (
     <div>
@@ -65,13 +65,25 @@ export default async function AdminReviewsPage() {
         )}
       </div>
 
+      {/* ── General review link ── */}
+      <section className={styles.panel} style={{ marginBottom: "16px" }}>
+        <div className={styles.panelPad}>
+          <h2 className={styles.panelTitle} style={{ fontSize: "18px", marginBottom: "8px" }}>
+            General review link
+          </h2>
+          <p className={styles.muted} style={{ marginBottom: "14px" }}>
+            Permanent link — anyone with this URL can leave a 1–5 star review.
+          </p>
+          <CopyLinkButton href={`${baseUrl}/review`} />
+        </div>
+      </section>
+
       {/* ── Generate invite link ── */}
       <section className={styles.panel} style={{ marginBottom: "24px" }}>
         <div className={styles.panelPad}>
           <h2 className={styles.panelTitle}>Generate invite link</h2>
           <p className={styles.muted} style={{ marginBottom: "16px" }}>
-            Send this link to a client so they can leave a review. Each link is
-            one-time use.
+            Send this link to a specific client — one-time use.
           </p>
           <form action={createReviewInvite} className={styles.form}>
             <div className={styles.twoCol}>

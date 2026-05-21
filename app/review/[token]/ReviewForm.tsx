@@ -13,6 +13,8 @@ const BG_IMAGES = [
   "/assets/backgrounds/fondo-1.jpg",
   "/assets/backgrounds/fondo-2.jpg",
   "/assets/backgrounds/fondo-3.jpg",
+  "/assets/backgrounds/fondo-4.jpg",
+  "/assets/backgrounds/fondo-5.jpg",
 ];
 
 type Props = {

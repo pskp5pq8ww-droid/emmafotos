@@ -7,8 +7,7 @@ export function CopyLinkButton({ href }: { href: string }) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {
-    const url = `${window.location.origin}${href}`;
-    await navigator.clipboard.writeText(url);
+    await navigator.clipboard.writeText(href);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1400);
   }

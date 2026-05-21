@@ -38,6 +38,15 @@ export async function submitReview(
     createdAt: new Date().toISOString(),
   };
 
+  // General permanent review page — no invite required
+  if (token === "__general__") {
+    await updateDB((db) => ({
+      ...db,
+      reviews: [...db.reviews, review],
+    }));
+    return { ok: true };
+  }
+
   await updateDB((db) => {
     const invite = db.reviewInvites.find(
       (inv) => inv.token === token && !inv.usedAt,

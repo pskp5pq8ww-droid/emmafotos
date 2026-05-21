@@ -22,19 +22,21 @@
   background-size: cover;
   background-position: center;
   opacity: 0;
-  animation: bgCycle 30s ease-in-out infinite;
+  animation: bgCycle 50s ease-in-out infinite;
   will-change: opacity;
 }
 
-.bgSlide:nth-child(1) { animation-delay: 0s; }
+.bgSlide:nth-child(1) { animation-delay:  0s; }
 .bgSlide:nth-child(2) { animation-delay: -10s; }
 .bgSlide:nth-child(3) { animation-delay: -20s; }
+.bgSlide:nth-child(4) { animation-delay: -30s; }
+.bgSlide:nth-child(5) { animation-delay: -40s; }
 
 @keyframes bgCycle {
   0%   { opacity: 0; }
-  8%   { opacity: 1; }
-  38%  { opacity: 1; }
-  46%  { opacity: 0; }
+  5%   { opacity: 1; }
+  25%  { opacity: 1; }
+  30%  { opacity: 0; }
   100% { opacity: 0; }
 }
 
