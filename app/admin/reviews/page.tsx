@@ -3,6 +3,7 @@ import { readDB } from "@/lib/db";
 import {
   allowReviewDisplay,
   approveReview,
+  deleteAllReviews,
   deleteReview,
   hideReview,
   keepReviewPrivate,
@@ -37,6 +38,17 @@ export default async function AdminReviewsPage() {
             Approve only the reviews that should appear on the public homepage.
           </p>
         </div>
+        {reviews.length > 0 && (
+          <form action={deleteAllReviews}>
+            <ConfirmSubmitButton
+              className={styles.dangerButton}
+              message={`Delete all ${reviews.length} review${reviews.length !== 1 ? "s" : ""} permanently?`}
+              type="submit"
+            >
+              Delete all reviews
+            </ConfirmSubmitButton>
+          </form>
+        )}
       </div>
 
       <div className={styles.panel}>

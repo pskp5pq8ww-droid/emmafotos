@@ -377,3 +377,11 @@ export async function deleteReview(formData: FormData) {
   revalidatePath("/admin");
   revalidatePath("/admin/reviews");
 }
+
+export async function deleteAllReviews() {
+  await updateDB((db) => ({ ...db, reviews: [] }));
+
+  revalidatePath("/");
+  revalidatePath("/admin");
+  revalidatePath("/admin/reviews");
+}
