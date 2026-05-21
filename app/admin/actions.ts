@@ -385,3 +385,52 @@ export async function deleteAllReviews() {
   revalidatePath("/admin");
   revalidatePath("/admin/reviews");
 }
+
+// ─── Review invites ────────────────────────────────────────────────────────
+
+export async function createReviewInvite(formData: FormData) {
+  const { randomBytes } = await import("node:crypto");
+  const galleryId = value(formData, "galleryId") || undefined;
+  const note = value(formData, "note") || undefined;
+  const token = randomBytes(24).toString("base64url");
+
+  await updateDB((db) => ({
+    ...db,
+    reviewInvites: [
+      ...db.reviewInvites,
+      {
+        id: randomUUID(),
+        token,
+        galleryId,
+        note,
+        createdAt: new Date().toISOString(),
+      },
+    ],
+  }));
+
+  revalidatePath("/admin/reviews");
+}
+
+export async function deleteReviewInvite(formData: FormData) {
+  const id = value(formData, "id");
+
+  await updateDB((db) => ({
+    ...db,
+    reviewInvites: db.reviewInvites.filter((inv) => inv.id !== id),
+  }));
+
+  revalidatePath("/admin/reviews");
+}
+
+export async function assignReviewImage(formData: FormData) {
+  const id = value(formData, "id");
+  const imageId = value(formData, "imageId") || undefined;
+
+  await updateDB((db) => ({
+    ...db,
+    reviews: db.reviews.map((r) => (r.id === id ? { ...r, imageId } : r)),
+  }));
+
+  revalidatePath("/");
+  revalidatePath("/admin/reviews");
+}

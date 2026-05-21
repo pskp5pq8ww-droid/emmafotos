@@ -106,7 +106,7 @@
   min-height: 44px;
   padding: 0 20px;
   border: 1px solid rgba(255, 255, 255, 0.52);
-  border-radius: 2px;
+  border-radius: 10px;
   background: transparent;
   color: rgba(255, 255, 255, 0.88);
   letter-spacing: 0.28em;
@@ -133,7 +133,7 @@
   min-height: 52px;
   padding: 0 26px;
   border: 1px solid var(--ink);
-  border-radius: 2px;
+  border-radius: 10px;
   background: var(--ink);
   color: var(--white);
   letter-spacing: 0.28em;
@@ -306,7 +306,7 @@
   min-height: 52px;
   padding: 0 26px;
   border: 1px solid rgba(255, 255, 255, 0.42);
-  border-radius: 2px;
+  border-radius: 10px;
   background: rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(6px);
   color: rgba(255, 255, 255, 0.92);
@@ -349,7 +349,6 @@
   font-family: var(--gallery-title);
   font-size: clamp(48px, 7vw, 84px);
   font-weight: 300;
-  font-style: italic;
   color: #fff;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -387,7 +386,6 @@
   font-family: var(--gallery-title);
   font-size: clamp(40px, 5vw, 78px);
   font-weight: 300;
-  font-style: italic;
   letter-spacing: -0.014em;
   line-height: 1.02;
 }
@@ -441,7 +439,6 @@
   font-family: var(--gallery-title);
   font-size: clamp(28px, 2.4vw, 36px);
   font-weight: 400;
-  font-style: italic;
   line-height: 1.08;
   letter-spacing: -0.012em;
 }
@@ -518,7 +515,6 @@
   font-family: var(--gallery-title);
   font-size: clamp(24px, 2vw, 32px);
   font-weight: 400;
-  font-style: italic;
   letter-spacing: -0.012em;
   line-height: 1.08;
 }
@@ -750,7 +746,6 @@
   font-family: var(--gallery-title);
   font-size: clamp(58px, 8.4vw, 124px);
   font-weight: 300;
-  font-style: italic;
   letter-spacing: -0.018em;
   line-height: 0.94;
 }
@@ -802,7 +797,6 @@
   font-family: var(--gallery-title);
   font-size: clamp(52px, 8vw, 128px);
   font-weight: 300;
-  font-style: italic;
   letter-spacing: -0.018em;
   line-height: 0.94;
   color: var(--ink);
@@ -1354,7 +1348,7 @@
   min-height: 50px;
   padding: 0 24px;
   border: 1px solid var(--ink);
-  border-radius: 2px;
+  border-radius: 10px;
   background: var(--ink);
   color: var(--white);
   letter-spacing: 0.28em;

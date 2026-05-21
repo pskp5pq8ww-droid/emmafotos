@@ -44,7 +44,8 @@ export type Favorite = {
 
 export type Review = {
   id: string;
-  galleryId: string;
+  /** Optional — standalone invite reviews may not be tied to a gallery. */
+  galleryId?: string;
   clientName: string;
   email?: string;
   rating: 1 | 2 | 3 | 4 | 5;
@@ -52,6 +53,22 @@ export type Review = {
   approved: boolean;
   allowPublicDisplay: boolean;
   createdAt: string;
+  /** Admin-assigned gallery image ID shown in the public marquee. */
+  imageId?: string;
+};
+
+/** One-use invite link for collecting a client review. */
+export type ReviewInvite = {
+  id: string;
+  /** URL-safe token — used in /review/[token] */
+  token: string;
+  /** Optional gallery association shown to the reviewer. */
+  galleryId?: string;
+  /** Admin note (not shown publicly). */
+  note?: string;
+  createdAt: string;
+  /** Set when the invite has been used. */
+  usedAt?: string;
 };
 
 export type StudioSettings = {
@@ -69,6 +86,7 @@ export type Database = {
   galleryImages: GalleryImage[];
   favorites: Favorite[];
   reviews: Review[];
+  reviewInvites: ReviewInvite[];
   settings?: StudioSettings;
 };
 
@@ -87,5 +105,6 @@ export const emptyDatabase: Database = {
   galleryImages: [],
   favorites: [],
   reviews: [],
+  reviewInvites: [],
   settings: defaultSettings,
 };
