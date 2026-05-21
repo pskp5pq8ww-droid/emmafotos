@@ -162,7 +162,7 @@ export function ReviewForm({ token, galleryTitle }: Props) {
                   className={styles.input}
                   name="email"
                   type="email"
-                  placeholder="Email (optional)"
+                  placeholder="Your email — optional"
                   autoComplete="email"
                 />
                 <textarea

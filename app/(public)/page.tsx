@@ -26,9 +26,10 @@ export default async function HomePage() {
     .filter((review) => review.approved && review.allowPublicDisplay)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((review) => {
-      const galleryImage = db.galleryImages.find(
-        (image) => image.galleryId === review.galleryId,
-      );
+      // Use admin-assigned imageId first, then fall back to any image from the gallery
+      const galleryImage = review.imageId
+        ? db.galleryImages.find((image) => image.id === review.imageId)
+        : db.galleryImages.find((image) => image.galleryId === review.galleryId);
 
       return {
         name: review.clientName,

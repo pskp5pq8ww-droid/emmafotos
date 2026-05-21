@@ -35,12 +35,6 @@ export default async function AdminReviewsPage() {
     (a, b) => b.createdAt.localeCompare(a.createdAt),
   );
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_BASE_URL ??
-    (process.env.VERCEL_URL
-      ? `https://${process.env.VERCEL_URL}`
-      : "http://localhost:3000");
-
   return (
     <div>
       <div className={styles.pageHead}>
@@ -48,8 +42,8 @@ export default async function AdminReviewsPage() {
           <p className={styles.eyebrow}>Client feedback</p>
           <h1 className={styles.title}>Reviews</h1>
           <p className={styles.muted}>
-            Generate invite links to collect reviews. Approve to show on the
-            public homepage.
+            Share the review link with clients. Approve submissions to show on
+            the public homepage.
           </p>
         </div>
         {reviews.length > 0 && (
@@ -67,23 +61,28 @@ export default async function AdminReviewsPage() {
 
       {/* ── General review link ── */}
       <section className={styles.panel} style={{ marginBottom: "16px" }}>
-        <div className={styles.panelPad}>
-          <h2 className={styles.panelTitle} style={{ fontSize: "18px", marginBottom: "8px" }}>
-            General review link
-          </h2>
-          <p className={styles.muted} style={{ marginBottom: "14px" }}>
-            Permanent link — anyone with this URL can leave a 1–5 star review.
-          </p>
-          <CopyLinkButton href={`${baseUrl}/review`} />
+        <div className={styles.panelPad} style={{ display: "flex", alignItems: "center", gap: "20px", flexWrap: "wrap" }}>
+          <div style={{ flex: 1, minWidth: "200px" }}>
+            <h2 className={styles.panelTitle} style={{ fontSize: "18px", marginBottom: "4px" }}>
+              Review link
+            </h2>
+            <p className={styles.muted} style={{ margin: 0 }}>
+              Permanent — share freely with any client to collect a 1–5 star review.
+            </p>
+          </div>
+          {/* href is just a path so CopyLinkButton prepends window.location.origin */}
+          <CopyLinkButton href="/review" label="Link review" />
         </div>
       </section>
 
-      {/* ── Generate invite link ── */}
+      {/* ── Generate one-time invite link ── */}
       <section className={styles.panel} style={{ marginBottom: "24px" }}>
         <div className={styles.panelPad}>
-          <h2 className={styles.panelTitle}>Generate invite link</h2>
+          <h2 className={styles.panelTitle} style={{ fontSize: "18px", marginBottom: "4px" }}>
+            One-time invite link
+          </h2>
           <p className={styles.muted} style={{ marginBottom: "16px" }}>
-            Send this link to a specific client — one-time use.
+            Tie a review to a specific client gallery — one-time use.
           </p>
           <form action={createReviewInvite} className={styles.form}>
             <div className={styles.twoCol}>
@@ -126,7 +125,6 @@ export default async function AdminReviewsPage() {
             <table className={styles.table}>
               <thead>
                 <tr>
-                  <th>Link</th>
                   <th>Gallery</th>
                   <th>Note</th>
                   <th>Created</th>
@@ -139,12 +137,8 @@ export default async function AdminReviewsPage() {
                   const gallery = inv.galleryId
                     ? db.galleries.find((g) => g.id === inv.galleryId)
                     : undefined;
-                  const link = `${baseUrl}/review/${inv.token}`;
                   return (
                     <tr key={inv.id}>
-                      <td>
-                        <CopyLinkButton href={link} />
-                      </td>
                       <td>{gallery?.title ?? "—"}</td>
                       <td className={styles.muted}>{inv.note ?? "—"}</td>
                       <td className={styles.muted}>{formatDate(inv.createdAt)}</td>
@@ -154,16 +148,24 @@ export default async function AdminReviewsPage() {
                         </span>
                       </td>
                       <td>
-                        <form action={deleteReviewInvite}>
-                          <input name="id" type="hidden" value={inv.id} />
-                          <ConfirmSubmitButton
-                            className={styles.dangerButton}
-                            message="Delete this invite link?"
-                            type="submit"
-                          >
-                            Delete
-                          </ConfirmSubmitButton>
-                        </form>
+                        <div className={styles.inlineActions}>
+                          {!inv.usedAt && (
+                            <CopyLinkButton
+                              href={`/review/${inv.token}`}
+                              label="Copy link"
+                            />
+                          )}
+                          <form action={deleteReviewInvite}>
+                            <input name="id" type="hidden" value={inv.id} />
+                            <ConfirmSubmitButton
+                              className={styles.dangerButton}
+                              message="Delete this invite link?"
+                              type="submit"
+                            >
+                              Delete
+                            </ConfirmSubmitButton>
+                          </form>
+                        </div>
                       </td>
                     </tr>
                   );
@@ -180,12 +182,10 @@ export default async function AdminReviewsPage() {
           <thead>
             <tr>
               <th>Review</th>
-              <th>Gallery</th>
               <th>Client</th>
               <th>Rating</th>
-              <th>Photo</th>
+              <th>Gallery / Photo</th>
               <th>Status</th>
-              <th>Display</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -208,16 +208,7 @@ export default async function AdminReviewsPage() {
                     <span className={styles.muted}>{formatDate(review.createdAt)}</span>
                   </td>
                   <td>
-                    {gallery?.title ?? "—"}
-                    {gallery && (
-                      <>
-                        <br />
-                        <span className={styles.muted}>/gallery/{gallery.slug}</span>
-                      </>
-                    )}
-                  </td>
-                  <td>
-                    {review.clientName}
+                    <strong>{review.clientName}</strong>
                     <br />
                     <span className={styles.muted}>
                       {review.email || client?.email || "No email"}
@@ -229,6 +220,12 @@ export default async function AdminReviewsPage() {
                     </span>
                   </td>
                   <td>
+                    {gallery?.title && (
+                      <>
+                        <span>{gallery.title}</span>
+                        <br />
+                      </>
+                    )}
                     {/* Admin assigns a gallery image for the marquee */}
                     {galleryImages.length > 0 ? (
                       <form action={assignReviewImage}>
@@ -237,9 +234,9 @@ export default async function AdminReviewsPage() {
                           name="imageId"
                           defaultValue={review.imageId ?? ""}
                           onChange={(e) => (e.target.form as HTMLFormElement).requestSubmit()}
-                          style={{ fontSize: "12px" }}
+                          style={{ fontSize: "12px", marginTop: "4px" }}
                         >
-                          <option value="">— None —</option>
+                          <option value="">— No photo —</option>
                           {galleryImages.map((img) => (
                             <option key={img.id} value={img.id}>
                               {img.filename}
@@ -248,18 +245,18 @@ export default async function AdminReviewsPage() {
                         </select>
                       </form>
                     ) : (
-                      <span className={styles.muted}>No gallery</span>
+                      <span className={styles.muted}>—</span>
                     )}
                   </td>
                   <td>
-                    <span className={styles.badge}>
-                      {review.approved ? "Approved" : "Pending"}
-                    </span>
-                  </td>
-                  <td>
-                    <span className={styles.badge}>
-                      {review.allowPublicDisplay ? "Visible" : "Private"}
-                    </span>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+                      <span className={styles.badge}>
+                        {review.approved ? "Approved" : "Pending"}
+                      </span>
+                      <span className={styles.badge}>
+                        {review.allowPublicDisplay ? "Visible" : "Private"}
+                      </span>
+                    </div>
                   </td>
                   <td>
                     <div className={styles.inlineActions}>
@@ -310,7 +307,7 @@ export default async function AdminReviewsPage() {
             })}
             {!reviews.length ? (
               <tr>
-                <td colSpan={8}>No reviews received yet.</td>
+                <td colSpan={6}>No reviews received yet.</td>
               </tr>
             ) : null}
           </tbody>
