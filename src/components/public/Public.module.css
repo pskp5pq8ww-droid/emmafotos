@@ -41,7 +41,6 @@
 }
 
 .navTransparent .brand {
-  color: rgba(255, 255, 255, 0.95);
   text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
 }
 
@@ -65,12 +64,22 @@
   letter-spacing: 0.42em;
   font-size: 11px;
   text-transform: uppercase;
+  /* Smooth colour transition when nav switches transparent ↔ solid */
+  transition: color 0.52s ease;
+  color: var(--ink);
 }
 
-.brand img {
-  width: 44px;
-  height: 44px;
-  object-fit: contain;
+/* SVG logo inherits `color` via fill="currentColor" */
+.navLogo {
+  flex-shrink: 0;
+  display: block;
+  transition: color 0.52s ease;
+}
+
+/* Transparent hero state — make logo white */
+.navTransparent .brand,
+.navTransparent .navLogo {
+  color: rgba(255, 255, 255, 0.95);
 }
 
 .navLinks {
@@ -1495,4 +1504,24 @@
   .cinemaOut {
     /* unchanged — overlay covers viewport regardless */
   }
+}
+
+/* ─── Page Loader overlay ─────────────────────────────────────── */
+.pageLoader {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  background: var(--ink, #0d0c0a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.pageLoaderLogo {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  width: clamp(72px, 10vw, 120px);
+  height: auto;
 }

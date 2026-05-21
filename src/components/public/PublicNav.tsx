@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { LogoMark } from "./LogoMark";
 import styles from "./Public.module.css";
 
 const links = [
@@ -85,13 +85,7 @@ export function PublicNav() {
     <>
       <header className={navClass}>
         <Link className={styles.brand} href="/" aria-label="Emmanuel Rojas Studio">
-          <Image
-            src={transparent ? "/assets/er-logo-white.png" : "/assets/er-logo-black.png"}
-            alt=""
-            width={88}
-            height={88}
-            priority
-          />
+          <LogoMark size={44} aria-hidden className={styles.navLogo} />
           <span>Emmanuel Rojas</span>
         </Link>
         <nav className={styles.navLinks} aria-label="Principal">

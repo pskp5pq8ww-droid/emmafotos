@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { CodeRain } from "./CodeRain";
+import { LogoMark } from "./LogoMark";
 import styles from "./Project.module.css";
 
 gsap.registerPlugin(useGSAP);
@@ -74,13 +75,12 @@ export function ProjectScene() {
 
       {/* Logo */}
       <div ref={logoRef} className={styles.logoWrap} style={{ opacity: 0 }}>
-        <img
-          src="/assets/er-logo-white.png"
-          alt="Emmanuel Rojas"
+        <LogoMark
+          aria-label="Emmanuel Rojas"
           className={`${styles.logo} ${
             phase === "glow" || phase === "code" ? styles.logoGlow : ""
           }`}
-          draggable={false}
+          style={{ color: "white" }}
         />
       </div>
 

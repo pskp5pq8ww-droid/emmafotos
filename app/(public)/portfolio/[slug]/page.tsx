@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Reveal } from "@/components/public/Reveal";
+import { PageLoader } from "@/components/public/PageLoader";
 import styles from "@/components/public/Public.module.css";
 import { getProject, projects } from "@/lib/public-content";
 
@@ -33,6 +34,7 @@ export default async function ProjectDetailPage({
 
   return (
     <main>
+      <PageLoader />
       <section className={styles.portfolioHero}>
         <Reveal>
           <p className={styles.sectionEyebrow}>{project.category}</p>
