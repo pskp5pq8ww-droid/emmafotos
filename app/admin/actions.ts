@@ -301,70 +301,63 @@ export async function updateStudioSettings(formData: FormData) {
   revalidatePath("/admin/settings");
 }
 
-export async function approveReview(formData: FormData) {
+export async function publishReview(formData: FormData) {
   const id = value(formData, "id");
 
-  await updateDB((db) => {
-    const review = db.reviews.find((item) => item.id === id);
-    if (review) {
-      // Approve + make visible in one click
-      review.approved = true;
-      review.allowPublicDisplay = true;
-    }
-    return db;
-  });
+  await updateDB((db) => ({
+    ...db,
+    reviews: db.reviews.map((r) =>
+      r.id === id ? { ...r, approved: true, allowPublicDisplay: true } : r,
+    ),
+  }));
 
   revalidatePath("/");
-  revalidatePath("/admin");
   revalidatePath("/admin/reviews");
+}
+
+export async function approveReview(formData: FormData) {
+  return publishReview(formData);
 }
 
 export async function hideReview(formData: FormData) {
   const id = value(formData, "id");
 
-  await updateDB((db) => {
-    const review = db.reviews.find((item) => item.id === id);
-    if (review) {
-      review.approved = false;
-      review.allowPublicDisplay = false;
-    }
-    return db;
-  });
+  await updateDB((db) => ({
+    ...db,
+    reviews: db.reviews.map((r) =>
+      r.id === id ? { ...r, approved: false, allowPublicDisplay: false } : r,
+    ),
+  }));
 
   revalidatePath("/");
-  revalidatePath("/admin");
   revalidatePath("/admin/reviews");
 }
 
 export async function allowReviewDisplay(formData: FormData) {
   const id = value(formData, "id");
 
-  await updateDB((db) => {
-    const review = db.reviews.find((item) => item.id === id);
-    if (review) {
-      review.allowPublicDisplay = true;
-    }
-    return db;
-  });
+  await updateDB((db) => ({
+    ...db,
+    reviews: db.reviews.map((r) =>
+      r.id === id ? { ...r, allowPublicDisplay: true } : r,
+    ),
+  }));
 
   revalidatePath("/");
-  revalidatePath("/admin");
   revalidatePath("/admin/reviews");
 }
 
 export async function keepReviewPrivate(formData: FormData) {
   const id = value(formData, "id");
 
-  await updateDB((db) => {
-    const review = db.reviews.find((item) => item.id === id);
-    if (review) {
-      review.allowPublicDisplay = false;
-    }
-    return db;
-  });
+  await updateDB((db) => ({
+    ...db,
+    reviews: db.reviews.map((r) =>
+      r.id === id ? { ...r, allowPublicDisplay: false } : r,
+    ),
+  }));
 
   revalidatePath("/");
-  revalidatePath("/admin");
   revalidatePath("/admin/reviews");
 }
 

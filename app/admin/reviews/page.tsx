@@ -2,11 +2,11 @@ import { ConfirmSubmitButton } from "@/components/admin/ConfirmSubmitButton";
 import { CopyLinkButton } from "@/components/admin/CopyLinkButton";
 import { readDB } from "@/lib/db";
 import {
-  approveReview,
+  publishReview,
+  hideReview,
   assignReviewImage,
   deleteAllReviews,
   deleteReview,
-  hideReview,
 } from "../actions";
 import styles from "@/components/admin/Admin.module.css";
 
@@ -137,26 +137,29 @@ export default async function AdminReviewsPage() {
                     )}
                   </td>
                   <td>
-                    <span className={styles.badge}>
-                      {review.approved ? "✓ Live" : "Pending"}
-                    </span>
-                  </td>
-                  <td>
                     <div className={styles.inlineActions}>
                       {review.approved ? (
-                        <form action={hideReview}>
-                          <input name="id" type="hidden" value={review.id} />
-                          <button className={styles.ghostButton} type="submit">
-                            Hide
-                          </button>
-                        </form>
+                        <>
+                          <span className={styles.badge} style={{ background: "#e8f5ec", borderColor: "#9ecfad", color: "#1a5c2e" }}>
+                            ✓ Live
+                          </span>
+                          <form action={hideReview}>
+                            <input name="id" type="hidden" value={review.id} />
+                            <button className={styles.ghostButton} type="submit">
+                              Hide
+                            </button>
+                          </form>
+                        </>
                       ) : (
-                        <form action={approveReview}>
-                          <input name="id" type="hidden" value={review.id} />
-                          <button className={styles.textButton} type="submit">
-                            Approve
-                          </button>
-                        </form>
+                        <>
+                          <span className={styles.badge}>Pending</span>
+                          <form action={publishReview}>
+                            <input name="id" type="hidden" value={review.id} />
+                            <button className={styles.textButton} type="submit">
+                              Publish
+                            </button>
+                          </form>
+                        </>
                       )}
                       <form action={deleteReview}>
                         <input name="id" type="hidden" value={review.id} />
