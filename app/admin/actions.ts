@@ -1,7 +1,7 @@
 "use server";
 
 import { randomUUID } from "node:crypto";
-import { mkdir, rm } from "node:fs/promises";
+import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
@@ -425,6 +425,37 @@ export async function assignReviewImage(formData: FormData) {
   await updateDB((db) => ({
     ...db,
     reviews: db.reviews.map((r) => (r.id === id ? { ...r, imageId } : r)),
+  }));
+
+  revalidatePath("/");
+  revalidatePath("/admin/reviews");
+}
+
+export async function uploadReviewPhoto(formData: FormData) {
+  const id = value(formData, "id");
+  const file = formData.get("photo") as File | null;
+  if (!id || !file || file.size === 0) return;
+
+  // Compress to 180×180 JPEG (2× retina for an 86px display icon) at quality 70
+  const { default: sharp } = await import("sharp");
+  const buffer = Buffer.from(await file.arrayBuffer());
+  const compressed = await sharp(buffer)
+    .resize(180, 180, { fit: "cover", position: "attention" })
+    .jpeg({ quality: 70, mozjpeg: true })
+    .toBuffer();
+
+  const dir = path.join(getUploadsDir(), "review-photos");
+  await mkdir(dir, { recursive: true });
+  const filename = `${id}.jpg`;
+  await writeFile(path.join(dir, filename), compressed);
+
+  const profilePhotoPath = `review-photos/${filename}`;
+
+  await updateDB((db) => ({
+    ...db,
+    reviews: db.reviews.map((r) =>
+      r.id === id ? { ...r, profilePhotoPath } : r,
+    ),
   }));
 
   revalidatePath("/");

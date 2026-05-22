@@ -1,10 +1,10 @@
 import { ConfirmSubmitButton } from "@/components/admin/ConfirmSubmitButton";
 import { CopyLinkButton } from "@/components/admin/CopyLinkButton";
+import { ReviewPhotoUpload } from "@/components/admin/ReviewPhotoUpload";
 import { readDB } from "@/lib/db";
 import {
   publishReview,
   hideReview,
-  assignReviewImage,
   deleteAllReviews,
   deleteReview,
 } from "../actions";
@@ -77,7 +77,7 @@ export default async function AdminReviewsPage() {
               <th>Review</th>
               <th>Client</th>
               <th>Rating</th>
-              <th>Photo</th>
+              <th>Profile photo</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
@@ -90,10 +90,6 @@ export default async function AdminReviewsPage() {
               const client = gallery
                 ? db.clients.find((item) => item.id === gallery.clientId)
                 : undefined;
-              const galleryImages = gallery
-                ? db.galleryImages.filter((img) => img.galleryId === gallery.id)
-                : [];
-
               return (
                 <tr key={review.id}>
                   <td>
@@ -113,28 +109,14 @@ export default async function AdminReviewsPage() {
                     </span>
                   </td>
                   <td>
-                    {galleryImages.length > 0 ? (
-                      <form action={assignReviewImage}>
-                        <input name="id" type="hidden" value={review.id} />
-                        <select
-                          name="imageId"
-                          defaultValue={review.imageId ?? ""}
-                          onChange={(e) =>
-                            (e.target.form as HTMLFormElement).requestSubmit()
-                          }
-                          style={{ fontSize: "12px" }}
-                        >
-                          <option value="">— No photo —</option>
-                          {galleryImages.map((img) => (
-                            <option key={img.id} value={img.id}>
-                              {img.filename}
-                            </option>
-                          ))}
-                        </select>
-                      </form>
-                    ) : (
-                      <span className={styles.muted}>—</span>
-                    )}
+                    <ReviewPhotoUpload
+                      reviewId={review.id}
+                      currentPhotoUrl={
+                        review.profilePhotoPath
+                          ? `/api/files/${review.profilePhotoPath.split("/").map(encodeURIComponent).join("/")}`
+                          : undefined
+                      }
+                    />
                   </td>
                   <td>
                     <div className={styles.inlineActions}>

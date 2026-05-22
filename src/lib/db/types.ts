@@ -55,6 +55,8 @@ export type Review = {
   createdAt: string;
   /** Admin-assigned gallery image ID shown in the public marquee. */
   imageId?: string;
+  /** Admin-uploaded profile photo path (relative to uploadsDir). Low-res 180×180 JPEG. */
+  profilePhotoPath?: string;
 };
 
 /** One-use invite link for collecting a client review. */

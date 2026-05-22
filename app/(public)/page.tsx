@@ -26,7 +26,16 @@ export default async function HomePage() {
     .filter((review) => review.approved && review.allowPublicDisplay)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
     .map((review) => {
-      // Use admin-assigned imageId first, then fall back to any image from the gallery
+      // Priority: admin-uploaded profile photo → admin-assigned gallery image → first gallery image
+      if (review.profilePhotoPath) {
+        return {
+          name: review.clientName,
+          rating: review.rating,
+          text: review.message,
+          imageUrl: fileUrl(review.profilePhotoPath),
+        };
+      }
+
       const galleryImage = review.imageId
         ? db.galleryImages.find((image) => image.id === review.imageId)
         : db.galleryImages.find((image) => image.galleryId === review.galleryId);
