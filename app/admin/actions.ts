@@ -307,7 +307,9 @@ export async function approveReview(formData: FormData) {
   await updateDB((db) => {
     const review = db.reviews.find((item) => item.id === id);
     if (review) {
+      // Approve + make visible in one click
       review.approved = true;
+      review.allowPublicDisplay = true;
     }
     return db;
   });
@@ -324,6 +326,7 @@ export async function hideReview(formData: FormData) {
     const review = db.reviews.find((item) => item.id === id);
     if (review) {
       review.approved = false;
+      review.allowPublicDisplay = false;
     }
     return db;
   });
