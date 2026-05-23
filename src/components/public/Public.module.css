@@ -1513,6 +1513,46 @@
   will-change: transform;
 }
 
+/* ───── Cinematic page transition overlay ─────
+   Square container sized at 110vmax so a 90° rotation still
+   fully covers any viewport aspect ratio. Centred via GSAP
+   (xPercent/yPercent) so rotation animations combine cleanly. */
+.transition {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 110vmax;
+  height: 110vmax;
+  z-index: 9500;
+  pointer-events: none;
+  overflow: hidden;
+  will-change: transform;
+  transform-origin: 50% 50%;
+}
+
+.transitionPanel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: #0d0c0a;
+  will-change: transform;
+}
+
+.transitionTop { top: 0; }
+.transitionBottom { bottom: 0; }
+
+.transitionLogo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(110px, 14vmin, 180px);
+  height: clamp(110px, 14vmin, 180px);
+  color: rgba(255, 255, 255, 0.94);
+  will-change: transform, opacity;
+  transform-origin: 50% 50%;
+}
+
 .pageLoaderLogo {
   display: block;
   color: rgba(255, 255, 255, 0.9);

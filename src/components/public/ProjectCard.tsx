@@ -1,11 +1,11 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { Project } from "@/lib/public-content";
+import { TransitionLink } from "./TransitionLink";
 import styles from "./Public.module.css";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <Link className={styles.projectCard} href={`/portfolio/${project.slug}`}>
+    <TransitionLink className={styles.projectCard} href={`/portfolio/${project.slug}`}>
       <div className={styles.projectImage}>
         <Image
           src={project.cover}
@@ -20,6 +20,6 @@ export function ProjectCard({ project }: { project: Project }) {
         <span>{project.year}</span>
       </div>
       <h3>{project.title}</h3>
-    </Link>
+    </TransitionLink>
   );
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { LogoMark } from "./LogoMark";
+import { TransitionLink } from "./TransitionLink";
 import styles from "./Public.module.css";
 
 const links = [
@@ -84,15 +85,15 @@ export function PublicNav() {
   return (
     <>
       <header className={navClass}>
-        <Link className={styles.brand} href="/" aria-label="Emmanuel Rojas Studio">
+        <TransitionLink className={styles.brand} href="/" aria-label="Emmanuel Rojas Studio">
           <LogoMark size={44} aria-hidden className={styles.navLogo} />
           <span>Emmanuel Rojas</span>
-        </Link>
+        </TransitionLink>
         <nav className={styles.navLinks} aria-label="Principal">
           {links.map((link) => (
-            <Link href={link.href} key={link.href}>
+            <TransitionLink href={link.href} key={link.href}>
               {link.label}
-            </Link>
+            </TransitionLink>
           ))}
         </nav>
         <div className={styles.navActions}>
@@ -127,14 +128,14 @@ export function PublicNav() {
       >
         <nav aria-label="Mobile">
           {links.map((link) => (
-            <Link
+            <TransitionLink
               href={link.href}
               key={link.href}
               className={styles.navMobileLink}
               onClick={() => setMenuOpen(false)}
             >
               {link.label}
-            </Link>
+            </TransitionLink>
           ))}
           <Link
             href="/admin-login"

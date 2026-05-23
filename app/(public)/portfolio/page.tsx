@@ -1,6 +1,5 @@
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { Reveal } from "@/components/public/Reveal";
-import { PageLoader } from "@/components/public/PageLoader";
 import styles from "@/components/public/Public.module.css";
 import { projects } from "@/lib/public-content";
 
@@ -11,7 +10,6 @@ export const metadata = {
 export default function PortfolioPage() {
   return (
     <main>
-      <PageLoader />
       <section className={styles.pageHero}>
         <Reveal>
           <p className={styles.sectionEyebrow}>Portfolio</p>

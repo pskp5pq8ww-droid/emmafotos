@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { TransitionLink } from "@/components/public/TransitionLink";
 import { HeroSlideshow } from "@/components/public/HeroSlideshow";
 import { ViewProjectButton } from "@/components/public/ViewProjectButton";
 import { ProjectCard } from "@/components/public/ProjectCard";
@@ -81,9 +82,9 @@ export default async function HomePage() {
               >
                 Book Your Session
               </a>
-              <Link className={styles.buttonGhost} href="/gallery">
+              <TransitionLink className={styles.buttonGhost} href="/gallery">
                 View Your Gallery
-              </Link>
+              </TransitionLink>
               <ViewProjectButton className={styles.buttonGhost} />
             </div>
           </Reveal>
@@ -144,9 +145,9 @@ export default async function HomePage() {
             <h2 className={styles.sectionTitle}>Quiet frames. Lasting pull.</h2>
           </Reveal>
           <Reveal delay={0.12}>
-            <Link className={styles.button} href="/portfolio">
+            <TransitionLink className={styles.button} href="/portfolio">
               View Portfolio
-            </Link>
+            </TransitionLink>
           </Reveal>
         </div>
         <div className={styles.projectGrid}>
