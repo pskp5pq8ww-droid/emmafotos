@@ -1909,14 +1909,15 @@
   overflow: hidden;
   will-change: transform;
   transform-origin: 50% 50%;
-  background: #0d0c0a;
+  /* No background here — the panels cover everything when closed.
+     A background would stay visible after the panels slide away. */
 }
 
 .transitionPanel {
   position: absolute;
-  left: 0;
-  right: 0;
-  height: 50%;
+  left: -1px;
+  right: -1px;
+  height: calc(50% + 1px); /* 1px overlap to prevent subpixel gap at seam */
   background: #0d0c0a;
   will-change: transform;
 }
