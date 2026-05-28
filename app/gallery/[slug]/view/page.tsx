@@ -14,6 +14,10 @@ import styles from "@/components/gallery/Gallery.module.css";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = {
+  robots: { index: false, follow: false },
+};
+
 function formatEventDate(value?: string) {
   if (!value) return null;
   const date = new Date(value);

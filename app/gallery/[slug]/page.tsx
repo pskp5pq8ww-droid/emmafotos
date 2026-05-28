@@ -7,6 +7,10 @@ import styles from "@/components/gallery/Gallery.module.css";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = {
+  robots: { index: false, follow: false },
+};
+
 export default async function GalleryLoginPage({
   params,
   searchParams,

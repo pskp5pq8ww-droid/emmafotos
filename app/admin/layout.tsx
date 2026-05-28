@@ -9,6 +9,10 @@ import styles from "@/components/admin/Admin.module.css";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = {
+  robots: { index: false, follow: false },
+};
+
 const nav = [
   { href: "/admin", label: "Dashboard", icon: "Home" },
   { href: "/admin/clients", label: "Clients", icon: "Users" },

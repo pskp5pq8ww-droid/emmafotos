@@ -1225,6 +1225,354 @@
   line-height: 1.18;
 }
 
+.marqueeReadMore {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--charcoal);
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+
+.marqueeReadMore:hover {
+  opacity: 1;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   HOW IT WORKS
+   ─────────────────────────────────────────────────────────────── */
+
+.howItWorksGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.howItWorksStep {
+  padding: 40px 32px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.howItWorksNumber {
+  display: block;
+  font-family: var(--gallery-title);
+  font-size: clamp(52px, 5vw, 76px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--gold);
+  margin-bottom: 20px;
+  opacity: 0.7;
+}
+
+.howItWorksTitle {
+  font-family: var(--gallery-title);
+  font-size: clamp(22px, 2vw, 30px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0 0 14px;
+}
+
+.howItWorksDesc {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.78;
+  margin: 0;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   FAQ
+   ─────────────────────────────────────────────────────────────── */
+
+.faqList {
+  border-top: 1px solid var(--line);
+}
+
+.faqItem {
+  border-bottom: 1px solid var(--line);
+}
+
+.faqQuestion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 28px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--gallery-title);
+  font-size: clamp(18px, 1.6vw, 24px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  gap: 24px;
+}
+
+.faqIcon {
+  flex-shrink: 0;
+  display: inline-block;
+  font-size: 1.4rem;
+  font-weight: 300;
+  line-height: 1;
+  transition: transform 0.3s ease;
+  color: var(--gold);
+}
+
+.faqIconOpen {
+  transform: rotate(45deg);
+}
+
+.faqAnswer {
+  padding: 0 0 28px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.84;
+  max-width: 72ch;
+}
+
+/* ───────────────────────────────────────────────────────────────
+   SERVICE LANDING PAGES & BLOG/GUIDE PAGES
+   ─────────────────────────────────────────────────────────────── */
+
+.serviceHero {
+  position: relative;
+  width: 100%;
+  padding: clamp(130px, 16vw, 220px) clamp(20px, 6vw, 92px) clamp(64px, 8vw, 120px);
+  color: var(--white);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.serviceHero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: var(--ink);
+}
+
+.serviceHero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    135deg,
+    rgba(8, 8, 8, 0.96) 0%,
+    rgba(8, 8, 8, 0.78) 60%,
+    rgba(14, 12, 10, 0.88) 100%
+  );
+}
+
+.serviceHero .sectionEyebrow {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.serviceHero .pageTitle {
+  color: var(--white);
+}
+
+.serviceHero .sectionCopy {
+  color: rgba(255, 255, 255, 0.72);
+  max-width: 60ch;
+  margin-top: 20px;
+}
+
+.serviceHeroCtas {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 36px;
+}
+
+.benefitsList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+}
+
+.benefitItem {
+  padding: 32px 28px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.benefitItem h3 {
+  font-family: var(--gallery-title);
+  font-size: clamp(18px, 1.6vw, 22px);
+  font-weight: 400;
+  margin: 0 0 12px;
+}
+
+.benefitItem p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.78;
+  margin: 0;
+}
+
+.areasGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.areaTag {
+  padding: 8px 18px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ───────────────────────────────────────────────────────────────
+   BLOG / GUIDE PAGES
+   ─────────────────────────────────────────────────────────────── */
+
+.articleHero {
+  width: min(100%, 1340px);
+  margin: 0 auto;
+  padding: clamp(120px, 14vw, 200px) clamp(20px, 6vw, 92px) clamp(40px, 6vw, 72px);
+}
+
+.articleBody {
+  width: min(100%, 840px);
+  margin: 0 auto;
+  padding: 0 clamp(20px, 6vw, 92px) clamp(72px, 10vw, 140px);
+}
+
+.articleBody h2 {
+  font-family: var(--gallery-title);
+  font-size: clamp(28px, 2.6vw, 38px);
+  font-weight: 400;
+  letter-spacing: -0.012em;
+  line-height: 1.1;
+  margin: 52px 0 18px;
+}
+
+.articleBody h3 {
+  font-family: var(--gallery-title);
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 36px 0 12px;
+}
+
+.articleBody p {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.9;
+  margin: 0 0 22px;
+}
+
+.articleBody ul,
+.articleBody ol {
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.9;
+  padding-left: 24px;
+  margin: 0 0 22px;
+}
+
+.articleBody li {
+  margin-bottom: 8px;
+}
+
+.articleBody strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.articleBody a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.articleBody a:hover {
+  color: var(--gold);
+}
+
+.articleInternalLinks {
+  margin-top: 56px;
+  padding-top: 36px;
+  border-top: 1px solid var(--line);
+}
+
+.articleInternalLinks p {
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 16px;
+}
+
+.articleInternalLinks a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 15px;
+  text-decoration: none;
+  margin-right: 28px;
+  margin-bottom: 10px;
+}
+
+.articleInternalLinks a:hover {
+  color: var(--gold);
+}
+
+.locationCard {
+  border: 1px solid var(--line);
+  padding: 32px;
+  margin-bottom: 24px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.locationCard h3 {
+  margin: 0 0 10px !important;
+}
+
+.locationCard p {
+  margin: 0 0 8px !important;
+}
+
+.locationMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.locationMetaTag {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 4px 12px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+}
+
 /* ─── Reduced motion overrides ─── */
 @media (prefers-reduced-motion: reduce) {
   .nav {
@@ -1411,6 +1759,22 @@
 
 }
 
+/* ─── ≤900px: collapse How It Works and benefits to 2-col ─── */
+@media (max-width: 900px) {
+  .howItWorksGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .benefitsList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .serviceHeroCtas {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
 /* ─── ≤640px: tighten hero, stats, buttons ─── */
 @media (max-width: 640px) {
   .heroInner {
@@ -1474,6 +1838,23 @@
   }
 }
 
+/* ─── ≤640px: collapse multi-col grids to single-col ─── */
+@media (max-width: 640px) {
+  .howItWorksGrid,
+  .benefitsList {
+    grid-template-columns: 1fr;
+  }
+
+  .faqQuestion {
+    font-size: clamp(15px, 4.5vw, 20px);
+    padding: 22px 0;
+  }
+
+  .articleBody {
+    padding: 0 20px clamp(56px, 12vw, 100px);
+  }
+}
+
 /* ─── ≤420px: very small phones ─── */
 @media (max-width: 420px) {
   .heroTitle {
@@ -1521,13 +1902,14 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 110vmax;
-  height: 110vmax;
+  width: 200vmax;
+  height: 200vmax;
   z-index: 9500;
   pointer-events: none;
   overflow: hidden;
   will-change: transform;
   transform-origin: 50% 50%;
+  background: #0d0c0a;
 }
 
 .transitionPanel {

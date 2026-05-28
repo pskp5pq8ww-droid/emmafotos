@@ -56,7 +56,7 @@ export function PageTransition({ children }: { children: ReactNode }) {
       gsap.set(overlay, { xPercent: -50, yPercent: -50, rotation: 0 });
       gsap.set([e, r], { xPercent: -50, yPercent: -50 });
       gsap.set([top, bottom], { yPercent: 0 });
-      gsap.set([e, r], { y: 0, x: 0, opacity: 1 });
+      gsap.set([e, r], { y: 0, x: 0, opacity: 1, rotation: 0 });
 
       const mm = gsap.matchMedia();
 
@@ -115,8 +115,10 @@ export function PageTransition({ children }: { children: ReactNode }) {
       .set(overlay, { pointerEvents: "auto", rotation: 0, xPercent: -50, yPercent: -50 })
       .set(top, { yPercent: -100 })
       .set(bottom, { yPercent: 100 })
-      .set(e, { y: -260, x: 0, opacity: 0, xPercent: -50, yPercent: -50 })
-      .set(r, { y: 260, x: 0, opacity: 0, xPercent: -50, yPercent: -50 })
+      // rotation: 90 pre-tilts the logos so that after the container's
+      // -90° rotation they appear perfectly upright in world space (90 + -90 = 0°)
+      .set(e, { y: -260, x: 0, opacity: 0, rotation: 90, xPercent: -50, yPercent: -50 })
+      .set(r, { y: 260, x: 0, opacity: 0, rotation: 90, xPercent: -50, yPercent: -50 })
 
       // ── 1. CLOSE: panels meet, E descends, R ascends ──
       .to(top, { yPercent: 0, duration: 0.7, ease: "power3.inOut" }, 0)

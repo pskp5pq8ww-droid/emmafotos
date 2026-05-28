@@ -169,7 +169,7 @@ export function ReviewForm({ token, galleryTitle }: Props) {
                   className={`${styles.input} ${styles.textarea}`}
                   name="message"
                   placeholder="Tell us about your experience…"
-                  rows={4}
+                  rows={6}
                   required
                 />
               </div>
