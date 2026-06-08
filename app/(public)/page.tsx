@@ -10,6 +10,7 @@ import { ReviewsMarquee } from "@/components/public/ReviewsMarquee";
 import { HowItWorks } from "@/components/public/HowItWorks";
 import { FaqSection } from "@/components/public/FaqSection";
 import { JsonLd } from "@/components/public/JsonLd";
+import { StickyBookCta } from "@/components/public/StickyBookCta";
 import styles from "@/components/public/Public.module.css";
 import { readDB } from "@/lib/db";
 import { projects, services, studio, globalFaq } from "@/lib/public-content";
@@ -36,6 +37,8 @@ function fileUrl(filePath?: string) {
 
 const homepageServices = services.slice(0, 4);
 const homepageProjects = projects.slice(0, 3);
+// Mobile FAQ shows only the 4 highest-value questions
+const mobileFaqItems = globalFaq.slice(0, 4);
 
 export default async function HomePage() {
   const db = await readDB();
@@ -94,6 +97,7 @@ export default async function HomePage() {
               <h1 className={styles.heroTitle}>Emmanuel Rojas Photographer</h1>
             </Reveal>
             <Reveal delay={0.16}>
+              {/* Desktop: full multi-line copy. Mobile: one tight line via CSS. */}
               <p className={styles.heroCopy}>
                 Cinematic photography and visual storytelling for weddings,
                 events, portraits and brands — crafted with emotion, elegance
@@ -110,10 +114,13 @@ export default async function HomePage() {
                 >
                   Book Your Session
                 </a>
-                <TransitionLink className={styles.buttonGhost} href="/gallery">
-                  View Your Gallery
-                </TransitionLink>
-                <ViewProjectButton className={styles.buttonGhost} />
+                {/* Secondary CTAs hidden on mobile — revealed lower in the page */}
+                <span className={styles.heroCtasSecondary}>
+                  <TransitionLink className={styles.buttonGhost} href="/gallery">
+                    View Your Gallery
+                  </TransitionLink>
+                  <ViewProjectButton className={styles.buttonGhost} />
+                </span>
               </div>
             </Reveal>
             <Reveal delay={0.34}>
@@ -136,6 +143,18 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Sticky book CTA — mobile only, appears after hero scrolls away */}
+      <StickyBookCta finalCtaId="homepage-final-cta" />
+
+      {/* ── TRUST STRIP (mobile: tight one-liner after hero) ── */}
+      <div className={styles.trustStrip} aria-hidden="true">
+        <span>4+ Years Experience</span>
+        <span className={styles.trustDot} />
+        <span>200+ Events Captured</span>
+        <span className={styles.trustDot} />
+        <span>Brisbane &amp; Worldwide</span>
+      </div>
+
       {/* ── SERVICES ── */}
       <section className={styles.section}>
         <div className={styles.sectionHeader}>
@@ -153,6 +172,8 @@ export default async function HomePage() {
             </p>
           </Reveal>
         </div>
+
+        {/* Desktop: 4-col grid. Mobile: horizontal scroll carousel. */}
         <div className={styles.servicesGrid}>
           {homepageServices.map((service, index) => (
             <Reveal delay={index * 0.06} key={service.title}>
@@ -169,6 +190,22 @@ export default async function HomePage() {
             </Reveal>
           ))}
         </div>
+        {/* Mobile carousel — same cards, touch-scroll, hidden on desktop */}
+        <div className={styles.servicesCarousel} aria-hidden="true">
+          {homepageServices.map((service) => (
+            <TransitionLink
+              key={service.title}
+              href={`/${service.slug}`}
+              className={styles.servicesCarouselCard}
+            >
+              <p className={styles.meta}>{service.kicker}</p>
+              <h3 className={styles.servicesCarouselTitle}>{service.title}</h3>
+              <p className={styles.servicesCarouselDesc}>{service.description}</p>
+              <span className={styles.servicePrice}>{service.startingAt}</span>
+            </TransitionLink>
+          ))}
+        </div>
+
         <Reveal delay={0.2}>
           <div style={{ textAlign: "center", marginTop: "clamp(28px, 4vw, 52px)" }}>
             <TransitionLink className={styles.button} href="/services">
@@ -177,6 +214,17 @@ export default async function HomePage() {
           </div>
         </Reveal>
       </section>
+
+      {/* ── MICRO-CTA (mobile: between services and portfolio) ── */}
+      <a
+        href={studio.whatsapp}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.microCta}
+      >
+        <span className={styles.microCtaLabel}>Ready to book?</span>
+        <span className={styles.microCtaAction}>Book Your Session →</span>
+      </a>
 
       {/* ── SELECTED WORK ── */}
       <section className={styles.sectionTight}>
@@ -214,8 +262,10 @@ export default async function HomePage() {
           padding: "0 clamp(20px, 6vw, 92px)",
         }}
       >
+        {/* Desktop: all 7 questions. Mobile: top 4 via CSS data attribute. */}
         <FaqSection
           items={globalFaq}
+          mobileLimit={4}
           eyebrow="FAQ"
           title="Questions people ask before booking."
         />
@@ -259,8 +309,11 @@ export default async function HomePage() {
         </Reveal>
       </section>
 
-      {/* ── CTA ── */}
-      <section className={`${styles.sectionTight} ${styles.cta}`}>
+      {/* ── FINAL CTA ── */}
+      <section
+        id="homepage-final-cta"
+        className={`${styles.sectionTight} ${styles.cta}`}
+      >
         <div>
           <p className={styles.sectionEyebrow}>Ready to begin?</p>
           <h2 className={styles.sectionTitle}>

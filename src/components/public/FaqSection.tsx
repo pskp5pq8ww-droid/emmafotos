@@ -10,10 +10,13 @@ export function FaqSection({
   items,
   title = "Frequently asked questions",
   eyebrow = "FAQ",
+  mobileLimit,
 }: {
   items: FaqItem[];
   title?: string;
   eyebrow?: string;
+  /** On mobile (≤640px), only the first N items are shown without JS — purely via CSS */
+  mobileLimit?: number;
 }) {
   const [open, setOpen] = useState<number | null>(null);
 
@@ -28,7 +31,12 @@ export function FaqSection({
       <div className={styles.faqList}>
         {items.map((item, i) => (
           <Reveal delay={i * 0.04} key={item.question}>
-            <div className={styles.faqItem}>
+            <div
+              className={styles.faqItem}
+              data-mobile-hidden={
+                mobileLimit !== undefined && i >= mobileLimit ? "true" : undefined
+              }
+            >
               <button
                 type="button"
                 className={styles.faqQuestion}
