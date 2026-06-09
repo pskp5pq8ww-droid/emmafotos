@@ -1920,10 +1920,10 @@
 }
 
 /* ─── FAQ mobile-hidden items ─── */
-/* Items beyond mobileLimit get data-mobile-hidden="true" and are
-   hidden on mobile via attribute selector. Shown on desktop. */
-[data-mobile-hidden="true"] {
-  /* visible on desktop */
+/* Items beyond mobileLimit get .faqItemMobileHidden and are
+   hidden on mobile via class. Always visible on desktop. */
+.faqItemMobileHidden {
+  /* visible on desktop by default */
 }
 
 /* ──────────────────────────────────────────────────────────────
@@ -2172,7 +2172,7 @@
   }
 
   /* ── FAQ: hide items beyond mobileLimit ── */
-  [data-mobile-hidden="true"] {
+  .faqItemMobileHidden {
     display: none;
   }
 

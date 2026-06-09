@@ -14,12 +14,13 @@ export const metadata = {
 };
 
 const nav = [
-  { href: "/admin", label: "Dashboard", icon: "Home" },
-  { href: "/admin/clients", label: "Clients", icon: "Users" },
-  { href: "/admin/galleries", label: "Galleries", icon: "Image" },
-  { href: "/admin/reviews", label: "Reviews", icon: "Star" },
-  { href: "/admin#new", label: "New gallery", icon: "Plus" },
-  { href: "/admin/settings", label: "Settings", icon: "Settings" },
+  { href: "/admin", label: "Dashboard", icon: "⌂" },
+  { href: "/admin/clients", label: "Clients", icon: "◎" },
+  { href: "/admin/galleries", label: "Galleries", icon: "▦" },
+  { href: "/admin/reviews", label: "Reviews", icon: "★" },
+  { href: "/admin/invoices", label: "Invoices", icon: "◈" },
+  { href: "/admin#new", label: "New gallery", icon: "+" },
+  { href: "/admin/settings", label: "Settings", icon: "⚙" },
 ];
 
 export default async function AdminLayout({
@@ -36,7 +37,7 @@ export default async function AdminLayout({
     <div className={styles.shell}>
       <aside className={styles.sidebar}>
         <Link className={styles.sidebarLogo} href="/" aria-label="View public site">
-          <Image src="/assets/er-logo-black.png" alt="" width={116} height={116} />
+          <Image src="/assets/er-logo-white.png" alt="" width={116} height={116} />
         </Link>
         <span className={styles.sidebarLabel}>Dashboard</span>
         <nav className={styles.navList} aria-label="Admin">

@@ -1,9 +1,24 @@
+/* ═══════════════════════════════════════════════════════════════
+   ADMIN DASHBOARD — Permanent dark theme
+   Palette:
+     Surface 0 (page bg)   : #050505
+     Surface 1 (shell/main): #0B0B0D
+     Surface 2 (sidebar)   : #111113
+     Surface 3 (cards)     : #151518
+     Surface 4 (panels)    : #1A1A1D
+     Border                : rgba(255,255,255,0.07)
+     Border strong         : rgba(255,255,255,0.12)
+     Text primary          : #F5F5F5
+     Text secondary        : #A1A1AA
+     Accent gold           : #C8A96E
+   ═══════════════════════════════════════════════════════════════ */
+
 .shell {
   min-height: 100vh;
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr);
-  background: #f4f1eb;
-  color: #10100f;
+  background: #0B0B0D;
+  color: #F5F5F5;
 }
 
 .sidebar {
@@ -14,14 +29,15 @@
   flex-direction: column;
   gap: 28px;
   padding: 28px 22px;
-  border-right: 1px solid #dfd9ce;
-  background: rgba(255, 255, 255, 0.62);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  background: #111113;
 }
 
 .sidebarLogo img {
   width: 58px;
   height: 58px;
   object-fit: contain;
+  opacity: 0.88;
 }
 
 .sidebarLabel {
@@ -30,20 +46,23 @@
   letter-spacing: 0.26em;
   font-size: 10px;
   text-transform: uppercase;
-  color: #6f6a62;
+  color: #A1A1AA;
 }
 
 .navList {
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 
+/* ── Nav & base button reset ── */
 .navItem,
 .logoutButton,
 .textButton,
+.primaryButton,
 .dangerButton,
+.successButton,
 .ghostButton {
-  min-height: 42px;
+  min-height: 40px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -52,23 +71,110 @@
   border-radius: 100px;
   background: transparent;
   color: inherit;
-  letter-spacing: 0.16em;
-  font-size: 10px;
+  letter-spacing: 0.14em;
+  font-size: 10.5px;
   text-transform: uppercase;
   padding-inline: 18px;
   cursor: pointer;
-  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+  text-decoration: none;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.1s ease;
 }
 
 .navItem {
   justify-content: flex-start;
-  padding: 0 12px;
+  padding: 0 14px;
+  color: #A1A1AA;
 }
 
-.navItem:hover,
+.navItem:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #F5F5F5;
+}
+
 .navItemActive {
-  border-color: #dfd9ce;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #F5F5F5;
+}
+
+/* ── Primary button (white/champagne bg + dark text) ── */
+.logoutButton,
+.textButton,
+.primaryButton {
+  background: #EDEADE;
+  border-color: #EDEADE;
+  color: #0A0A0A;
+  font-weight: 500;
+}
+
+.logoutButton:hover,
+.textButton:hover,
+.primaryButton:hover {
+  background: #F5F2EA;
+  border-color: #F5F2EA;
+  box-shadow: 0 4px 20px rgba(237, 234, 222, 0.15);
+}
+
+.logoutButton:active,
+.textButton:active,
+.primaryButton:active {
+  transform: scale(0.98);
+  box-shadow: none;
+}
+
+/* ── Ghost / Secondary button ── */
+.ghostButton {
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #F5F5F5;
+}
+
+.ghostButton:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+.ghostButton:active {
+  transform: scale(0.98);
+}
+
+/* ── Danger button ── */
+.dangerButton {
+  background: rgba(80, 10, 10, 0.65);
+  border-color: rgba(180, 50, 50, 0.35);
+  color: #FFC8C8;
+}
+
+.dangerButton:hover {
+  background: rgba(110, 15, 15, 0.85);
+  border-color: rgba(200, 60, 60, 0.5);
+  box-shadow: 0 4px 16px rgba(180, 30, 30, 0.2);
+}
+
+.dangerButton:active {
+  transform: scale(0.98);
+}
+
+/* ── Success button ── */
+.successButton {
+  background: rgba(10, 60, 30, 0.7);
+  border-color: rgba(30, 140, 70, 0.35);
+  color: #A8F0C0;
+}
+
+.successButton:hover {
+  background: rgba(15, 80, 40, 0.85);
+  border-color: rgba(40, 160, 80, 0.5);
+  box-shadow: 0 4px 16px rgba(20, 120, 60, 0.2);
+}
+
+.successButton:active {
+  transform: scale(0.98);
 }
 
 .sidebarBottom {
@@ -77,39 +183,24 @@
   gap: 8px;
 }
 
-.logoutButton,
-.textButton {
-  width: 100%;
-  border-color: #10100f;
-  background: #10100f;
-  color: #fff;
-}
-
-.ghostButton {
-  border-color: #dfd9ce;
-  background: #fff;
-}
-
-.dangerButton {
-  border-color: #10100f;
-  background: #fff;
-  color: #10100f;
-}
-
+/* ── Main content area ── */
 .main {
   min-width: 0;
 }
 
 .topbar {
-  min-height: 74px;
+  min-height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
   padding: 0 clamp(18px, 4vw, 48px);
-  border-bottom: 1px solid #dfd9ce;
-  background: rgba(244, 241, 235, 0.9);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(11, 11, 13, 0.92);
   backdrop-filter: blur(18px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .breadcrumb,
@@ -119,7 +210,7 @@
   letter-spacing: 0.24em;
   font-size: 10px;
   text-transform: uppercase;
-  color: #776f63;
+  color: #A1A1AA;
 }
 
 .content {
@@ -137,43 +228,60 @@
 .title {
   margin: 8px 0 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(40px, 5vw, 72px);
+  font-size: clamp(36px, 5vw, 64px);
   font-weight: 400;
   line-height: 0.96;
+  color: #F5F5F5;
 }
 
+/* ── Metric cards ── */
 .metrics {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 28px;
 }
 
 .metric {
-  min-height: 130px;
-  padding: 22px;
-  border: 1px solid #dfd9ce;
-  background: rgba(255, 255, 255, 0.68);
+  min-height: 120px;
+  padding: 20px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #151518;
+  border-radius: 8px;
+  transition: border-color 0.18s ease, background 0.18s ease;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+a.metric:hover {
+  border-color: rgba(255, 255, 255, 0.14);
+  background: #1A1A1D;
 }
 
 .metric strong {
   display: block;
-  margin-top: 22px;
+  margin-top: 18px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 42px;
+  font-size: 38px;
   font-weight: 400;
+  color: #F5F5F5;
 }
 
+/* ── Dashboard grid ── */
 .dashboardGrid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 380px;
-  gap: 18px;
+  gap: 16px;
   align-items: start;
 }
 
+/* ── Panels ── */
 .panel {
-  border: 1px solid #dfd9ce;
-  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #1A1A1D;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .panelPad {
@@ -183,56 +291,89 @@
 .panelTitle {
   margin: 0 0 18px;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 400;
+  color: #F5F5F5;
 }
 
 .sticky {
   position: sticky;
-  top: 96px;
+  top: 84px;
 }
 
+/* ── Tables ── */
 .table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  font-size: 13.5px;
 }
 
 .table th,
 .table td {
-  padding: 16px;
-  border-bottom: 1px solid #e6e1d8;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   text-align: left;
   vertical-align: top;
 }
 
 .table th {
   letter-spacing: 0.18em;
-  font-size: 10px;
+  font-size: 9.5px;
   text-transform: uppercase;
-  color: #776f63;
+  color: #A1A1AA;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.table tbody tr:hover td {
+  background: rgba(255, 255, 255, 0.025);
 }
 
 .muted {
-  color: #776f63;
+  color: #A1A1AA;
 }
 
+/* ── Badges ── */
 .badge {
   display: inline-flex;
-  min-height: 24px;
+  min-height: 22px;
   align-items: center;
   padding: 0 10px;
-  border: 1px solid #d7cebf;
-  background: #f8f6f2;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 100px;
   letter-spacing: 0.12em;
-  font-size: 10px;
+  font-size: 9.5px;
   text-transform: uppercase;
+  color: #A1A1AA;
+}
+
+.badgePaid {
+  border-color: rgba(40, 160, 80, 0.3);
+  background: rgba(15, 70, 35, 0.5);
+  color: #98E8B4;
+}
+
+.badgeUnpaid {
+  border-color: rgba(200, 80, 30, 0.3);
+  background: rgba(80, 20, 10, 0.5);
+  color: #F8B8A0;
+}
+
+.badgeDraft {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: #A1A1AA;
+}
+
+.badgeSent {
+  border-color: rgba(60, 120, 200, 0.3);
+  background: rgba(20, 50, 100, 0.5);
+  color: #A8C8F0;
 }
 
 .ratingStars {
   display: inline-flex;
-  color: #ad9672;
+  color: #C8A96E;
   letter-spacing: 0.08em;
   font-size: 14px;
 }
@@ -240,10 +381,11 @@
 .reviewMessage {
   max-width: 560px;
   margin: 0;
-  color: #10100f;
+  color: #E0E0E0;
   line-height: 1.65;
 }
 
+/* ── Forms ── */
 .form {
   display: grid;
   gap: 14px;
@@ -251,18 +393,41 @@
 
 .field {
   display: grid;
-  gap: 7px;
+  gap: 6px;
 }
 
 .field input,
 .field textarea,
-.field select {
-  min-height: 44px;
+.field select,
+.smallInput {
+  min-height: 42px;
   width: 100%;
-  border: 1px solid #d8d1c5;
-  background: #fff;
-  padding: 11px 12px;
-  color: #10100f;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111113;
+  padding: 10px 12px;
+  color: #F5F5F5;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.16s ease, background 0.16s ease;
+  outline: none;
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus,
+.smallInput:focus {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: #151518;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: #5A5A62;
+}
+
+.field select option {
+  background: #1A1A1D;
+  color: #F5F5F5;
 }
 
 .field textarea {
@@ -283,11 +448,10 @@
 
 .smallInput {
   width: 112px;
-  min-height: 38px;
-  border: 1px solid #d8d1c5;
-  padding: 8px 10px;
+  min-height: 36px;
 }
 
+/* ── Two-column layout helpers ── */
 .twoColumn {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.45fr);
@@ -302,44 +466,56 @@
   align-items: end;
 }
 
+/* ── Upload box ── */
 .uploadBox {
-  min-height: 220px;
+  min-height: 200px;
   display: grid;
   place-items: center;
   padding: 24px;
-  border: 1px dashed #b8ad9d;
-  background: #fbfaf7;
+  border: 1px dashed rgba(255, 255, 255, 0.14);
+  background: #111113;
+  border-radius: 8px;
   text-align: center;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  color: #A1A1AA;
 }
 
+.uploadBox:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  background: #151518;
+}
+
+/* ── Progress ── */
 .progressTrack {
   width: 100%;
   max-width: 320px;
   height: 3px;
   margin: 14px auto 0;
-  background: #e8e2d8;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .progressBar {
   height: 100%;
-  background: #0f0f0e;
+  background: #EDEADE;
   border-radius: 8px;
   transition: width 0.4s ease, background 0.3s ease;
 }
 
+/* ── Image grid ── */
 .imageGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .imageCard {
   position: relative;
-  border: 1px solid #dfd9ce;
-  background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: #151518;
   overflow: hidden;
+  border-radius: 6px;
 }
 
 .imageCard img {
@@ -347,7 +523,7 @@
   height: auto;
   display: block;
   object-fit: contain;
-  background: #f4f1eb;
+  background: #111113;
 }
 
 .imageCardFooter {
@@ -356,18 +532,19 @@
   padding: 10px;
 }
 
+/* ── Login ── */
 .loginShell {
   min-height: 100vh;
   display: grid;
   grid-template-columns: minmax(320px, 0.6fr) minmax(0, 1fr);
-  background: #f4f1eb;
+  background: #050505;
 }
 
 .loginPanel {
   display: grid;
   align-content: center;
   padding: clamp(28px, 7vw, 96px);
-  background: rgba(255, 255, 255, 0.74);
+  background: #111113;
 }
 
 .loginArt {
@@ -381,13 +558,183 @@
   object-fit: cover;
 }
 
+/* ── Alerts ── */
 .error {
   padding: 12px 14px;
-  border: 1px solid #c7a194;
-  background: #fff4f1;
-  color: #7d2c20;
+  border: 1px solid rgba(180, 50, 50, 0.35);
+  background: rgba(80, 10, 10, 0.4);
+  color: #FFC8C8;
+  border-radius: 6px;
 }
 
+/* ── Inline checkbox label ── */
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 13.5px;
+  color: #A1A1AA;
+  user-select: none;
+}
+
+.checkboxLabel input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #EDEADE;
+  cursor: pointer;
+}
+
+/* ── Divider ── */
+.divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  margin: 20px 0;
+}
+
+/* ── Invoice-specific ── */
+.lineItemsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.lineItemsTable th {
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #A1A1AA;
+  white-space: nowrap;
+}
+
+.lineItemsTable td {
+  padding: 6px 4px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: top;
+}
+
+.lineItemsTable input {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #111113;
+  color: #F5F5F5;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: border-color 0.14s;
+}
+
+.lineItemsTable input:focus {
+  border-color: rgba(255, 255, 255, 0.24);
+  outline: none;
+  background: #151518;
+}
+
+.lineItemsTable input[readonly] {
+  color: #A1A1AA;
+  background: transparent;
+  border-color: transparent;
+  cursor: default;
+}
+
+.lineItemsTable input::placeholder {
+  color: #4A4A52;
+}
+
+.totalsBox {
+  display: grid;
+  gap: 8px;
+  padding: 18px 22px;
+  background: rgba(255, 255, 255, 0.03);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.totalsRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13.5px;
+  color: #A1A1AA;
+}
+
+.totalsRowTotal {
+  color: #F5F5F5;
+  font-size: 15px;
+  font-weight: 600;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 4px;
+}
+
+.totalsAmount {
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+}
+
+.invoiceActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.statusSelect {
+  min-height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #111113;
+  color: #F5F5F5;
+  padding: 0 10px;
+  border-radius: 100px;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+
+.searchBar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.searchBar input {
+  flex: 1;
+  min-height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111113;
+  color: #F5F5F5;
+  padding: 0 14px;
+  border-radius: 100px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.16s;
+}
+
+.searchBar input:focus {
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.searchBar select {
+  min-height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #111113;
+  color: #A1A1AA;
+  padding: 0 12px;
+  border-radius: 100px;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+/* ── Responsive breakpoints ── */
 @media (max-width: 1060px) {
   .shell,
   .dashboardGrid,
@@ -428,7 +775,9 @@
   }
 }
 
-/* ── Floating Upload Panel ── */
+/* ══════════════════════════════════════════════════════════════
+   FLOATING UPLOAD PANEL
+   ══════════════════════════════════════════════════════════════ */
 .uploadPanel {
   position: fixed;
   right: clamp(16px, 2.5vw, 28px);
@@ -437,10 +786,10 @@
   max-height: min(70vh, 640px);
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--line, #dedad3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 24px 64px rgba(8, 8, 8, 0.18), 0 2px 8px rgba(8, 8, 8, 0.08);
+  background: #1A1A1D;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
   z-index: 80;
   overflow: hidden;
   animation: uploadPanelIn 0.32s cubic-bezier(0.22, 1, 0.36, 1);
@@ -461,8 +810,8 @@
   justify-content: space-between;
   gap: 12px;
   padding: 14px 16px;
-  border-bottom: 1px solid var(--line, #dedad3);
-  background: #fafaf7;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #111113;
 }
 
 .uploadPanelTitle {
@@ -470,23 +819,23 @@
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
-  color: var(--ink, #080808);
+  color: #F5F5F5;
 }
 
 .uploadPanelSubtitle {
   margin: 4px 0 0;
   font-size: 11px;
-  color: var(--muted, #6f6a62);
+  color: #A1A1AA;
 }
 
 .uploadPanelToggle {
   flex-shrink: 0;
   width: 28px;
   height: 28px;
-  border: 1px solid var(--line, #dedad3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 4px;
-  background: #fff;
-  color: var(--ink, #080808);
+  background: rgba(255, 255, 255, 0.05);
+  color: #F5F5F5;
   font-size: 14px;
   line-height: 1;
   cursor: pointer;
@@ -494,18 +843,18 @@
 }
 
 .uploadPanelToggle:hover {
-  background: #f4f1eb;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .uploadPanelOverall {
   height: 3px;
-  background: #ece8e0;
+  background: rgba(255, 255, 255, 0.08);
   position: relative;
 }
 
 .uploadPanelOverallBar {
   height: 100%;
-  background: linear-gradient(90deg, #ad9672, #c8b389);
+  background: linear-gradient(90deg, #C8A96E, #E0C898);
   transition: width 0.3s ease;
 }
 
@@ -519,7 +868,7 @@
 
 .uploadPanelItem {
   padding: 10px 16px;
-  border-bottom: 1px solid rgba(222, 218, 211, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .uploadPanelItem:last-child {
@@ -536,7 +885,7 @@
 
 .uploadPanelItemName {
   font-size: 12px;
-  color: var(--ink, #080808);
+  color: #E8E8E8;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -545,20 +894,20 @@
 
 .uploadPanelItemMeta {
   font-size: 11px;
-  color: var(--muted, #6f6a62);
+  color: #A1A1AA;
   font-variant-numeric: tabular-nums;
 }
 
 .uploadPanelItemBarTrack {
   height: 2px;
-  background: #ece8e0;
+  background: rgba(255, 255, 255, 0.08);
   border-radius: 8px;
   overflow: hidden;
 }
 
 .uploadPanelItemBar {
   height: 100%;
-  background: #ad9672;
+  background: #C8A96E;
   transition: width 0.2s ease;
 }
 
@@ -567,7 +916,7 @@
 }
 
 .uploadPanelItemBarError {
-  background: #c7a194;
+  background: #c77070;
 }
 
 .uploadPanelItemFoot {
@@ -576,7 +925,7 @@
   gap: 10px;
   margin-top: 6px;
   font-size: 10px;
-  color: var(--muted, #6f6a62);
+  color: #A1A1AA;
 }
 
 .uploadPanelItemSize {
@@ -584,16 +933,16 @@
 }
 
 .uploadPanelItemError {
-  color: #b53f30;
+  color: #FF9898;
 }
 
 .uploadPanelItemAction {
-  border: 1px solid var(--line, #dedad3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 3px;
   background: transparent;
   padding: 2px 8px;
   font-size: 10px;
-  color: var(--ink, #080808);
+  color: #E8E8E8;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -601,34 +950,37 @@
 }
 
 .uploadPanelItemAction:hover {
-  background: #f4f1eb;
-  border-color: #c5bfb0;
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.22);
 }
 
 .uploadPanelFoot {
   padding: 10px 16px;
-  border-top: 1px solid var(--line, #dedad3);
-  background: #fafaf7;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: #111113;
   text-align: right;
 }
 
 .uploadPanelClear {
-  border: 1px solid var(--line, #dedad3);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 3px;
   background: transparent;
   padding: 4px 12px;
   font-size: 10px;
-  color: var(--ink, #080808);
+  color: #E8E8E8;
   cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 0.12em;
+  transition: background 0.2s;
 }
 
 .uploadPanelClear:hover {
-  background: #f4f1eb;
+  background: rgba(255, 255, 255, 0.06);
 }
 
-/* ── Floating Download Panel (gallery view) ── */
+/* ══════════════════════════════════════════════════════════════
+   FLOATING DOWNLOAD PANEL (gallery view)
+   ══════════════════════════════════════════════════════════════ */
 .downloadPanel {
   position: fixed;
   right: clamp(16px, 2.5vw, 28px);
@@ -636,10 +988,10 @@
   width: min(360px, calc(100vw - 32px));
   display: flex;
   flex-direction: column;
-  border: 1px solid #dfd9ce;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 10px;
-  background: #fff;
-  box-shadow: 0 24px 64px rgba(8, 8, 8, 0.22);
+  background: #1A1A1D;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
   z-index: 80;
   overflow: hidden;
   animation: uploadPanelIn 0.32s cubic-bezier(0.22, 1, 0.36, 1);
@@ -655,21 +1007,21 @@
   justify-content: space-between;
   gap: 12px;
   padding: 14px 16px;
-  border-bottom: 1px solid #dfd9ce;
-  background: #fafaf7;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #111113;
 }
 
 .downloadPanelTitle {
   margin: 0;
   font-size: 13px;
   font-weight: 600;
-  color: #0f0f0e;
+  color: #F5F5F5;
 }
 
 .downloadPanelSubtitle {
   margin: 4px 0 0;
   font-size: 11px;
-  color: #776f63;
+  color: #A1A1AA;
 }
 
 .downloadPanelList {
@@ -682,20 +1034,19 @@
 
 .downloadPanelItem {
   padding: 10px 16px;
-  border-bottom: 1px solid rgba(223, 217, 206, 0.5);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .downloadPanelItem:last-child {
   border-bottom: none;
 }
 
-/* ──────────────────────────────────────────────────────────────────────
-   MOBILE-ONLY: floating panels become a bottom sheet
-   ────────────────────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   MOBILE — floating panels become bottom sheets
+   ══════════════════════════════════════════════════════════════ */
 @media (max-width: 600px) {
   .uploadPanel,
   .downloadPanel {
-    /* Anchor to the bottom of the viewport, full-width */
     right: 0;
     left: 0;
     bottom: 0;
@@ -706,8 +1057,7 @@
     border-left: none;
     border-right: none;
     border-bottom: none;
-    box-shadow: 0 -16px 48px rgba(8, 8, 8, 0.24);
-    /* Respect iOS safe-area inset at the bottom */
+    box-shadow: 0 -16px 48px rgba(0, 0, 0, 0.5);
     padding-bottom: env(safe-area-inset-bottom, 0);
   }
 
@@ -732,18 +1082,17 @@
   }
 }
 
-/* ──────────────────────────────────────────────────────────────────────
-   MOBILE-ONLY: admin layout polish (sidebar/topbar/cards/forms)
-   ────────────────────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   MOBILE — admin layout polish
+   ══════════════════════════════════════════════════════════════ */
 @media (max-width: 680px) {
   .sidebar {
-    /* On the smallest screens, sidebar becomes a compact horizontal strip */
     padding: 14px 16px;
   }
 
   .sidebarLogo img {
-    width: 64px;
-    height: 64px;
+    width: 52px;
+    height: 52px;
   }
 
   .navList {

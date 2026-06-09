@@ -32,9 +32,8 @@ export function FaqSection({
         {items.map((item, i) => (
           <Reveal delay={i * 0.04} key={item.question}>
             <div
-              className={styles.faqItem}
-              data-mobile-hidden={
-                mobileLimit !== undefined && i >= mobileLimit ? "true" : undefined
+              className={
+                `${styles.faqItem}${mobileLimit !== undefined && i >= mobileLimit ? ` ${styles.faqItemMobileHidden}` : ""}`
               }
             >
               <button
