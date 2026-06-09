@@ -56,3 +56,26 @@ export const emptyInvoiceDatabase: InvoiceDatabase = {
   invoices: [],
   nextNumber: 1,
 };
+
+// ── Invoice Client (separate from gallery Client in types.ts) ──────────────
+
+export type InvoiceClient = {
+  id: string;
+  name: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  /** How many invoices have been raised for this client */
+  invoiceCount: number;
+  lastUsedAt: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type InvoiceClientsDatabase = {
+  clients: InvoiceClient[];
+};
+
+export const emptyInvoiceClientsDatabase: InvoiceClientsDatabase = {
+  clients: [],
+};

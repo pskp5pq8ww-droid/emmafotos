@@ -9,6 +9,7 @@ import {
   updateInvoices,
   formatInvoiceNumber,
 } from "@/lib/db/invoices";
+import { upsertInvoiceClient } from "@/lib/db/invoice-clients";
 import type { Invoice, InvoiceLineItem } from "@/lib/db/invoice-types";
 
 async function requireAdmin() {
@@ -135,6 +136,17 @@ export async function createInvoiceAction(formData: FormData) {
     };
   });
 
+  // Persist client for future autocomplete
+  const clientName = str(formData, "clientName");
+  if (clientName) {
+    await upsertInvoiceClient({
+      name: clientName,
+      email: str(formData, "clientEmail") || undefined,
+      phone: str(formData, "clientPhone") || undefined,
+      address: str(formData, "clientAddress") || undefined,
+    });
+  }
+
   revalidatePath("/admin/invoices");
   redirect(`/admin/invoices/${newInvoice!.id}`);
 }
@@ -181,6 +193,17 @@ export async function updateInvoiceAction(formData: FormData) {
     invoices[idx] = updated;
     return { ...db, invoices };
   });
+
+  // Keep client record up to date
+  const clientName = str(formData, "clientName");
+  if (clientName) {
+    await upsertInvoiceClient({
+      name: clientName,
+      email: str(formData, "clientEmail") || undefined,
+      phone: str(formData, "clientPhone") || undefined,
+      address: str(formData, "clientAddress") || undefined,
+    });
+  }
 
   revalidatePath("/admin/invoices");
   revalidatePath(`/admin/invoices/${id}`);
