@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import { updateDB, getUploadsDir } from "@/lib/db";
 import type { Gallery } from "@/lib/db/types";
 import { createGallerySlug } from "@/lib/galleries/slug";
-import { clearAdminSession, getAdminPinHash } from "@/lib/admin-auth/session";
+import { clearAdminSession, createAdminSession, getAdminPinHash } from "@/lib/admin-auth/session";
 import { hashPin, isValidClientPin, verifyPin } from "@/lib/security/pin";
 
 function value(formData: FormData, key: string) {
@@ -195,7 +195,7 @@ export async function deleteClient(formData: FormData) {
       favorites: db.favorites.filter(
         (favorite) => !galleryIds.includes(favorite.galleryId),
       ),
-      reviews: db.reviews.filter((review) => !galleryIds.includes(review.galleryId)),
+      reviews: db.reviews.filter((review) => !review.galleryId || !galleryIds.includes(review.galleryId)),
     };
   });
 
@@ -297,6 +297,12 @@ export async function updateStudioSettings(formData: FormData) {
     };
     return db;
   });
+
+  if (nextAdminPinHash) {
+    // Re-issue session signed with the new PIN hash so the admin stays logged in.
+    await createAdminSession();
+    redirect("/admin/settings");
+  }
 
   revalidatePath("/admin/settings");
 }

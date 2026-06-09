@@ -543,6 +543,16 @@ export function InvoiceForm({ invoice = null, nextInvoiceNumber, action, mode }:
           <button
             type="button"
             className={styles.ghostButton}
+            onClick={async () => {
+              const { downloadInvoicePdf } = await import("@/lib/pdf/invoice-pdf");
+              await downloadInvoicePdf(buildPreviewData());
+            }}
+          >
+            ↓ Download PDF
+          </button>
+          <button
+            type="button"
+            className={styles.ghostButton}
             onClick={() => setShowPreview(true)}
           >
             Preview

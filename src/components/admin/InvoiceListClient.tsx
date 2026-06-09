@@ -11,6 +11,11 @@ import {
 } from "@app/admin/invoices/actions";
 import styles from "./Admin.module.css";
 
+async function handleDownload(inv: Invoice) {
+  const { downloadInvoicePdf } = await import("@/lib/pdf/invoice-pdf");
+  await downloadInvoicePdf(inv);
+}
+
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
 function fmtCurrency(n: number) { return `$${n.toFixed(2)}`; }
@@ -118,6 +123,15 @@ export function InvoiceListClient({ invoices }: { invoices: Invoice[] }) {
                         style={{ minHeight: 30, fontSize: 9.5, paddingInline: 12 }}>
                         Edit
                       </Link>
+
+                      <button
+                        type="button"
+                        className={styles.ghostButton}
+                        style={{ minHeight: 30, fontSize: 9.5, paddingInline: 12 }}
+                        onClick={() => handleDownload(inv)}
+                      >
+                        ↓ PDF
+                      </button>
 
                       {inv.status !== "paid" ? (
                         <form action={markPaidAction} style={{ display: "contents" }}>
