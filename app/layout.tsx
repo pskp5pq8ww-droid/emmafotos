@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Inter, Great_Vibes } from "next/font/google";
+import { Cormorant_Garamond, Inter, Great_Vibes, Hanken_Grotesk } from "next/font/google";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -21,6 +21,14 @@ const greatVibes = Great_Vibes({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-signature",
+  display: "swap",
+});
+
+// Body / UI sans for the editorial homepage direction
+const hanken = Hanken_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-hanken",
   display: "swap",
 });
 
@@ -166,7 +174,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en-AU" className={`${cormorant.variable} ${inter.variable} ${greatVibes.variable}`}>
+    <html lang="en-AU" className={`${cormorant.variable} ${inter.variable} ${greatVibes.variable} ${hanken.variable}`}>
       <head>
         <script
           type="application/ld+json"

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { TransitionLink } from "@/components/public/TransitionLink";
 import { HeroSlideshow } from "@/components/public/HeroSlideshow";
-import { ViewProjectButton } from "@/components/public/ViewProjectButton";
 import { ProjectCard } from "@/components/public/ProjectCard";
 import { Reveal } from "@/components/public/Reveal";
 import { AnimatedStat } from "@/components/public/AnimatedStat";
@@ -78,10 +77,10 @@ export default async function HomePage() {
   };
 
   return (
-    <main>
+    <main className={styles.home}>
       <JsonLd data={jsonLdFaq} />
 
-      {/* ── HERO ── */}
+      {/* ── HERO — name-forward editorial ── */}
       <section className={styles.hero}>
         <div className={styles.heroMedia}>
           <HeroSlideshow />
@@ -89,41 +88,62 @@ export default async function HomePage() {
         <div className={styles.heroInner}>
           <HeroParallax>
             <Reveal>
-              <p className={styles.eyebrow}>
-                Brisbane, Australia · Lifelong Memory Maker
+              <p className={styles.heroEyebrow}>
+                <span className={styles.heroRule} aria-hidden="true" />
+                Cinematic Photography
               </p>
             </Reveal>
             <Reveal delay={0.08}>
-              <h1 className={styles.heroTitle}>Emmanuel Rojas Photographer</h1>
+              <h1 className={styles.heroTitle}>
+                Emmanuel
+                <br />
+                Rojas
+              </h1>
             </Reveal>
             <Reveal delay={0.16}>
-              {/* Desktop: full multi-line copy. Mobile: one tight line via CSS. */}
-              <p className={styles.heroCopy}>
-                Cinematic photography and visual storytelling for weddings,
-                events, portraits and brands — crafted with emotion, elegance
-                and intention.
+              <p className={styles.heroHeadline}>
+                Timeless memories,
+                <br />
+                beautifully captured.
               </p>
             </Reveal>
             <Reveal delay={0.24}>
+              <p className={styles.heroCopy}>
+                Cinematic wedding &amp; editorial photography for stories filled
+                with meaning, emotion and artistry — crafted across Brisbane and
+                worldwide.
+              </p>
+            </Reveal>
+            <Reveal delay={0.32}>
               <div className={styles.heroCtas}>
                 <a
-                  className={styles.buttonLight}
+                  className={styles.heroBtn}
                   href={studio.whatsapp}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Book Your Session
+                  Book your session
+                  <span className={styles.heroArrow} aria-hidden="true">
+                    <svg width="22" height="12" viewBox="0 0 22 12" fill="none">
+                      <path
+                        d="M0 6h20M15 1l5 5-5 5"
+                        stroke="currentColor"
+                        strokeWidth="1.4"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
                 </a>
-                {/* Secondary CTAs hidden on mobile — revealed lower in the page */}
-                <span className={styles.heroCtasSecondary}>
-                  <TransitionLink className={styles.buttonGhost} href="/gallery">
-                    View Your Gallery
-                  </TransitionLink>
-                  <ViewProjectButton className={styles.buttonGhost} />
-                </span>
+                <TransitionLink className={styles.heroTextlink} href="/portfolio">
+                  View portfolio
+                </TransitionLink>
+                <TransitionLink className={styles.heroTextlink} href="/gallery">
+                  View your gallery
+                </TransitionLink>
               </div>
             </Reveal>
-            <Reveal delay={0.34}>
+            <Reveal delay={0.4}>
               <div className={styles.heroStats}>
                 <div>
                   <AnimatedStat value={studio.stats.years} />
@@ -146,8 +166,8 @@ export default async function HomePage() {
       {/* Sticky book CTA — mobile only, appears after hero scrolls away */}
       <StickyBookCta finalCtaId="homepage-final-cta" />
 
-      {/* ── TRUST STRIP (mobile: tight one-liner after hero) ── */}
-      <div className={styles.trustStrip} aria-hidden="true">
+      {/* ── TRUST STRIP — SEO keyword text, visually hidden (still crawlable) ── */}
+      <div className={styles.trustStrip}>
         <span>4+ Years Experience</span>
         <span className={styles.trustDot} />
         <span>200+ Events Captured</span>
@@ -329,6 +349,37 @@ export default async function HomePage() {
           Book Your Session
         </a>
       </section>
+
+      {/* ── INSTAGRAM STRIP ── */}
+      <a
+        className={styles.instaStrip}
+        href={studio.instagram}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span className={styles.instaIcon} aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.5" />
+            <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" />
+          </svg>
+        </span>
+        <span className={styles.instaText}>
+          <span className={styles.instaKicker}>Follow the work</span>
+          <span className={styles.instaHandle}>{studio.instagramHandle}</span>
+        </span>
+        <span className={styles.instaArrow} aria-hidden="true">
+          <svg width="26" height="12" viewBox="0 0 26 12" fill="none">
+            <path
+              d="M0 6h24M19 1l5 5-5 5"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+      </a>
     </main>
   );
 }
