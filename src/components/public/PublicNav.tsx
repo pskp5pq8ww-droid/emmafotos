@@ -74,13 +74,12 @@ export function PublicNav() {
   // image with the open panel so the transparent treatment looks wrong).
   const transparent = isHome && !scrolled && !menuOpen;
 
-  // The homepage is a dark editorial canvas, so its scrolled/solid nav must
-  // be dark too — other (light) pages keep the original paper-glass nav.
-  const solidClass = isHome ? styles.navSolidDark : styles.navSolid;
-
+  // The whole public site is a dark editorial canvas, so the scrolled/solid
+  // nav is always dark. The transparent state still only applies over the
+  // homepage hero.
   const navClass = [
     styles.nav,
-    transparent ? styles.navTransparent : solidClass,
+    transparent ? styles.navTransparent : styles.navSolidDark,
     hidden && !menuOpen ? styles.navHidden : "",
   ]
     .filter(Boolean)
@@ -127,7 +126,7 @@ export function PublicNav() {
       {/* Mobile slide-down panel */}
       <div
         id="mobile-nav-panel"
-        className={`${styles.navMobilePanel} ${isHome ? styles.navMobilePanelDark : ""} ${menuOpen ? styles.navMobilePanelOpen : ""}`}
+        className={`${styles.navMobilePanel} ${styles.navMobilePanelDark} ${menuOpen ? styles.navMobilePanelOpen : ""}`}
         aria-hidden={!menuOpen}
       >
         <nav aria-label="Mobile">

@@ -9,6 +9,7 @@ import path from "node:path";
 import { getDataDir, ensureStorage } from "./index";
 import {
   type Invoice,
+  type InvoiceLineItem,
   type InvoiceDatabase,
   emptyInvoiceDatabase,
 } from "./invoice-types";
@@ -17,9 +18,71 @@ function getInvoicePath() {
   return path.join(getDataDir(), "invoices.json");
 }
 
+/** Coerce any value to a finite number (defaults to 0). */
+function num(value: unknown): number {
+  const n = typeof value === "number" ? value : parseFloat(String(value));
+  return Number.isFinite(n) ? n : 0;
+}
+
+/** Coerce any value to a string (defaults to ""). */
+function str(value: unknown): string {
+  return typeof value === "string" ? value : value == null ? "" : String(value);
+}
+
+/**
+ * Defensive coercion of a single line item. A legacy or hand-edited record
+ * could be missing numeric fields, which would later crash `.toFixed()`.
+ */
+function normalizeLineItem(raw: Partial<InvoiceLineItem> | undefined): InvoiceLineItem {
+  const item = raw ?? {};
+  return {
+    id: str(item.id) || `li-${Math.random().toString(36).slice(2)}`,
+    description: str(item.description),
+    note: typeof item.note === "string" ? item.note : undefined,
+    quantity: num(item.quantity),
+    unitPrice: num(item.unitPrice),
+    discountPercent: num(item.discountPercent),
+    amount: num(item.amount),
+  };
+}
+
+/**
+ * Defensive coercion of a stored invoice so the admin UI / PDF generator
+ * never crash on a malformed record (missing numeric fields, absent
+ * lineItems array, etc.). Valid invoices pass through unchanged.
+ */
+function normalizeInvoice(raw: Partial<Invoice>): Invoice {
+  const lineItems = Array.isArray(raw.lineItems) ? raw.lineItems : [];
+  return {
+    id: str(raw.id),
+    invoiceNumber: str(raw.invoiceNumber),
+    status: (raw.status as Invoice["status"]) || "draft",
+    issueDate: str(raw.issueDate),
+    dueDate: str(raw.dueDate),
+    paymentMethod: str(raw.paymentMethod),
+    clientName: str(raw.clientName),
+    clientEmail: typeof raw.clientEmail === "string" ? raw.clientEmail : undefined,
+    clientAddress: typeof raw.clientAddress === "string" ? raw.clientAddress : undefined,
+    clientPhone: typeof raw.clientPhone === "string" ? raw.clientPhone : undefined,
+    lineItems: lineItems.map(normalizeLineItem),
+    subtotal: num(raw.subtotal),
+    gstEnabled: Boolean(raw.gstEnabled),
+    gstRate: num(raw.gstRate),
+    gstAmount: num(raw.gstAmount),
+    total: num(raw.total),
+    totalDue: num(raw.totalDue),
+    paymentNotes: typeof raw.paymentNotes === "string" ? raw.paymentNotes : undefined,
+    internalNote: typeof raw.internalNote === "string" ? raw.internalNote : undefined,
+    createdAt: str(raw.createdAt),
+    updatedAt: str(raw.updatedAt),
+  };
+}
+
 function normalizeInvoiceDatabase(raw: Partial<InvoiceDatabase>): InvoiceDatabase {
   return {
-    invoices: Array.isArray(raw.invoices) ? raw.invoices : [],
+    invoices: Array.isArray(raw.invoices)
+      ? raw.invoices.map((inv) => normalizeInvoice(inv as Partial<Invoice>))
+      : [],
     nextNumber: typeof raw.nextNumber === "number" ? raw.nextNumber : 1,
   };
 }

@@ -151,7 +151,7 @@ export default function BestLocationsCouplePhotosBrisbane() {
                 <span className={styles.locationMetaTag}>Light: {loc.lightType}</span>
                 <span className={styles.locationMetaTag}>Style: {loc.style}</span>
               </div>
-              <p style={{ marginTop: "14px", fontSize: "14px", color: "var(--ink)", fontStyle: "italic" }}>
+              <p style={{ marginTop: "14px", fontSize: "14px", color: "var(--gold)", fontStyle: "italic" }}>
                 <strong>Photographer tip:</strong> {loc.tip}
               </p>
             </div>

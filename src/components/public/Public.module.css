@@ -2487,14 +2487,15 @@
 }
 
 /* ══════════════════════════════════════════════════════════════════════
-   HOMEPAGE — LUXURY EDITORIAL DARK CANVAS
-   Scoped under .home so the other (light) public pages stay untouched.
-   Redefining the *safe* tokens (--line / --muted / --soft) on .home
-   auto-flips every border + secondary-text usage to the dark palette;
-   the rules below only handle hardcoded light values and --ink text.
+   PUBLIC SITE — LUXURY EDITORIAL DARK CANVAS
+   Scoped under .shell (the public layout wrapper) so EVERY public page
+   gets the same dark palette + fonts. Admin uses its own layout and is
+   untouched. Redefining the *safe* tokens (--line / --muted / --soft) on
+   .shell auto-flips every border + secondary-text usage to the dark
+   palette; the rules below handle hardcoded light values and --ink text.
    ══════════════════════════════════════════════════════════════════════ */
 
-.home {
+.shell {
   background: #080808;
   color: #f7f2ea;
   font-family: var(--font-hanken), var(--sans);
@@ -2505,38 +2506,43 @@
   --gold: #b9a27a;
 }
 
-/* Cormorant headings across the homepage to match the editorial direction */
-.home .sectionTitle,
-.home .serviceCard h3,
-.home .projectCard h3,
-.home .howItWorksTitle,
-.home .faqQuestion {
+/* Cormorant headings across the whole public site to match the direction */
+.shell .sectionTitle,
+.shell .pageTitle,
+.shell .portfolioTitle,
+.shell .serviceCard h3,
+.shell .projectCard h3,
+.shell .howItWorksTitle,
+.shell .faqQuestion,
+.shell .benefitItem h3,
+.shell .articleBody h2,
+.shell .articleBody h3 {
   font-family: var(--serif);
   color: #f7f2ea;
 }
 
-.home .sectionCopy { color: var(--muted); }
+.shell .sectionCopy { color: var(--muted); }
 
 /* ── Services grid ── */
-.home .serviceCard { background: rgba(247, 242, 234, 0.02); }
-.home .serviceCard:hover {
+.shell .serviceCard { background: rgba(247, 242, 234, 0.02); }
+.shell .serviceCard:hover {
   background: rgba(247, 242, 234, 0.05);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
-.home .serviceCard p { color: var(--muted); }
-.home .servicePrice { color: var(--gold); }
+.shell .serviceCard p { color: var(--muted); }
+.shell .servicePrice { color: var(--gold); }
 
 /* ── Selected work ── */
-.home .projectImage { background: #141414; }
-.home .projectMeta { color: var(--muted); }
+.shell .projectImage { background: #141414; }
+.shell .projectMeta { color: var(--muted); }
 
 /* ── Outlined buttons on dark (View All Services / View Portfolio) ── */
-.home .button {
+.shell .button {
   background: transparent;
   color: #f7f2ea;
   border-color: rgba(247, 242, 234, 0.4);
 }
-.home .button:hover {
+.shell .button:hover {
   background: #f7f2ea;
   color: #111;
   border-color: #f7f2ea;
@@ -2544,49 +2550,114 @@
 }
 
 /* ── How it works ── */
-.home .howItWorksDesc { color: var(--muted); }
-.home .howItWorksNumber { color: var(--gold); }
+.shell .howItWorksDesc { color: var(--muted); }
+.shell .howItWorksNumber { color: var(--gold); }
 
 /* ── Reviews marquee ── */
-.home .marqueeOuter {
+.shell .marqueeOuter {
   background:
     radial-gradient(circle at 18% 0%, rgba(185, 162, 122, 0.12), transparent 28rem),
     linear-gradient(180deg, #0b0b0b, #080808);
 }
-.home .marqueeIntro p:last-child { color: var(--muted); }
-.home .marqueeCard {
+.shell .marqueeIntro p:last-child { color: var(--muted); }
+.shell .marqueeCard {
   background: rgba(247, 242, 234, 0.03);
   box-shadow: 0 18px 55px rgba(0, 0, 0, 0.4);
 }
-.home .marqueeCard::after { border-color: rgba(185, 162, 122, 0.18); }
-.home .marqueeCard:hover {
+.shell .marqueeCard::after { border-color: rgba(185, 162, 122, 0.18); }
+.shell .marqueeCard:hover {
   background: rgba(247, 242, 234, 0.06);
   border-color: rgba(185, 162, 122, 0.5);
 }
-.home .marqueePortrait {
+.shell .marqueePortrait {
   border-color: rgba(185, 162, 122, 0.5);
   background:
     linear-gradient(135deg, rgba(185, 162, 122, 0.22), rgba(20, 20, 20, 0.9)),
     #141414;
   box-shadow: inset 0 0 0 6px rgba(247, 242, 234, 0.06);
 }
-.home .marqueeCopy { color: #f7f2ea; }
-.home .marqueeReadMore { color: rgba(247, 242, 234, 0.66); }
+.shell .marqueeCopy { color: #f7f2ea; }
+.shell .marqueeReadMore { color: rgba(247, 242, 234, 0.66); }
 
 /* ── FAQ ── */
-.home .faqIcon { color: var(--gold); }
-.home .faqAnswer { color: var(--muted); }
+.shell .faqIcon { color: var(--gold); }
+.shell .faqAnswer { color: var(--muted); }
 
 /* ── Areas ── */
-.home .areaTag { color: var(--muted); }
+.shell .areaTag { color: var(--muted); }
 
 /* ── Final CTA — deepen the existing dark band ── */
-.home .cta::after {
+.shell .cta::after {
   background: linear-gradient(90deg, rgba(8, 8, 8, 0.94) 0%, rgba(8, 8, 8, 0.66) 70%, rgba(8, 8, 8, 0.8) 100%);
 }
 
 /* ── Trust strip (mobile) ── */
-.home .trustStrip { color: var(--muted); }
+.shell .trustStrip { color: var(--muted); }
+
+/* ══════════════════════════════════════════════════════════════
+   SUBPAGE COMPONENTS — dark overrides for about / services /
+   portfolio / contact / SEO landings / blog guides.
+   ══════════════════════════════════════════════════════════════ */
+
+/* About — quote band + review cells */
+.shell .quoteBand { background: #0b0b0b; }
+.shell .reviews { background: var(--line); }
+.shell .review { background: rgba(247, 242, 234, 0.03); }
+
+/* Portfolio detail */
+.shell .portfolioSummary,
+.shell .portfolioDate { color: var(--muted); }
+
+/* Contact — form fields + aside */
+.shell .field input,
+.shell .field textarea,
+.shell .field select {
+  background: rgba(247, 242, 234, 0.04);
+  color: #f7f2ea;
+  border-color: var(--line);
+}
+.shell .field input::placeholder,
+.shell .field textarea::placeholder {
+  color: rgba(247, 242, 234, 0.36);
+}
+.shell .field input:focus,
+.shell .field textarea:focus,
+.shell .field select:focus {
+  outline: none;
+  border-color: rgba(247, 242, 234, 0.5);
+}
+.shell .field select option {
+  background: #141414;
+  color: #f7f2ea;
+}
+.shell .contactAside {
+  background: #111113;
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+.shell .contactAside dd { color: var(--muted); }
+
+/* SEO landing pages — benefits + ghost buttons inherit the dark .button rule */
+.shell .benefitItem p { color: var(--muted); }
+
+/* Blog / guide pages */
+.shell .articleBody p,
+.shell .articleBody ul,
+.shell .articleBody ol { color: var(--muted); }
+.shell .articleBody strong { color: #f7f2ea; }
+.shell .articleBody a { color: #f7f2ea; }
+.shell .articleBody a:hover { color: var(--gold); }
+.shell .articleInternalLinks p { color: var(--muted); }
+.shell .articleInternalLinks a { color: #f7f2ea; }
+.shell .articleInternalLinks a:hover { color: var(--gold); }
+.shell .locationCard {
+  background: rgba(247, 242, 234, 0.03);
+  border-color: var(--line);
+}
+.shell .locationMetaTag { color: var(--muted); }
+
+/* Page hero eyebrows that hardcode translucent-white stay legible as-is;
+   standalone (non-image) page heroes inherit cream from .shell. */
 
 /* ── Instagram strip ── */
 .instaStrip {

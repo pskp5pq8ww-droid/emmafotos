@@ -77,7 +77,7 @@ export default async function HomePage() {
   };
 
   return (
-    <main className={styles.home}>
+    <main>
       <JsonLd data={jsonLdFaq} />
 
       {/* ── HERO — name-forward editorial ── */}

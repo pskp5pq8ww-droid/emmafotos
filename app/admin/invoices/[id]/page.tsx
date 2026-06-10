@@ -4,6 +4,7 @@ import { hasAdminSession } from "@/lib/admin-auth/session";
 import { readInvoices, formatInvoiceNumber } from "@/lib/db/invoices";
 import { InvoiceForm } from "@/components/admin/InvoiceForm";
 import { InvoicePdfDownload } from "@/components/admin/InvoicePdfDownload";
+import { ConfirmSubmitButton } from "@/components/admin/ConfirmSubmitButton";
 import {
   updateInvoiceAction,
   deleteInvoiceAction,
@@ -94,16 +95,13 @@ export default async function InvoiceDetailPage({ params }: Props) {
 
           <form action={deleteInvoiceAction} style={{ display: "contents" }}>
             <input type="hidden" name="id" value={invoice.id} />
-            <button
+            <ConfirmSubmitButton
               type="submit"
               className={styles.dangerButton}
-              onClick={(e) => {
-                if (!confirm(`Delete ${invoice.invoiceNumber}? This cannot be undone.`))
-                  e.preventDefault();
-              }}
+              message={`Delete ${invoice.invoiceNumber}? This cannot be undone.`}
             >
               Delete
-            </button>
+            </ConfirmSubmitButton>
           </form>
         </div>
       </div>

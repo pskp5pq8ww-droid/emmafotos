@@ -1,24 +1,19 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import styles from "./Public.module.css";
 import { studio } from "@/lib/public-content";
 
 export function PublicFooter() {
-  const pathname = usePathname();
-  const isHome = pathname === "/";
-
+  // The whole public site is dark editorial — footer is always dark.
   return (
-    <footer className={`${styles.footer} ${isHome ? styles.footerDark : ""}`}>
+    <footer className={`${styles.footer} ${styles.footerDark}`}>
       <div>
         <p className={styles.footerName}>Emmanuel Rojas Photographer</p>
         <p className={styles.footerSub}>Brisbane, Australia · Worldwide</p>
       </div>
       <Link className={styles.footerCenter} href="/" aria-label="Home">
         <Image
-          src={isHome ? "/assets/er-logo-white.png" : "/assets/er-logo-black.png"}
+          src="/assets/er-logo-white.png"
           alt=""
           width={64}
           height={64}
