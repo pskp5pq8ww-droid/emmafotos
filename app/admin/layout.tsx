@@ -19,6 +19,7 @@ const nav = [
   { href: "/admin/galleries", label: "Galleries", icon: "▦" },
   { href: "/admin/reviews", label: "Reviews", icon: "★" },
   { href: "/admin/invoices", label: "Invoices", icon: "◈" },
+  { href: "/admin/agent", label: "Assistant", icon: "✦" },
   { href: "/admin#new", label: "New gallery", icon: "+" },
   { href: "/admin/settings", label: "Settings", icon: "⚙" },
 ];

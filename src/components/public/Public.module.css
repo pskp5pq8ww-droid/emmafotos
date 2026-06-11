@@ -821,6 +821,12 @@
   font-size: 10px;
   text-transform: uppercase;
   transition: color 0.2s;
+  /* 44px touch target (a11y) without changing the visual rhythm:
+     padding grows the hit area, negative margin cancels the layout shift. */
+  display: inline-flex;
+  align-items: center;
+  padding-block: 14px;
+  margin-block: -11px;
 }
 
 .footerLinks a:hover {
