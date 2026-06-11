@@ -26,6 +26,24 @@ const nextConfig: NextConfig = {
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=(), payment=()" },
         ],
       },
+      {
+        // Admin login + dashboard must NEVER be cached by the Hostinger CDN.
+        // A prior build prerendered /admin-login statically (s-maxage=1yr) and
+        // the CDN pinned a stale/broken copy, returning 403 to real browsers
+        // while the origin was healthy. Force the edge to always revalidate.
+        source: "/admin-login",
+        headers: [
+          { key: "Cache-Control", value: "private, no-cache, no-store, max-age=0, must-revalidate" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
+        source: "/admin/:path*",
+        headers: [
+          { key: "Cache-Control", value: "private, no-cache, no-store, max-age=0, must-revalidate" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
     ];
   },
 
