@@ -2,6 +2,9 @@ import Image from "next/image";
 import { LoginForm } from "./login-form";
 import styles from "@/components/admin/Admin.module.css";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export const metadata = {
   title: "Admin Login",
   robots: { index: false, follow: false },
