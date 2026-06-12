@@ -52,6 +52,9 @@ function normalizeDatabase(value: Partial<Database>): Database {
     favorites: Array.isArray(value.favorites) ? value.favorites : [],
     reviews: Array.isArray(value.reviews) ? value.reviews : [],
     reviewInvites: Array.isArray(value.reviewInvites) ? value.reviewInvites : [],
+    externalInvitations: Array.isArray(value.externalInvitations)
+      ? value.externalInvitations
+      : [],
     settings: value.settings ?? emptyDatabase.settings,
   };
 }

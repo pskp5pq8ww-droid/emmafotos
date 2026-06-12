@@ -73,6 +73,32 @@ export type ReviewInvite = {
   usedAt?: string;
 };
 
+/**
+ * External download invitation — a private page linking to a heavy gallery
+ * stored on an external service (Google Drive, Dropbox, OneDrive, etc.).
+ * Completely separate from local `Gallery` records: no clientId, no PIN, no uploads.
+ */
+export type ExternalInvitation = {
+  id: string;
+  /** Unique, hard-to-guess token used in /gallery-invitation/[slug] */
+  slug: string;
+  clientName: string;
+  title: string;
+  /** Personal message written by admin, shown on the public page. */
+  customMessage?: string;
+  /** The real external download URL — never rendered in public HTML. */
+  externalDownloadLink: string;
+  /** Optional external image URL used as the page background. */
+  coverImageUrl?: string;
+  /** Admin-only note, never shown publicly. */
+  internalNotes?: string;
+  isActive: boolean;
+  /** Optional expiry date ("YYYY-MM-DD"). After this date the invitation is unavailable. */
+  expiresAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export type StudioSettings = {
   studioName: string;
   contactEmail: string;
@@ -89,6 +115,7 @@ export type Database = {
   favorites: Favorite[];
   reviews: Review[];
   reviewInvites: ReviewInvite[];
+  externalInvitations: ExternalInvitation[];
   settings?: StudioSettings;
 };
 
@@ -108,5 +135,6 @@ export const emptyDatabase: Database = {
   favorites: [],
   reviews: [],
   reviewInvites: [],
+  externalInvitations: [],
   settings: defaultSettings,
 };
