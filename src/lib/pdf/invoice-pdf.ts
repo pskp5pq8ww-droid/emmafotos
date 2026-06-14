@@ -10,7 +10,7 @@ const BUSINESS = {
   address2: "Brisbane QLD 4006, Australia",
   abn: "77 382 893 651",
   phone: "0412 763 107",
-  email: "emmanuelrojas-23@hotmail.com",
+  email: "emmanuel@photographeraustralia.com",
 } as const;
 
 export type InvoicePdfData = {

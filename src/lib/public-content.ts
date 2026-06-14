@@ -27,7 +27,7 @@ export const studio = {
   whatsapp: "https://wa.me/61412763107",
   instagram: "https://www.instagram.com/emmanuel_r0jas_/",
   instagramHandle: "@emmanuel_r0jas_",
-  email: "emmanuelrojas-23@hotmail.com",
+  email: "emmanuel@photographeraustralia.com",
   stats: {
     years: "4+",
     events: "200+",

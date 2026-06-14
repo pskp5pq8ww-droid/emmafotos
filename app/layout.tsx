@@ -109,7 +109,7 @@ const jsonLdBusiness = {
   image: `${BASE_URL}/assets/og-preview.png`,
   logo: `${BASE_URL}/assets/er-logo-white.png`,
   telephone: "+61412763107",
-  email: "emmanuelrojas-23@hotmail.com",
+  email: "emmanuel@photographeraustralia.com",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Brisbane",
