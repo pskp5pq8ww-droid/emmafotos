@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import styles from "./Public.module.css";
 
 const SLIDES = [
-  "/assets/backgrounds/fondo-1.jpg",
-  "/assets/backgrounds/fondo-2.jpg",
-  "/assets/backgrounds/fondo-3.jpg",
+  "/assets/backgrounds/fondo-1",
+  "/assets/backgrounds/fondo-2",
+  "/assets/backgrounds/fondo-3",
 ];
 
 export function HeroSlideshow() {
@@ -20,17 +20,20 @@ export function HeroSlideshow() {
 
   return (
     <>
-      {SLIDES.map((src, i) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          key={src}
-          src={src}
-          alt=""
-          aria-hidden="true"
-          className={`${styles.heroSlide} ${i === index ? styles.heroSlideActive : ""}`}
-          loading={i === 0 ? "eager" : "lazy"}
-          decoding={i === 0 ? "sync" : "async"}
-        />
+      {SLIDES.map((base, i) => (
+        <picture key={base}>
+          <source srcSet={`${base}.webp`} type="image/webp" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={`${base}.jpg`}
+            alt=""
+            aria-hidden="true"
+            className={`${styles.heroSlide} ${i === index ? styles.heroSlideActive : ""}`}
+            loading={i === 0 ? "eager" : "lazy"}
+            fetchPriority={i === 0 ? "high" : "auto"}
+            decoding={i === 0 ? "sync" : "async"}
+          />
+        </picture>
       ))}
     </>
   );
