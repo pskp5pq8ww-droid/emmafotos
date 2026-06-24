@@ -41,8 +41,20 @@ export function getDBPath() {
 }
 
 export async function ensureStorage() {
+  // dataDir holds db.json and is required for every read/write — failing to
+  // create it is genuinely fatal, so let it throw.
   await mkdir(dataDir, { recursive: true });
-  await mkdir(uploadsDir, { recursive: true });
+  // uploadsDir (UPLOAD_DIR) is only needed when actually saving files, and the
+  // upload paths (saveGalleryImage / createClientGallery) create their own
+  // subdirectories on demand. We try to pre-create it here as a convenience,
+  // but a failure (e.g. UPLOAD_DIR points at a not-yet-created or
+  // wrong-permission path on the server) must NOT take down the public site —
+  // otherwise every db.json read, including the homepage, would 500.
+  try {
+    await mkdir(uploadsDir, { recursive: true });
+  } catch (error) {
+    console.error(`[storage] could not ensure UPLOAD_DIR (${uploadsDir}):`, error);
+  }
 }
 
 function normalizeDatabase(value: Partial<Database>): Database {
