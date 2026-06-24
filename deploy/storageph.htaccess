@@ -1,0 +1,23 @@
+# Coloca este archivo como:
+#   /home/u613502604/domains/photographeraustralia.com/public_html/storageph/.htaccess
+#
+# La carpeta storageph guarda los originales y previews de las galerías de
+# clientes (protegidas por PIN). Está dentro de public_html, por lo que sin
+# esto cualquiera con la URL podría descargar las fotos directamente, saltándose
+# el login. La app Next.js lee los archivos del disco (no por HTTP) y los sirve
+# a través de /api/files con la sesión validada, así que bloquear el acceso web
+# directo NO rompe nada y cierra la fuga de privacidad.
+
+# Apache 2.4+
+<IfModule mod_authz_core.c>
+  Require all denied
+</IfModule>
+
+# Apache 2.2 (fallback)
+<IfModule !mod_authz_core.c>
+  Order allow,deny
+  Deny from all
+</IfModule>
+
+# Evita listados de directorio por si el deny no aplicara
+Options -Indexes
