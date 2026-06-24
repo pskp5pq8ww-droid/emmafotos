@@ -27,6 +27,17 @@ const nextConfig: NextConfig = {
         ],
       },
       {
+        // Home is force-dynamic (reads db.json / reviews on every render), so
+        // it should never be cached by the Hostinger CDN anyway. Forcing
+        // no-store also stops the CDN from pinning a transient 500 ("server-side
+        // exception") and serving it to every visitor until the cache is purged.
+        source: "/",
+        headers: [
+          { key: "Cache-Control", value: "private, no-cache, no-store, max-age=0, must-revalidate" },
+          { key: "CDN-Cache-Control", value: "no-store" },
+        ],
+      },
+      {
         // Admin login + dashboard must NEVER be cached by the Hostinger CDN.
         // A prior build prerendered /admin-login statically (s-maxage=1yr) and
         // the CDN pinned a stale/broken copy, returning 403 to real browsers
